@@ -1,0 +1,27 @@
+---
+import { site } from '../../config';
+
+export function getStaticPaths() {
+  return site.projects.map((p) => ({ params: { code: p.code.slice(1) } }));
+}
+
+const code = Astro.params.code ?? '';
+const project = site.projects.find((p) => p.code.slice(1) === code);
+const target = project?.href ?? '/projects/';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <title>跳转中 · 云岫居</title>
+  </head>
+  <body>
+    <p>正在前往 {project?.name ?? '作品直达'}…</p>
+    <script is:inline define:vars={{ target }}>
+      location.replace(target);
+    </script>
+  </body>
+</html>

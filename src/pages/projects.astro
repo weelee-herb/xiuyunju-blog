@@ -11,7 +11,8 @@ const projects = site.projects;
     <header class="page-hero">
       <p class="kicker">作品 · Projects</p>
       <h1 class="page-title">作品直达</h1>
-      <p class="page-sub">每个作品都有独立入口，新增作品也会自动出现在这里。</p>
+      <p class="page-sub">主站：<a href={site.url} class="home-link">{site.name} · {site.url}</a></p>
+      <p class="page-sub">每个作品都有独立入口，但都从云岫居出发；新增作品会自动出现在这里。</p>
     </header>
 
     <div class="projects-grid">
@@ -26,9 +27,10 @@ const projects = site.projects;
             <Seal text={p.icon} size={44} />
             <div class="info">
               <div class="t">{p.name}</div>
-              <div class="full">{p.fullName}</div>
+              <div class="full">{p.fullName} · {p.code}</div>
               <div class="d">{p.desc}</div>
               <div class="note">{p.note}</div>
+              <div class="short">直达：<a href={p.shortUrl}>{p.shortUrl}</a></div>
             </div>
           </a>
           {p.download && (
@@ -50,6 +52,11 @@ const projects = site.projects;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 18px;
     margin-top: 30px;
+  }
+  .home-link {
+    color: #1e4234;
+    font-weight: 700;
+    text-decoration: underline;
   }
   .project-card {
     background: #fffdf6;
@@ -93,6 +100,15 @@ const projects = site.projects;
     margin-top: 8px;
     color: #8a6046;
     font-size: 0.86rem;
+  }
+  .short {
+    margin-top: 6px;
+    font-size: 0.86rem;
+    color: #5c6b62;
+  }
+  .short a {
+    color: #1e4234;
+    text-decoration: underline;
   }
   .dl {
     align-self: flex-start;
