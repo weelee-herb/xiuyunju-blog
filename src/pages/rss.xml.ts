@@ -1,16 +1,17 @@
 import { getCollection } from 'astro:content';
+import { marked } from 'marked';
 import { site } from '../config';
 
 const escapeXml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-// 正文转纯文本（供 RSS 全文）
-const toPlainText = (md: string) =>
-  md
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/[#>*\`_\-\[\]()!]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+// Markdown → HTML（供 RSS 全文）；轻量清洗危险标签
+const toHtml = (md: string) =>
+  (marked.parse(md ?? '') as string)
+    .replace(/<(script|iframe|object|embed|style)[^>]*>[\s\S]*?<\/\1>/gi, '')
+    .replace(/\son\w+="[^"]*"/gi, '');
+
+const cdata = (s: string) => s.replace(/\]\]>/g, ']]]]><![CDATA[>');
 
 export async function GET() {
   const posts = (await getCollection('blog'))
@@ -19,14 +20,14 @@ export async function GET() {
 
   const items = posts
     .map((p) => {
-      const fullText = escapeXml(toPlainText(p.body ?? ''));
+      const bodyHtml = cdata(toHtml(p.body ?? ''));
       return `    <item>
       <title>${escapeXml(p.data.title)}</title>
       <link>${site.url}/blog/${p.slug}/</link>
       <guid>${site.url}/blog/${p.slug}/</guid>
       <pubDate>${p.data.date.toUTCString()}</pubDate>
       <description>${escapeXml(p.data.description)}</description>
-      <content:encoded>${fullText}</content:encoded>
+      <content:encoded><![CDATA[${bodyHtml}]]></content:encoded>
     </item>`;
     })
     .join('\n');
