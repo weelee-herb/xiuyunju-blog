@@ -224,6 +224,18 @@ html[data-theme='dark'] .btn-primary { color: #1c1710; font-weight: 600; }
 .hero { padding: 92px 0 64px; position: relative; overflow: hidden; }
 .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 44px; align-items: center; }
 
+.hero-greet {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  color: var(--ink-3);
+}
+img[loading] {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+img[loading].is-loaded { opacity: 1; }
+
 .hero .kicker {
   font-size: 0.82rem;
   letter-spacing: 0.34em;

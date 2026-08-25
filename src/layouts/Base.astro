@@ -128,6 +128,24 @@ const ogImage = image ? new URL(image, site.url) : new URL('/og.png', site.url);
       document.addEventListener('scroll', onScrollTop, { passive: true });
       onScrollTop();
       bt?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+      // Cmd/Ctrl + K：快捷打开全局搜索
+      document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          window.location.href = '/search/';
+        }
+      });
+
+      // 图片懒加载淡入（加载完成浮现；2.5 秒兜底全显示，防 JS 异常导致空白）
+      document.querySelectorAll('img[loading]').forEach((img) => {
+        const show = () => img.classList.add('is-loaded');
+        if (img.complete) show();
+        else {
+          img.addEventListener('load', show);
+          setTimeout(show, 2500);
+        }
+      });
     </script>
   </body>
 </html>

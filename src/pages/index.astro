@@ -16,11 +16,25 @@ const latest = posts.slice(0, 3);
 const year = new Date().getFullYear();
 ---
 
+<script>
+  // 时段问候语：按月时变化（早安/午安/午后/晚安/夜深）
+  const greet = document.getElementById('hero-greet');
+  const h = new Date().getHours();
+  let text = '晚安 🌙';
+  if (h < 6) text = '夜深了 · 早歇 🌙';
+  else if (h < 11) text = '早安 ☀️';
+  else if (h < 14) text = '午安 ☀️';
+  else if (h < 18) text = '午后 · 安坐 🍵';
+  else if (h < 23) text = '晚安 🌙';
+  if (greet) greet.textContent = text;
+</script>
+
 <Base>
   <section class="hero">
     <span class="hero-watermark" aria-hidden="true">鶴</span>
     <div class="container hero-grid">
       <div>
+        <p class="hero-greet" id="hero-greet"></p>
         <p class="kicker">岁在{ganzhiYear(year)} · 天青墨影</p>
         <h1>{site.name}</h1>
         <p class="tagline">{site.tagline}</p>
