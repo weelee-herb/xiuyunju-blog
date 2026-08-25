@@ -118,16 +118,19 @@ export async function onRequestPost(context) {
 
     const owner = context.env.EMAIL_TO_OWNER;
     if (owner) {
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from,
-          to: owner,
-          subject: '新订阅者：' + email,
-          html: '<div style="font-family:serif;">新订阅者：<strong>' + esc(email) + '</strong></div>',
-        }),
-      }).catch(() => {});
+      // 必须 await：Worker 返回后环境即冻结，不等待的请求会被丢弃
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from,
+            to: owner,
+            subject: '新订阅者：' + email,
+            html: '<div style="font-family:serif;">新订阅者：<strong>' + esc(email) + '</strong></div>',
+          }),
+        });
+      } catch {}
     }
 
     return json({ ok: true, message: '已发送，请查收邮箱 ✉' }, 200);

@@ -86,11 +86,11 @@ export const POST: APIRoute = async ({ request }) => {
     const { subject, html } = subscriberEmail(email);
     await sendViaResend(email, subject, html);
 
-    // 可选：通知站长有新订阅（失败不影响主流程）
+    // 可选：通知站长有新订阅（失败不影响主流程，但需要等待完成）
     const owner = import.meta.env.EMAIL_TO_OWNER;
     if (owner) {
       const n = ownerNotifyEmail(email);
-      sendViaResend(owner, n.subject, n.html).catch(() => {});
+      await sendViaResend(owner, n.subject, n.html).catch(() => {});
     }
   } catch (err) {
     console.error('[subscribe] 发送失败:', err);

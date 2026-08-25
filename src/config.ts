@@ -30,12 +30,8 @@ export const site = {
 
   // 页脚 / 关于页展示的社交链接
   social: [
-    { label: 'GitHub', url: 'https://github.com/yourname' },
-// TODO: 站长填真实 GitHub 主页
-    { label: '即刻', url: 'https://example.com' },
-// TODO: 站长填真实即刻主页
-    { label: '邮箱', url: 'mailto:hello@example.com' },
-// TODO: 站长填真实邮箱地址
+    { label: 'GitHub', url: 'https://github.com/weelee-herb' },
+    { label: '邮箱', url: 'mailto:lwoo0448@gmail.com' },
   ],
 
   // 友链（博客圈互推）：留空数组则页面显示「虚位以待」
