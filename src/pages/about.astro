@@ -64,6 +64,18 @@ const timeline = [
       </div>
     </div>
 
+    <div class="reward-box">
+      <h2>如果喜欢，欢迎请我喝杯茶</h2>
+      <img
+        src="/wechat-reward.png"
+        alt="微信赞赏码"
+        width="280"
+        height="280"
+        loading="lazy"
+      />
+      <p class="reward-hint">微信扫码即可打赏（需在微信内扫描）</p>
+    </div>
+
     <div class="subscribe-box">
       <h2>{site.subscribe.heading}</h2>
       <p class="sub">{site.subscribe.sub}</p>
@@ -71,3 +83,26 @@ const timeline = [
     </div>
   </div>
 </Base>
+
+<style>
+  .reward-box {
+    margin-top: 48px;
+    padding: 34px 24px 30px;
+    text-align: center;
+    border: 1px solid rgba(185, 138, 62, 0.25);
+    border-radius: 16px;
+    background: rgba(185, 138, 62, 0.05);
+  }
+  .reward-box h2 {
+    margin-bottom: 20px;
+  }
+  .reward-box img {
+    display: inline-block;
+    max-width: 100%;
+  }
+  .reward-hint {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #8d8471;
+  }
+</style>
