@@ -1,0 +1,35 @@
+---
+// 内容板块页：按标签集合筛选文章
+import Base from '../layouts/Base.astro';
+import PostCard from './PostCard.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../config';
+
+interface Props {
+  title: string;
+  kicker: string;
+  desc: string;
+  tags: string[];
+}
+const { title, kicker, desc, tags } = Astro.props;
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft && p.data.tags.some((t) => tags.includes(t)))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Base title={`${title} · ${site.name}`} description={desc}>
+  <div class="container">
+    <header class="page-hero">
+      <p class="kicker">{kicker}</p>
+      <h1 class="page-title">{title}</h1>
+      <p class="page-sub">{desc}</p>
+    </header>
+    {posts.length > 0 ? (
+      <div class="post-list">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    ) : (
+      <p class="search-hint">这个板块还在积蓄中，先看看<a href="/blog/">全部文章</a>吧。</p>
+    )}
+  </div>
+</Base>

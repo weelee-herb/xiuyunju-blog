@@ -8,6 +8,7 @@ const nav = [
   { label: '识药闯关', href: '/game/', match: (p: string) => p.startsWith('/game') },
   { label: '关于', href: '/about/', match: (p: string) => p.startsWith('/about') },
   { label: '订阅', href: '/subscribe/', match: (p: string) => p.startsWith('/subscribe') },
+  { label: '撷英', href: '/featured/', match: (p: string) => p.startsWith('/featured') },
   { label: '搜索', href: '/search/', match: (p: string) => p.startsWith('/search') || p.startsWith('/tags') },
 ];
 const path = Astro.url.pathname;

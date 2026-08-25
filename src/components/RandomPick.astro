@@ -1,0 +1,39 @@
+---
+// 随机盲盒：服务端取全部文章，前端随机抽一篇
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .map((p) => ({ slug: p.slug, title: p.data.title, description: p.data.description, tags: p.data.tags }));
+---
+
+<section class="random-box" aria-label="随机文章">
+  <button class="random-btn" id="random-btn">🎲 今日偶遇 · 换一篇</button>
+  <a class="random-link" id="random-link" href="#">
+    <div class="t" id="random-title">随机翻一篇…</div>
+    <p class="d" id="random-desc"></p>
+    <div class="tags" id="random-tags"></div>
+  </a>
+</section>
+
+<!-- define:vars 把服务端数据安全注入内联脚本 -->
+<script is:inline define:vars={{ posts }}>
+  function pick() {
+    if (!posts.length) return;
+    var p = posts[Math.floor(Math.random() * posts.length)];
+    var link = document.getElementById('random-link');
+    link.href = '/blog/' + p.slug + '/';
+    document.getElementById('random-title').textContent = p.title;
+    document.getElementById('random-desc').textContent = p.description;
+    var box = document.getElementById('random-tags');
+    box.innerHTML = '';
+    p.tags.slice(0, 3).forEach(function (t) {
+      var s = document.createElement('span');
+      s.className = 'chip';
+      s.textContent = t;
+      box.appendChild(s);
+    });
+  }
+  document.getElementById('random-btn').addEventListener('click', pick);
+  pick();
+</script>

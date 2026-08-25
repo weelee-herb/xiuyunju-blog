@@ -10,6 +10,7 @@ const blog = defineCollection({
     tags: z.array(z.string()).default([]),
     cover: z.string().optional(),
     coverAlt: z.string().optional(),
+    featured: z.boolean().default(false), // 精选作品墙手动标记
     draft: z.boolean().default(false),
   }),
 });

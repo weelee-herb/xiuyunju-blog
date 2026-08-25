@@ -3,6 +3,7 @@ import Base from './Base.astro';
 import Seal from '../components/Seal.astro';
 import SubscribeForm from '../components/SubscribeForm.astro';
 import Giscus from '../components/Giscus.astro';
+import RandomPick from '../components/RandomPick.astro';
 import { site } from '../config';
 import { formatDateCN, ganzhiYear, readingTime } from '../utils/date';
 import type { CollectionEntry } from 'astro:content';
@@ -134,6 +135,10 @@ const jsonLd = JSON.stringify({
         <span></span>
       )}
     </nav>
+
+    <div class="random-wrap">
+      <RandomPick />
+    </div>
 
     <Giscus />
   </article>

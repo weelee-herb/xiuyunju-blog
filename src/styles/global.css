@@ -1191,6 +1191,118 @@ html[data-theme='dark'] .prose pre { background: #100d09; }
 .game-card-mini a { color: var(--celadon-deep); border-bottom: 1px solid var(--celadon); }
 .game-card-mini a:hover { color: var(--cinnabar); border-color: var(--cinnabar); }
 
+/* ── 首页内容板块卡片 ─────────────────────────────── */
+.section-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.section-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--hairline);
+  background: color-mix(in srgb, var(--paper-2) 55%, transparent);
+  padding: 20px 18px;
+  border-radius: var(--radius);
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+.section-card:hover { border-color: var(--celadon); transform: translateY(-2px); box-shadow: var(--shadow); }
+.section-card .emoji { font-size: 1.6rem; }
+.section-card .t { font-family: var(--font-display); letter-spacing: 0.12em; }
+.section-card p { margin: 4px 0 0; font-size: 0.82rem; color: var(--ink-2); line-height: 1.6; }
+@media (max-width: 860px) { .section-cards { grid-template-columns: 1fr; } }
+
+/* ── 精选墙 ───────────────────────────────────────── */
+.featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 8px 0 30px; }
+.featured-card { display: block; }
+.featured-card .cover-box {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--celadon-wash);
+}
+.featured-card .cover-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+.featured-card:hover .cover-box img { transform: scale(1.05); }
+.featured-card .fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  color: var(--celadon-deep);
+  background: var(--celadon-wash);
+}
+.featured-card .overlay {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 22px 12px 8px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.35));
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.featured-card:hover .overlay { opacity: 1; }
+.featured-card .cat {
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: #f7f1e4;
+}
+.featured-card .info { padding: 10px 2px 0; }
+.featured-card .info .t {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.featured-card:hover .info .t { color: var(--celadon-deep); }
+.featured-card .info .d { font-size: 0.76rem; color: var(--ink-3); letter-spacing: 0.08em; margin-top: 3px; }
+@media (max-width: 860px) { .featured-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .featured-grid { grid-template-columns: 1fr; } }
+
+/* ── 随机盲盒 ─────────────────────────────────────── */
+.random-wrap { margin: 34px 0 0; }
+.random-box {
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(6px);
+  padding: 18px 20px;
+}
+.random-btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+  background: transparent;
+  border: 1px dashed var(--hairline-strong);
+  border-radius: 999px;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.random-btn:hover { color: var(--cinnabar); border-color: var(--cinnabar); }
+.random-link { display: block; margin-top: 12px; }
+.random-link .t { font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.05em; }
+.random-link:hover .t { color: var(--celadon-deep); }
+.random-link .d { margin: 4px 0 8px; font-size: 0.85rem; color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.random-link .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ── 订阅成功态按钮 ───────────────────────────────── */
+.subscribe-form button.success {
+  background: var(--celadon);
+  border-color: var(--celadon);
+  color: var(--ink);
+}
+
 /* ── 移动端：hero 按钮纵排，避免溢出 ─────────────── */
 @media (max-width: 640px) {
   .hero .actions { flex-direction: column; align-items: stretch; }

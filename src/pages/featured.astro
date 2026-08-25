@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../config';
+import { formatDateCN } from '../utils/date';
+
+const all = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// 优先 featured: true，不足 20 篇则按最新补齐
+const featured = all.filter((p) => p.data.featured);
+const list = [...featured, ...all.filter((p) => !p.data.featured)].slice(0, 20);
+
+const tagIcon: Record<string, string> = {
+  Codex: '⚙️', AI: '⚙️', 工作流: '⚙️', 建站: '⚙️', 设计: '🎨', 生成艺术: '🎨',
+  中药: '🌿', 本草: '🌿', 冷知识: '🌿', 随笔: '📖', 美学: '🎨',
+};
+---
+
+<Base title={`撷英 · ${site.name}`} description="精选作品墙：封面与视觉俱佳的文章">
+  <div class="container">
+    <header class="page-hero">
+      <p class="kicker">撷英 · Featured</p>
+      <h1 class="page-title">撷英</h1>
+      <p class="page-sub">精选作品墙——按视觉吸引力排序，随手一取的精华。</p>
+    </header>
+
+    <div class="featured-grid">
+      {list.map((p) => (
+        <a class="featured-card" href={`/blog/${p.slug}/`}>
+          <div class="cover-box">
+            {p.data.cover ? (
+              <img src={p.data.cover} alt={p.data.coverAlt ?? p.data.title} loading="lazy" />
+            ) : (
+              <span class="fallback">{p.data.title.charAt(0)}</span>
+            )}
+            <div class="overlay">
+              <span class="cat">
+                {p.data.tags.slice(0, 2).map((t) => (tagIcon[t] ? tagIcon[t] + ' ' : '') + t).join(' · ')}
+              </span>
+            </div>
+          </div>
+          <div class="info">
+            <div class="t">{p.data.title}</div>
+            <div class="d">{formatDateCN(p.data.date)}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

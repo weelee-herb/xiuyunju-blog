@@ -68,8 +68,11 @@ const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY;
       const data = await res.json().catch(() => ({}));
 
       if (res.ok && (data.ok || data.success || data.ok === undefined)) {
-        msg.textContent = '已发送，请查收邮箱 ✉';
+        msg.textContent = '已发送，请查收邮箱 ✉（垃圾箱也记得看一眼）';
         msg.className = 'form-msg ok';
+        btn.textContent = '✓ 已上车！';
+        btn.classList.add('success');
+        setTimeout(() => { btn.textContent = original; btn.classList.remove('success'); }, 2500);
         input.value = '';
       } else {
         msg.textContent = data.message || '发送失败，请稍后再试';
