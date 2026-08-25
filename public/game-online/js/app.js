@@ -107,7 +107,7 @@
     }).join("");
   }
 
-  /* ---------- 四季皮肤 & 五声背景音 ---------- */
+  /* ---------- 四季皮肤 & 舒缓环境音（程序生成，无版权） ---------- */
   var THEMES = ["spring", "summer", "autumn", "winter"];
   var curTheme = load("tcm-theme", "summer");
   if (THEMES.indexOf(curTheme) < 0) curTheme = "summer";
@@ -122,30 +122,50 @@
     on: load("tcm-ambient", 0) === 1,
     timer: null,
     playing: false,
-    tones: [523.25, 587.33, 659.25, 783.99, 880.00],
+    chords: [
+      [130.81, 196.00, 261.63, 329.63],
+      [196.00, 293.66, 392.00, 493.88],
+      [220.00, 330.00, 440.00, 554.37],
+      [174.61, 261.63, 349.23, 440.00]
+    ],
+    melody: [523.25, 587.33, 659.25, 783.99, 880.00, 783.99, 659.25, 587.33],
+    chordIndex: 0,
+    melodyIndex: 0,
     start: function () {
       var self = this;
       if (!Sfx.ctx) Sfx.ensure();
       if (!Sfx.ctx) return;
       this.playing = true;
       if (this.timer) return;
+      var note = function (freq, delay, dur, gain, type) {
+        if (!Sfx.ctx) return;
+        var t = Sfx.ctx.currentTime + delay;
+        var o = Sfx.ctx.createOscillator(), g = Sfx.ctx.createGain();
+        o.type = type || "sine";
+        o.frequency.setValueAtTime(freq, t);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(gain, t + Math.min(0.6, dur * 0.25));
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        o.connect(g); g.connect(Sfx.ctx.destination);
+        o.start(t); o.stop(t + dur + 0.12);
+      };
       var play = function () {
         if (!self.on || !Sfx.ctx) return;
-        var f = self.tones[Math.floor(Math.random() * self.tones.length)];
-        var t = Sfx.ctx.currentTime;
-        var o = Sfx.ctx.createOscillator(), g = Sfx.ctx.createGain();
-        o.type = "triangle"; o.frequency.setValueAtTime(f, t);
-        g.gain.setValueAtTime(0, t);
-        g.gain.linearRampToValueAtTime(0.035, t + 0.05);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + 2.2);
-        o.connect(g); g.connect(Sfx.ctx.destination);
-        o.start(t); o.stop(t + 2.3);
+        var chord = self.chords[self.chordIndex % self.chords.length];
+        self.chordIndex++;
+        chord.forEach(function (freq) {
+          note(freq, 0.05, 7.0, 0.014, "sine");
+        });
+        var top = self.melody[self.melodyIndex % self.melody.length];
+        self.melodyIndex++;
+        note(top, 0.75, 3.2, 0.016, "sine");
+        note(top / 2, 0.75, 3.8, 0.009, "sine");
       };
       play();
       this.timer = setInterval(function () {
         if (!self.on) { clearInterval(self.timer); self.timer = null; return; }
         play();
-      }, 2800);
+      }, 6500);
     },
     stop: function () { this.playing = false; if (this.timer) { clearInterval(this.timer); this.timer = null; } },
     toggle: function () {
@@ -1087,7 +1107,12 @@
       setSoundUI();
     });
     // 声音只在用户首次交互后启用（不自动播放）
-    var firstTap = function () { if (Sfx.on) Sfx.ensure(); document.removeEventListener("pointerdown", firstTap); document.removeEventListener("keydown", firstTap); };
+    var firstTap = function () {
+      if (Sfx.on) Sfx.ensure();
+      if (Ambient.on) Ambient.start();
+      document.removeEventListener("pointerdown", firstTap);
+      document.removeEventListener("keydown", firstTap);
+    };
     document.addEventListener("pointerdown", firstTap);
     document.addEventListener("keydown", firstTap);
     $("atlas-grid").addEventListener("click", function (ev) {

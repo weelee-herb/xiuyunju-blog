@@ -1,4 +1,4 @@
-const CACHE_NAME = "herb-online-v1.0.0";
+const CACHE_NAME = "herb-online-v1.0.1";
 const CORE = [
   "./",
   "./index.html",
