@@ -61,11 +61,10 @@ export const site = {
 
   // 可选：评论（giscus，基于 GitHub Discussions）。留空 repo = 关闭评论
   comments: {
-    enabled: false,
-    repo: '', // 例如 'yourname/yunxiu-blog'
- // TODO: 站长填真实仓库地址
-    repoId: '', // 到 https://giscus.app 填写仓库后生成
+    enabled: true,
+    repo: 'weelee-herb/xiuyunju-blog',
+    repoId: 'R_kgDOUDWNGw',
     category: 'Announcements',
-    categoryId: '', // giscus 生成
+    categoryId: 'DIC_kwDOUDWNG84DEIxh',
   },
 };
