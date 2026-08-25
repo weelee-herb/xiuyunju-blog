@@ -36,7 +36,7 @@ export const site = {
 
   // 友链（博客圈互推）：留空数组则页面显示「虚位以待」
   friends: [
-    // { name: '示例博客', url: 'https://example.com', desc: '一句简介', seal: '友' },
+    { name: '中药题库', url: 'https://herb-quiz.cc.cd/', desc: '邀请码：692626', seal: '题' },
   ],
 
   // 订阅表单与「自动回信」邮件的内容
