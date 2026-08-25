@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-version="1.0.1">
+<html lang="zh-CN" data-version="1.0.2">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -18,7 +18,7 @@
     <span class="brand-seal">云</span>
     <span>云岫居 · 在线版</span>
   </a>
-  <span class="online-version">v1.0.1</span>
+  <span class="online-version">v1.0.2</span>
 </header>
 <div class="app" id="app">
 
@@ -90,7 +90,7 @@
       <button class="theme-btn" data-theme-link="winter" title="冬墨">❄️</button>
     </div>
     <footer class="home-foot">
-      <button class="ambient-chip off" id="btn-ambient" title="五声背景音">🎵 背景音 关</button>
+      <button class="ambient-chip off" id="btn-ambient" title="舒缓背景音（默认关闭）">🎵 背景音 关</button>
       <button class="sound-chip" id="btn-sound" title="音效开关">🔊 音效 开</button>
       <button class="link-btn" id="btn-help">玩法说明</button>
       <button class="link-btn" id="btn-about">数据与图片来源说明</button>
@@ -276,7 +276,7 @@
         <li>🔍 猜猜看：只看局部特写，点「看全图」逐步提示。</li>
         <li>📚 图鉴模式：300 味随时翻，答对还能「点亮」收集；集齐场景系列得成就徽章。</li>
         <li>📕 再战错题：把眼生的变成眼熟的。</li>
-        <li>🎨 四季皮肤 · 🔊 朗读 · 🎵 背景音 · 📤 分享卡，都在首页。</li>
+        <li>🎨 四季皮肤 · 🔊 朗读 · 🎵 背景音（默认关闭） · 📤 分享卡，都在首页。</li>
       </ul>
       <p class="help-note">内容仅供文化了解，不构成医疗建议；请勿采食不认识的植物。</p>
     </div>
@@ -299,11 +299,12 @@
       <button class="icon-btn modal-close" id="btn-close-about" title="关闭">✕</button>
       <h3>关于本应用</h3>
       <p>「识药闯关·在线版」打开即玩，是一款带大家认识生活里中药材的看图认名小游戏。所有图片均来自 Wikimedia Commons、iNaturalist 等免费图源的公开授权图片，知识内容依据《中国药典》整理，数据文件为 <code>data/herbs.json</code>。</p>
-      <p>这是在线版：打开即玩，无需下载，图片按需加载并缓存；最高分与错题记录保存在本机浏览器（localStorage），不会上传。完整图片来源与授权清单见项目内 <code>README.md</code>。</p>
+      <p>这是在线版：打开即玩，无需下载，图片按需加载并缓存；最高分与错题记录保存在本机浏览器（localStorage），不会上传。背景音乐为项目原创合成的五声音阶氛围曲，默认关闭。完整图片来源与授权清单见项目内 <code>README.md</code>。</p>
     </div>
   </div>
 
   <div class="toast is-hidden" id="toast"></div>
+  <audio id="ambient-audio" src="assets/ambient.mp3" preload="none" loop aria-hidden="true"></audio>
 </div>
 
 <script>/* 分享卡二维码：自动使用当前在线地址 */

@@ -1,4 +1,4 @@
-const CACHE_NAME = "herb-online-v1.0.1";
+const CACHE_NAME = "herb-online-v1.0.2";
 const CORE = [
   "./",
   "./index.html",
@@ -7,7 +7,8 @@ const CORE = [
   "./data/herbs.js",
   "./data/pairs.js",
   "./manifest.webmanifest",
-  "./assets/icon-192.png"
+  "./assets/icon-192.png",
+  "./assets/ambient.mp3"
 ];
 
 self.addEventListener("install", (event) => {
@@ -33,7 +34,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
-  const isMedia = /\.(webp|png|jpg|jpeg|svg)$/i.test(url.pathname);
+  const isMedia = /\.(webp|png|jpg|jpeg|svg|mp3)$/i.test(url.pathname);
 
   event.respondWith(
     caches.match(event.request).then((cached) => {

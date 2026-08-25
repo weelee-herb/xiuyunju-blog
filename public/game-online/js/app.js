@@ -107,7 +107,7 @@
     }).join("");
   }
 
-  /* ---------- 四季皮肤 & 舒缓环境音（程序生成，无版权） ---------- */
+  /* ---------- 四季皮肤 & 原创舒缓环境曲（软件合成，无版权） ---------- */
   var THEMES = ["spring", "summer", "autumn", "winter"];
   var curTheme = load("tcm-theme", "summer");
   if (THEMES.indexOf(curTheme) < 0) curTheme = "summer";
@@ -120,54 +120,31 @@
   }
   var Ambient = {
     on: load("tcm-ambient", 0) === 1,
-    timer: null,
-    playing: false,
-    chords: [
-      [130.81, 196.00, 261.63, 329.63],
-      [196.00, 293.66, 392.00, 493.88],
-      [220.00, 330.00, 440.00, 554.37],
-      [174.61, 261.63, 349.23, 440.00]
-    ],
-    melody: [523.25, 587.33, 659.25, 783.99, 880.00, 783.99, 659.25, 587.33],
-    chordIndex: 0,
-    melodyIndex: 0,
-    start: function () {
-      var self = this;
-      if (!Sfx.ctx) Sfx.ensure();
-      if (!Sfx.ctx) return;
-      this.playing = true;
-      if (this.timer) return;
-      var note = function (freq, delay, dur, gain, type) {
-        if (!Sfx.ctx) return;
-        var t = Sfx.ctx.currentTime + delay;
-        var o = Sfx.ctx.createOscillator(), g = Sfx.ctx.createGain();
-        o.type = type || "sine";
-        o.frequency.setValueAtTime(freq, t);
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.linearRampToValueAtTime(gain, t + Math.min(0.6, dur * 0.25));
-        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-        o.connect(g); g.connect(Sfx.ctx.destination);
-        o.start(t); o.stop(t + dur + 0.12);
-      };
-      var play = function () {
-        if (!self.on || !Sfx.ctx) return;
-        var chord = self.chords[self.chordIndex % self.chords.length];
-        self.chordIndex++;
-        chord.forEach(function (freq) {
-          note(freq, 0.05, 7.0, 0.014, "sine");
-        });
-        var top = self.melody[self.melodyIndex % self.melody.length];
-        self.melodyIndex++;
-        note(top, 0.75, 3.2, 0.016, "sine");
-        note(top / 2, 0.75, 3.8, 0.009, "sine");
-      };
-      play();
-      this.timer = setInterval(function () {
-        if (!self.on) { clearInterval(self.timer); self.timer = null; return; }
-        play();
-      }, 6500);
+    el: null,
+    getEl: function () {
+      if (this.el) return this.el;
+      var e = $("ambient-audio");
+      if (!e) {
+        e = document.createElement("audio");
+        e.id = "ambient-audio";
+        e.src = "assets/ambient.mp3";
+        document.body.appendChild(e);
+      }
+      e.loop = true;
+      e.preload = "none";
+      e.volume = 0.14;
+      e.muted = false;
+      this.el = e;
+      return e;
     },
-    stop: function () { this.playing = false; if (this.timer) { clearInterval(this.timer); this.timer = null; } },
+    start: function () {
+      var e = this.getEl();
+      if (!this.on || !e) return;
+      e.volume = 0.14;
+      var p = e.play();
+      if (p && p.catch) p.catch(function () {});
+    },
+    stop: function () { if (this.el) this.el.pause(); },
     toggle: function () {
       this.on = !this.on; save("tcm-ambient", this.on ? 1 : 0);
       if (this.on) this.start(); else this.stop();
@@ -176,7 +153,11 @@
   };
   function setAmbientUI() {
     var b = $("btn-ambient");
-    if (b) { b.textContent = Ambient.on ? "🎵 背景音 开" : "🎵 背景音 关"; b.classList.toggle("off", !Ambient.on); }
+    if (b) {
+      b.textContent = Ambient.on ? "🎵 背景音 开" : "🎵 背景音 关";
+      b.title = "舒缓背景音（默认关闭）";
+      b.classList.toggle("off", !Ambient.on);
+    }
   }
 
   /* ---------- 今日药签（每日一味，轮换展示冷知识） ---------- */
