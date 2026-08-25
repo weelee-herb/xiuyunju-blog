@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-version="1.0.0">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>识药闯关 · 看图认中药</title>
+<meta name="theme-color" content="#2f5d4c">
+<meta name="description" content="识药闯关在线版：300 味中药看图认名，打开即玩，无需下载。">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="assets/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="online-topbar">
+  <a class="brand-back" href="https://xiuyunju.cc.cd" target="_blank" rel="noopener noreferrer" aria-label="返回云岫居主站">
+    <span class="brand-seal">云</span>
+    <span>云岫居 · 在线版</span>
+  </a>
+  <span class="online-version">v1.0.0</span>
+</header>
+<div class="app" id="app">
+
+  <!-- ============ 首页 ============ -->
+  <section class="view view-home" id="view-home">
+    <header class="home-hero">
+      <div class="seal" aria-hidden="true">药</div>
+      <h1 class="game-title">识药闯关</h1>
+      <p class="game-sub">看图认中药 · 认识生活里的中药材</p>
+      <div class="home-stats">
+        <div class="stat-card">
+          <span class="stat-num" id="stat-high">0</span>
+          <span class="stat-label">历史最高分</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-wrong">0</span>
+          <span class="stat-label">累计错题</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-count">0</span>
+          <span class="stat-label">收录药材</span>
+        </div>
+      </div>
+    </header>
+    <main class="home-actions">
+      <button class="btn btn-ghost btn-lg" id="btn-journal">📔 我的本草手账</button>
+      <button class="btn btn-ghost btn-lg" id="btn-share-today">📤 生成今日分享卡</button>
+      <button class="btn btn-ghost btn-lg" id="btn-copy-day">🔗 复制今日药签链接</button>
+      <div class="scene-door-row" id="scene-door-row"></div>
+      <div class="today-card" id="today-card">
+        <div class="today-head"><span class="chip today-chip">今日药签</span><span class="today-date" id="today-date"></span></div>
+        <img id="today-img" alt="今日药材" loading="lazy">
+        <div class="today-body">
+          <div class="today-title-row"><span class="today-name" id="today-name">—</span><span class="scene-chip" id="today-scene"></span><button class="speak-btn" id="today-speak" title="朗读" aria-label="朗读药名">🔈</button></div>
+          <p class="today-fact" id="today-fact"></p>
+          <div class="today-actions">
+            <button class="btn btn-primary btn-block" id="btn-today-go">去认识它 →</button>
+            <button class="btn btn-ghost btn-block" id="btn-today-quiz">开始今日答题</button>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-lg is-hidden" id="btn-daily-hidden" hidden></button>
+      <button class="btn btn-primary btn-lg" id="btn-pair">
+        <span class="btn-glyph">⚔️</span> 认药挑战
+        <span class="btn-hint">易混药对 · 二选一</span>
+      </button>
+      <button class="btn btn-primary btn-lg" id="btn-guess">
+        <span class="btn-glyph">🔍</span> 猜猜看
+        <span class="btn-hint">只看局部特写 · 放大镜里认药材</span>
+      </button>
+      <button class="btn btn-primary btn-lg" id="btn-start">
+        <span class="btn-glyph">🏆</span> 闯关模式
+        <span class="btn-hint">每局 10 题 · 可挑门类 · 四选一认药</span>
+      </button>
+      <button class="btn btn-ghost btn-lg" id="btn-atlas">
+        <span class="btn-glyph">📖</span> 图鉴模式
+        <span class="btn-hint">浏览全部药材图鉴 · 点开看详情</span>
+      </button>
+      <button class="btn btn-ghost btn-lg" id="btn-wrong">
+        <span class="btn-glyph">📕</span> 再战错题
+        <span class="btn-hint">把眼生的变成眼熟的</span>
+        <span class="btn-badge" id="wrong-badge" hidden>0</span>
+      </button>
+    </main>
+    <div class="theme-row" id="theme-row" role="group" aria-label="主题皮肤">
+      <button class="theme-btn" data-theme-link="spring" title="春青">🌱</button>
+      <button class="theme-btn" data-theme-link="summer" title="夏绿">🌿</button>
+      <button class="theme-btn" data-theme-link="autumn" title="秋金">🍂</button>
+      <button class="theme-btn" data-theme-link="winter" title="冬墨">❄️</button>
+    </div>
+    <footer class="home-foot">
+      <button class="ambient-chip off" id="btn-ambient" title="五声背景音">🎵 背景音 关</button>
+      <button class="sound-chip" id="btn-sound" title="音效开关">🔊 音效 开</button>
+      <button class="link-btn" id="btn-help">玩法说明</button>
+      <button class="link-btn" id="btn-about">数据与图片来源说明</button>
+    </footer>
+  </section>
+
+  <!-- ============ 闯关 ============ -->
+  <section class="view view-quiz is-hidden" id="view-quiz">
+    <header class="quiz-top">
+      <div class="quiz-title">
+        <button class="icon-btn" id="btn-quit-quiz" title="返回首页">‹</button>
+        <span id="quiz-mode-label">闯关模式</span>
+      </div>
+      <div class="quiz-score" id="quiz-score">0 分</div>
+    </header>
+    <div class="combo-chip is-hidden" id="combo-chip">🔥 连击 ×3 · +15/题</div>
+    <div class="quiz-progress" id="quiz-progress" aria-label="答题进度"></div>
+    <div class="quiz-ques">
+      <span class="ques-count" id="ques-count">第 1 / 10 题</span>
+      <span class="ques-cat" id="ques-cat">解表药</span>
+    </div>
+    <div class="ques-stage">
+      <div class="ques-img-wrap">
+        <div class="guess-wrap is-hidden" id="guess-wrap">
+          <img id="ques-img" alt="药材图片">
+          <button class="btn btn-ghost btn-block" id="btn-peek">🔎 看全图（提示）</button>
+        </div>
+      </div>
+      <div class="opts" id="opts"></div>
+    </div>
+    <div class="feedback" id="feedback" hidden></div>
+    <div class="know-card is-hidden" id="know-card">
+      <div class="know-head">
+        <span class="know-name" id="know-name">麻黄</span>
+        <span class="chip" id="know-cat">解表药</span>
+        <button class="speak-btn" id="btn-share-pair" title="生成对比分享卡" hidden>🎴 对比卡</button>
+        <button class="speak-btn" id="know-speak" title="朗读" aria-label="朗读">🔈</button>
+        <button class="icon-btn" id="btn-close-know" title="收起">✕</button>
+      </div>
+      <dl class="know-body">
+        <div><dt>功效</dt><dd id="know-gx"></dd></div>
+        <div><dt>性味归经</dt><dd id="know-xw"></dd></div>
+        <div><dt>口诀 · 鉴别</dt><dd id="know-tip"></dd></div>
+        <div id="know-pair-wrap" hidden><dt>一眼区别</dt><dd id="know-pair"></dd><img id="know-pair-img" src="" alt="对比图" style="width:100%;border-radius:8px;margin-top:6px" hidden></div>
+        <div id="know-cold-wrap"><dt>冷知识</dt><dd id="know-cold"></dd></div>
+        <div id="know-other-wrap" hidden><dt>对方药 · 冷知识</dt><dd id="know-other"></dd></div>
+      </dl>
+      <button class="btn btn-primary btn-block" id="btn-next">下一题 →</button>
+    </div>
+  </section>
+
+  <!-- ============ 结算 ============ -->
+  <section class="view view-result is-hidden" id="view-result">
+    <div class="result-hero">
+      <div class="result-ring">
+        <svg class="ring-svg" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+          <circle class="ring-fg" id="ring-fg" cx="60" cy="60" r="52"></circle>
+        </svg>
+        <div class="ring-txt">
+          <span class="result-score" id="result-score">0</span>
+          <span class="result-score-label">分</span>
+        </div>
+      </div>
+      <h2 class="result-title" id="result-title">本局完成</h2>
+      <p class="result-meta" id="result-meta">答对 8 / 10 · 正确率 80%</p>
+      <p class="result-rank" id="result-rank">厉害！再接再厉</p>
+    </div>
+
+    <div class="panel result-wrong" id="result-wrong-wrap">
+      <h3 class="panel-title">错题回顾</h3>
+      <div class="wrong-list" id="result-wrong"></div>
+      <p class="ok-line" id="result-ok">全部答对，没有错题！</p>
+      <p class="result-soft">猜错也没关系，下次就认识了～</p>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn btn-primary btn-lg" id="btn-again">再来一局</button>
+      <button class="btn btn-ghost btn-lg" id="btn-share">📤 生成分享卡</button>
+      <button class="btn btn-ghost btn-lg" id="btn-wrong-again">只做错题</button>
+      <button class="btn btn-ghost btn-lg" id="btn-home">返回首页</button>
+    </div>
+  </section>
+
+  <!-- ============ 图鉴 ============ -->
+  <section class="view view-atlas is-hidden" id="view-atlas">
+    <header class="atlas-top">
+      <button class="icon-btn" id="btn-back-atlas">‹ 返回</button>
+      <h2 class="atlas-title">中药图鉴</h2>
+      <span class="atlas-count" id="atlas-count">20 味</span>
+    </header>
+    <div class="collect-card">
+      <div class="collect-top"><span>🌿 收集进度</span><span class="collect-count" id="collect-count">0 / 300</span></div>
+      <div class="collect-bar"><div class="collect-fill" id="collect-fill"></div></div>
+      <div class="badge-row" id="badge-row"></div>
+    </div>
+    <div class="atlas-search">
+      <span class="search-ico" aria-hidden="true">⌕</span>
+      <input id="atlas-q" type="search" placeholder="搜索药名或拼音，如：jin 或 人参" autocomplete="off" aria-label="搜索图鉴">
+    </div>
+    <div class="atlas-tools">
+      <div class="chip-row" id="atlas-scene-row"></div>
+      <div class="chip-row" id="atlas-tools-row"><span class="chip a-chip on" id="chip-only-fav" role="button">⭐ 只看收藏</span><span class="chip a-chip" id="chip-sort-py" role="button">🔤 拼音排序</span></div>
+    </div>
+    <div class="atlas-filter" id="atlas-filter"></div>
+    <div class="atlas-grid" id="atlas-grid"></div>
+  </section>
+
+  <!-- ============ 图鉴详情（弹层） ============ -->
+  <div class="modal is-hidden" id="detail-modal" role="dialog" aria-modal="true">
+    <div class="modal-mask" id="modal-mask"></div>
+    <div class="modal-panel">
+      <button class="icon-btn modal-close" id="btn-close-modal" title="关闭">✕</button>
+      <img class="modal-img" id="detail-img" alt="药材图片">
+      <div class="modal-info">
+        <div class="modal-title-row">
+          <h3 id="detail-name">麻黄</h3>
+          <button class="speak-btn" id="detail-speak" title="朗读" aria-label="朗读">🔈</button>
+          <span class="pinyin" id="detail-pinyin">má huáng</span>
+          <span class="chip" id="detail-cat">解表药</span>
+        </div>
+        <dl class="know-body">
+          <div><dt>功效</dt><dd id="detail-gx"></dd></div>
+          <div><dt>性味归经</dt><dd id="detail-xw"></dd></div>
+          <div><dt>口诀 · 鉴别</dt><dd id="detail-tip"></dd></div>
+          <div id="detail-cold-wrap"><dt>冷知识</dt><dd id="detail-cold"></dd></div>
+        </dl>
+        <p class="modal-source" id="detail-source"></p>
+        <a class="modal-link" id="detail-link" target="_blank" rel="noopener">查看图片源页面 ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 分类选择弹层 ============ -->
+  <div class="modal is-hidden" id="select-modal" role="dialog" aria-modal="true">
+    <div class="modal-mask" id="select-mask"></div>
+    <div class="modal-panel modal-select">
+      <button class="icon-btn modal-close" id="btn-close-select" title="关闭">✕</button>
+      <h3 id="select-title">挑个门类逛逛</h3>
+      <p class="select-sub">全部随机，或只逛某一类；不足 10 味则全部上阵。</p>
+      <div class="select-chips" id="select-chips"></div>
+      <button class="btn btn-primary btn-block" id="btn-go-select">开始挑战</button>
+    </div>
+  </div>
+
+  <!-- ============ 我的手账 ============ -->
+  <section class="view is-hidden" id="view-journal" aria-label="我的本草手账">
+    <header class="quiz-head">
+      <button class="icon-btn" id="journal-back" title="返回首页">←</button>
+      <strong>📔 我的本草手账</strong>
+    </header>
+    <div class="journal-stats" id="journal-stats"></div>
+    <p class="help-note">聚合自本机进度：点亮、正确率、打卡、成就与局数（正确率自本次启用的设备累计）。</p>
+  </section>
+
+  <!-- ============ 分享卡预览 ============ -->
+  <div class="modal is-hidden" id="share-modal" role="dialog" aria-modal="true">
+    <div class="modal-mask" id="share-mask"></div>
+    <div class="modal-panel modal-share">
+      <button class="icon-btn modal-close" id="btn-close-share" title="关闭">✕</button>
+      <h3>你的分享卡</h3>
+      <div class="share-style-row">
+        <button class="share-style on" data-style="herb">🌿 草本画</button>
+        <button class="share-style" data-style="song">🏮 宋韵</button>
+        <button class="share-style" data-style="journal">📒 手账风</button>
+        <button class="share-style" data-style="poster">🎴 药签海报</button>
+      </div>
+      <img id="share-img" alt="分享卡" class="share-img">
+      <p class="share-tip">手机：<b>长按图片保存</b> · 电脑：<b>右键图片另存为</b></p>
+    </div>
+  </div>
+
+  <!-- ============ 玩法说明 ============ -->
+  <div class="modal is-hidden" id="help-modal" role="dialog" aria-modal="true">
+    <div class="modal-mask" id="help-mask"></div>
+    <div class="modal-panel">
+      <button class="icon-btn modal-close" id="btn-close-help" title="关闭">✕</button>
+      <h3>玩法说明</h3>
+      <ul class="help-list">
+        <li>🌞 今日药签：每天一味药，认识它、也可以玩当日固定题组并打卡。</li>
+        <li>🏆 闯关模式：每局 10 题，四选一认药，可选门类，答对有连击加分。</li>
+        <li>⚔️ 认药挑战：易混药对二选一，答完看「一眼区别」。</li>
+        <li>🔍 猜猜看：只看局部特写，点「看全图」逐步提示。</li>
+        <li>📚 图鉴模式：300 味随时翻，答对还能「点亮」收集；集齐场景系列得成就徽章。</li>
+        <li>📕 再战错题：把眼生的变成眼熟的。</li>
+        <li>🎨 四季皮肤 · 🔊 朗读 · 🎵 背景音 · 📤 分享卡，都在首页。</li>
+      </ul>
+      <p class="help-note">内容仅供文化了解，不构成医疗建议；请勿采食不认识的植物。</p>
+    </div>
+  </div>
+
+  <!-- ============ 首次提示 ============ -->
+  <div class="modal is-hidden" id="notice-modal" role="dialog" aria-modal="true">
+    <div class="modal-mask"></div>
+    <div class="modal-panel">
+      <h3>欢迎来到「识药闯关」</h3>
+      <p class="help-note">这是一个看图认中药的趣味小游戏。<br><br>内容仅供文化了解，<b>不构成医疗建议</b>；<br>请勿采食不认识的植物。</p>
+      <button class="btn btn-primary btn-block" id="btn-notice-ok">知道了</button>
+    </div>
+  </div>
+
+  <!-- ============ 说明弹层 ============ -->
+  <div class="modal is-hidden" id="about-modal" role="dialog" aria-modal="true">
+    <div class="modal-mask" id="about-mask"></div>
+    <div class="modal-panel modal-about">
+      <button class="icon-btn modal-close" id="btn-close-about" title="关闭">✕</button>
+      <h3>关于本应用</h3>
+      <p>「识药闯关·在线版」打开即玩，是一款带大家认识生活里中药材的看图认名小游戏。所有图片均来自 Wikimedia Commons、iNaturalist 等免费图源的公开授权图片，知识内容依据《中国药典》整理，数据文件为 <code>data/herbs.json</code>。</p>
+      <p>这是在线版：打开即玩，无需下载，图片按需加载并缓存；最高分与错题记录保存在本机浏览器（localStorage），不会上传。完整图片来源与授权清单见项目内 <code>README.md</code>。</p>
+    </div>
+  </div>
+
+  <div class="toast is-hidden" id="toast"></div>
+</div>
+
+<script>/* 分享卡二维码：自动使用当前在线地址 */
+window.QR_LINK = location.origin + location.pathname;</script>
+<script src="data/herbs.js"></script>
+<script src="data/pairs.js"></script>
+<script src="js/app.js"></script>
+<script>
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
+    });
+  }
+</script>
+</body>
+</html>

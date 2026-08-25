@@ -1,0 +1,222 @@
+[
+  {
+    "id": "guizhi",
+    "name": "桂枝",
+    "pinyin": "guizhi",
+    "category": "解表药",
+    "gongxiao": "发汗解肌，温通经脉，助阳化气，平冲降逆。",
+    "xingwei": "辛、甘，温；归心、肺、膀胱经。",
+    "tips": "为肉桂之嫩枝，断面红棕色，皮部有红棕色油点，气香。表虚证忌用，发汗力较麻黄温和。",
+    "image": "images/guizhi.jpg",
+    "imageSource": "Wikimedia Commons「File:Cinnamomum cassia Leaf.jpg」— Honmingjun — CC BY-SA 3.0"
+  },
+  {
+    "id": "juhua",
+    "name": "菊花",
+    "pinyin": "juhua",
+    "category": "解表药",
+    "gongxiao": "疏散风热，平肝明目，清热解毒。",
+    "xingwei": "甘、苦，微寒；归肺、肝经。",
+    "tips": "头状花序，舌状花、管状花分明。黄菊偏疏散风热，白菊长于平肝明目，野菊花清热解毒力更胜。",
+    "image": "images/juhua.jpg",
+    "imageSource": "Wikimedia Commons「File:Chrysanthemum × morifolium flowers.jpg」— Willow Coville — CC BY-SA 4.0"
+  },
+  {
+    "id": "bohe",
+    "name": "薄荷",
+    "pinyin": "bohe",
+    "category": "解表药",
+    "gongxiao": "疏散风热，清利头目，利咽，透疹，疏肝行气。",
+    "xingwei": "辛，凉；归肺、肝经。",
+    "tips": "茎方柱形有棱，叶对生，揉搓有清凉香气。辛凉发汗，体虚汗多者慎用，煎煮宜后下。",
+    "image": "images/bohe.jpg",
+    "imageSource": "Wikimedia Commons「File:Mentha canadensis kz02.jpg」— Krzysztof Ziarnek, Kenraiz — CC BY-SA 4.0"
+  },
+  {
+    "id": "gegen",
+    "name": "葛根",
+    "pinyin": "gegen",
+    "category": "解表药",
+    "gongxiao": "解肌退热，生津止渴，透疹，升阳止泻，通经活络，解酒毒。",
+    "xingwei": "甘、辛，凉；归脾、胃、肺经。",
+    "tips": "根断面有纤维、粉性足（习称“粉葛”），嚼之味甜。解肌生津，为项背强痛之要药。",
+    "image": "images/gegen.jpg",
+    "imageSource": "Wikimedia Commons「File:Pueraria montana lobata (5182514314).jpg」— Matt Lavin — CC BY-SA 2.0"
+  },
+  {
+    "id": "huangqin",
+    "name": "黄芩",
+    "pinyin": "huangqin",
+    "category": "清热药",
+    "gongxiao": "清热燥湿，泻火解毒，止血，安胎。",
+    "xingwei": "苦，寒；归肺、胆、脾、大肠、小肠经。",
+    "tips": "根老而中空者习称“枯芩”，偏清上焦肺热；实心者习称“子芩”，偏清下焦湿热。善清肺火，安胎。",
+    "image": "images/huangqin.jpg",
+    "imageSource": "Wikimedia Commons「File:Scutellaria baicalensis kz01.jpg」— Krzysztof Ziarnek, Kenraiz — CC BY-SA 4.0"
+  },
+  {
+    "id": "huangbai",
+    "name": "黄柏",
+    "pinyin": "huangbai",
+    "category": "清热药",
+    "gongxiao": "清热燥湿，泻火除蒸，解毒疗疮。",
+    "xingwei": "苦，寒；归肾、膀胱经。",
+    "tips": "树皮呈板片状，外表面黄棕色、内表面暗黄色。善清下焦湿热，与知母相须退虚热。",
+    "image": "images/huangbai.jpg",
+    "imageSource": "Wikimedia Commons「File:Phellodendron amurense Korkowiec amurski 2019-05-24 03.jpg」— Agnieszka Kwiecień, Nova — CC BY-SA 4.0"
+  },
+  {
+    "id": "banlangen",
+    "name": "板蓝根",
+    "pinyin": "banlangen",
+    "category": "清热药",
+    "gongxiao": "清热解毒，凉血利咽。",
+    "xingwei": "苦，寒；归心、胃经。",
+    "tips": "根圆柱形黄棕色，断面皮部黄白色、木部黄色，有豆腥味。其叶即为“大青叶”，善治咽喉肿痛、大头瘟毒。",
+    "image": "images/banlangen.jpg",
+    "imageSource": "Wikimedia Commons「File:Isatis tinctoria Urzet barwierski 2022-05-22 01.jpg」— Agnieszka Kwiecień, Nova — CC BY-SA 4.0"
+  },
+  {
+    "id": "xiakucao",
+    "name": "夏枯草",
+    "pinyin": "xiakucao",
+    "category": "清热药",
+    "gongxiao": "清肝泻火，明目，散结消肿。",
+    "xingwei": "辛、苦，寒；归肝、胆经。",
+    "tips": "入药多为果穗，毛茸茸的紫棕色圆柱形穗如“枯草”，夏至后枯萎。肝火目赤、瘰疬瘿瘤常用。",
+    "image": "images/xiakucao.jpg",
+    "imageSource": "Wikimedia Commons「File:Prunella vulgaris 003.jpg」— H. Zell — CC BY-SA 3.0"
+  },
+  {
+    "id": "huangqi",
+    "name": "黄芪",
+    "pinyin": "huangqi",
+    "category": "补虚药",
+    "gongxiao": "补气升阳，固表止汗，利水消肿，生津养血，行滞通痹，托毒排脓，敛疮生肌。",
+    "xingwei": "甘，微温；归肺、脾经。",
+    "tips": "根外皮淡棕黄色，断面有放射状纹理“菊花心”，味甜、嚼之微有豆腥味。补气固表之要药，炙用偏补气。",
+    "image": "images/huangqi.jpg",
+    "imageSource": "Wikimedia Commons「File:Astragalus mongolicus flowers.jpg」— Averater — CC BY-SA 3.0（蒙古黄芪，黄芪主流商品来源）"
+  },
+  {
+    "id": "dangshen",
+    "name": "党参",
+    "pinyin": "dangshen",
+    "category": "补虚药",
+    "gongxiao": "健脾益肺，养血生津。",
+    "xingwei": "甘，平；归脾、肺经。",
+    "tips": "根表面有疣状突起，断面皮部淡黄白色、木部淡黄色，有放射状纹理。平补脾肺气，可代人参而力缓。",
+    "image": "images/dangshen.jpg",
+    "imageSource": "Wikimedia Commons「File:Codonopsis pilosula kz01.jpg」— Krzysztof Ziarnek, Kenraiz — CC BY-SA 4.0"
+  },
+  {
+    "id": "baishao",
+    "name": "白芍",
+    "pinyin": "baishao",
+    "category": "补虚药",
+    "gongxiao": "养血调经，敛阴止汗，柔肝止痛，平抑肝阳。",
+    "xingwei": "苦、酸，微寒；归肝、脾经。",
+    "tips": "根外皮淡红棕色，断面类白色，木部放射状纹理（菊花心）。酸敛养阴，与当归相配养血调经。",
+    "image": "images/baishao.jpg",
+    "imageSource": "Wikimedia Commons「File:Paeonia lactiflora 2025.jpg」— Refriedbeans52 — CC0"
+  },
+  {
+    "id": "maidong",
+    "name": "麦冬",
+    "pinyin": "maidong",
+    "category": "补虚药",
+    "gongxiao": "养阴生津，润肺清心。",
+    "xingwei": "甘、微苦，微寒；归心、肺、胃经。",
+    "tips": "块根纺锤形、半透明，断面黄白色、中柱细小。润肺胃之阴而清心火，常与沙参相须。",
+    "image": "images/maidong.jpg",
+    "imageSource": "Wikimedia Commons「File:Ophiopogon japonicus (fruits).jpg」— Alpsdake — CC BY-SA 4.0"
+  },
+  {
+    "id": "zhebeimu",
+    "name": "浙贝母",
+    "pinyin": "zhebeimu",
+    "category": "化痰止咳平喘药",
+    "gongxiao": "清热化痰止咳，解毒散结消痈。",
+    "xingwei": "苦，寒；归肺、心经。",
+    "tips": "鳞叶肥厚粉白，大者形如“元宝贝”。偏于清热化痰、散结消痈；川贝母则偏润肺止咳。",
+    "image": "images/zhebeimu.jpg",
+    "imageSource": "Wikimedia Commons「File:Fritillaria thunbergii.jpg」— James Steakley — CC BY-SA 3.0"
+  },
+  {
+    "id": "ziwan",
+    "name": "紫菀",
+    "pinyin": "ziwan",
+    "category": "化痰止咳平喘药",
+    "gongxiao": "润肺下气，化痰止咳。",
+    "xingwei": "辛、苦，温；归肺经。",
+    "tips": "根茎簇生须根，断面灰白色、有紫褐色油点。温润不燥，新久咳嗽皆宜，与款冬花相须为用。",
+    "image": "images/ziwan.jpg",
+    "imageSource": "Wikimedia Commons「File:Aster tataricus kz01.jpg」— Krzysztof Ziarnek, Kenraiz — CC BY-SA 4.0"
+  },
+  {
+    "id": "gualou",
+    "name": "瓜蒌",
+    "pinyin": "gualou",
+    "category": "化痰止咳平喘药",
+    "gongxiao": "清热涤痰，宽胸散结，润燥滑肠。",
+    "xingwei": "甘、微苦，寒；归肺、胃、大肠经。",
+    "tips": "果实橙黄，皮宽胸、仁润肠、根（天花粉）生津。治胸痹之要药，脾虚便溏者慎用。",
+    "image": "images/gualou.jpg",
+    "imageSource": "Wikimedia Commons「File:Trichosanthes kirilowii.jpg」— Michael Wolf — CC BY 2.5"
+  },
+  {
+    "id": "pipaye",
+    "name": "枇杷叶",
+    "pinyin": "pipaye",
+    "category": "化痰止咳平喘药",
+    "gongxiao": "清肺止咳，降逆止呕。",
+    "xingwei": "苦，微寒；归肺、胃经。",
+    "tips": "叶长椭圆形，上表面灰绿色、下表面密被灰棕色绒毛（蜜炙后可缓和）。清肺胃热，痰热咳嗽、胃热呕哕皆宜。",
+    "image": "images/pipaye.jpg",
+    "imageSource": "Wikimedia Commons「File:Eriobotrya japonica 5Dsr 0136.jpg」— SAplants — CC BY-SA 4.0"
+  },
+  {
+    "id": "taoren",
+    "name": "桃仁",
+    "pinyin": "taoren",
+    "category": "活血化瘀药",
+    "gongxiao": "活血祛瘀，润肠通便，止咳平喘。",
+    "xingwei": "苦、甘，平；有小毒；归心、肝、大肠经。",
+    "tips": "种子扁长卵形、一端尖，表面红棕色、有纵皱纹，富油性。破血力强，孕妇慎用。",
+    "image": "images/taoren.jpg",
+    "imageSource": "Wikimedia Commons「File:Starr-150217-0253-Prunus persica var persica-Flordaprince flowers and fruit-Hawea Pl Olinda-Maui (25146671602).jpg」— Forest and Kim Starr — CC BY 3.0 US"
+  },
+  {
+    "id": "chuanxiong",
+    "name": "川芎",
+    "pinyin": "chuanxiong",
+    "category": "活血化瘀药",
+    "gongxiao": "活血行气，祛风止痛。",
+    "xingwei": "辛，温；归肝、胆、心包经。",
+    "tips": "饮片呈不规则“蝴蝶片”，断面黄白色、具波状环纹。血中气药，上行头目、下行血海，头痛要药。",
+    "image": "images/chuanxiong.jpg",
+    "imageSource": "Wikimedia Commons「File:Ligusticum sinense 'Chuanxiong' slices.jpg」— Fumikas Sagisavas — CC0（药材饮片图；免费图源未见原植物照片）"
+  },
+  {
+    "id": "niuxi",
+    "name": "牛膝",
+    "pinyin": "niuxi",
+    "category": "活血化瘀药",
+    "gongxiao": "逐瘀通经，补肝肾，强筋骨，利尿通淋，引血下行。",
+    "xingwei": "苦、甘、酸，平；归肝、肾经。",
+    "tips": "茎具对生叶、穗状花序腋生。怀牛膝偏补肝肾、强筋骨，川牛膝偏活血通经。",
+    "image": "images/niuxi.jpg",
+    "imageSource": "Wikimedia Commons「File:Achyranthes bidentata - Kew Gardens, London - DSC03397.jpg」— Daderot — CC0"
+  },
+  {
+    "id": "wangbuliu",
+    "name": "王不留行",
+    "pinyin": "wangbuliu",
+    "category": "活血化瘀药",
+    "gongxiao": "活血通经，下乳消肿，利尿通淋。",
+    "xingwei": "苦，平；归肝、胃经。",
+    "tips": "种子球形、黑色，表面有细密颗粒状突起。通乳之良药，“穿山甲、王不留，妇人服了乳长流”。",
+    "image": "images/wangbuliu.jpg",
+    "imageSource": "Wikimedia Commons「File:Vaccaria hispanica sl13.jpg」— Stefan.lefnaer — CC BY-SA 4.0"
+  }
+]

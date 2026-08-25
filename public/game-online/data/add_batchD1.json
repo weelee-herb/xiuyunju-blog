@@ -1,0 +1,167 @@
+[
+ {
+  "id": "suanzaoren",
+  "name": "酸枣仁",
+  "pinyin": "suanzaoren",
+  "category": "安神药",
+  "gongxiao": "养心补肝，宁心安神，敛汗，生津。",
+  "xingwei": "甘、酸，平；归肝、胆、心经。",
+  "tips": "酸枣核仁扁圆、棕红有光泽；虚烦不眠、惊悸盗汗之要药。",
+  "image": "images/suanzaoren.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "yuanzhi",
+  "name": "远志",
+  "pinyin": "yuanzhi",
+  "category": "安神药",
+  "gongxiao": "安神益智，交通心肾，祛痰，消肿。",
+  "xingwei": "苦、辛，温；归心、肾、肺经。",
+  "tips": "根细长、皮部有槽纹（远志筒）；失眠健忘、痰阻心窍。",
+  "image": "images/yuanzhi.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "hehuanpi",
+  "name": "合欢皮",
+  "pinyin": "hehuanpi",
+  "category": "安神药",
+  "gongxiao": "解郁安神，活血消肿。",
+  "xingwei": "甘，平；归心、肝、肺经。",
+  "tips": "合欢树皮，表面灰褐有横纹；情志不悦、忧思失眠，兼疗跌打。",
+  "image": "images/hehuanpi.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "lingzhi",
+  "name": "灵芝",
+  "pinyin": "lingzhi",
+  "category": "安神药",
+  "gongxiao": "补气安神，止咳平喘。",
+  "xingwei": "甘，平；归心、肺、肝、肾经。",
+  "tips": "菌盖紫红/赤褐、有漆样光泽（赤芝）；虚劳失眠、咳喘，能强身。",
+  "image": "images/lingzhi.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "mugua",
+  "name": "木瓜",
+  "pinyin": "mugua",
+  "category": "祛风湿药",
+  "gongxiao": "舒筋活络，和胃化湿。",
+  "xingwei": "酸，温；归肝、脾经。",
+  "tips": "皱皮木瓜果实，纵剖后色红棕味酸；湿痹筋脉拘挛、吐泻转筋。",
+  "image": "images/mugua.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "qinjiao",
+  "name": "秦艽",
+  "pinyin": "qinjiao",
+  "category": "祛风湿药",
+  "gongxiao": "祛风湿，清湿热，止痹痛，退虚热。",
+  "xingwei": "辛、苦，平；归胃、肝、胆经。",
+  "tips": "根扭曲有纵沟（秦艽），质坚脆；风药中的“润剂”，不燥不寒。",
+  "image": "images/qinjiao.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "luoshiteng",
+  "name": "络石藤",
+  "pinyin": "luoshiteng",
+  "category": "祛风湿药",
+  "gongxiao": "祛风通络，凉血消肿。",
+  "xingwei": "苦，微寒；归心、肝、肾经。",
+  "tips": "常绿藤本，叶对生革质；风热痹痛、痈肿（以热证痹痛为佳）。",
+  "image": "images/luoshiteng.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "fangji",
+  "name": "防己",
+  "pinyin": "fangji",
+  "category": "祛风湿药",
+  "gongxiao": "祛风止痛，利水消肿。",
+  "xingwei": "苦，寒；归膀胱、肺经。",
+  "tips": "根类圆柱（粉防己），断面有“车轮纹”；水肿、小便不利、痹痛。",
+  "image": "images/fangji.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "shenjincao",
+  "name": "伸筋草",
+  "pinyin": "shenjincao",
+  "category": "祛风湿药",
+  "gongxiao": "祛风除湿，舒筋活络。",
+  "xingwei": "微苦、辛，温；归肝、脾、肾经。",
+  "tips": "石松科匍匐茎，叶线状、孢子囊穗圆柱形；筋脉拘挛、屈伸不利。",
+  "image": "images/shenjincao.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "luxiancao",
+  "name": "鹿衔草",
+  "pinyin": "luxiancao",
+  "category": "祛风湿药",
+  "gongxiao": "祛风湿，强筋骨，止血，止咳。",
+  "xingwei": "甘、苦，温；归肝、肾经。",
+  "tips": "鹿蹄草科常绿草本，叶圆形、下表面紫红（鹿蹄草）；风湿兼肾虚、月经过多。",
+  "image": "images/luxiancao.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "duhuo",
+  "name": "独活",
+  "pinyin": "duhuo",
+  "category": "祛风湿药",
+  "gongxiao": "祛风除湿，通痹止痛。",
+  "xingwei": "辛、苦，微温；归肾、膀胱经。",
+  "tips": "根圆锥形、有多数环纹；善治腰以下风湿痹痛（与羌活一上一下）。",
+  "image": "images/duhuo.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "weilingxian",
+  "name": "威灵仙",
+  "pinyin": "weilingxian",
+  "category": "祛风湿药",
+  "gongxiao": "祛风湿，通经络，止痛，消骨鲠。",
+  "xingwei": "辛、咸，温；归膀胱经。",
+  "tips": "铁脚威灵仙根丛生黑须，味辛；风湿痹痛、骨鲠咽喉（配醋）。",
+  "image": "images/weilingxian.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "laoguancao",
+  "name": "老鹳草",
+  "pinyin": "laoguancao",
+  "category": "祛风湿药",
+  "gongxiao": "祛风湿，通经络，止泻痢。",
+  "xingwei": "苦、微辛，平；归肝、肾、脾经。",
+  "tips": "牻牛儿苗，果如鹳鸟长喙；风湿痹痛、湿热泻痢，煎洗可止痒。",
+  "image": "images/laoguancao.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "lulutong",
+  "name": "路路通",
+  "pinyin": "lulutong",
+  "category": "祛风湿药",
+  "gongxiao": "祛风活络，利水，通经。",
+  "xingwei": "苦，平；归肝、肾经。",
+  "tips": "枫香果序球形有刺（路路通），“能通十二经络”之果。",
+  "image": "images/lulutong.jpg",
+  "imageSource": "待补"
+ },
+ {
+  "id": "chouwutong",
+  "name": "臭梧桐",
+  "pinyin": "chouwutong",
+  "category": "祛风湿药",
+  "gongxiao": "祛风湿，通经络，平肝。",
+  "xingwei": "辛、苦、甘，凉；归肝经。",
+  "tips": "海州常山，叶揉搓有臭味；风湿痹痛兼高血压（平肝降压）。",
+  "image": "images/chouwutong.jpg",
+  "imageSource": "待补"
+ }
+]

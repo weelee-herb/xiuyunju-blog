@@ -1,0 +1,162 @@
+{
+  "baihuashecao": {
+    "id": "baihuashecao",
+    "image": "images/baihuashecao.jpg",
+    "file": "baihuashecao.jpg",
+    "identifier": "https://medialib.naturalis.nl/file/id/L.4188998/format/large",
+    "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "creator": "",
+    "source": "https://medialib.naturalis.nl/file/id/L.4188998/format/large",
+    "note": "GBIF 候选索引 3；图片来源由 Codex 补充"
+  },
+  "mimenghua": {
+    "id": "mimenghua",
+    "image": "images/mimenghua.jpg",
+    "file": "mimenghua.jpg",
+    "identifier": "https://inaturalist-open-data.s3.amazonaws.com/photos/619795311/original.jpg",
+    "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+    "creator": "觅虫记Liumingyu",
+    "source": "https://www.inaturalist.org/observations/340570107",
+    "note": "GBIF 候选索引 0；图片来源由 Codex 补充"
+  },
+  "luohanguo": {
+    "id": "luohanguo",
+    "image": "images/luohanguo.jpg",
+    "file": "luohanguo.jpg",
+    "identifier": "https://inaturalist-open-data.s3.amazonaws.com/photos/305379028/original.jpeg",
+    "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+    "creator": "jiuheng92",
+    "source": "https://www.inaturalist.org/observations/175703408",
+    "note": "GBIF 候选索引 0；图片来源由 Codex 补充"
+  },
+  "hujiao": {
+    "id": "hujiao",
+    "image": "images/hujiao.jpg",
+    "file": "hujiao.jpg",
+    "identifier": "https://inaturalist-open-data.s3.amazonaws.com/photos/610312670/original.jpg",
+    "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+    "creator": "John Sterling",
+    "source": "https://www.inaturalist.org/observations/335903794",
+    "note": "GBIF 候选索引 0；图片来源由 Codex 补充"
+  },
+  "chenpi": {
+    "id": "chenpi",
+    "image": "images/chenpi.jpg",
+    "file": "chenpi.jpg",
+    "identifier": "https://storage.googleapis.com/blaast-spel.appspot.com/observation/nSblsoLj93g3RE9bjV7GDIvp4eD2/ce1HZpg4R2ZBAmrYStW9/ccb418b8-ecd8-47aa-aac3-5e2bc7767708_500x500.jpg",
+    "license": "http://creativecommons.org/licenses/by/4.0/",
+    "creator": "Deividas",
+    "source": "https://storage.googleapis.com/blaast-spel.appspot.com/observation/nSblsoLj93g3RE9bjV7GDIvp4eD2/ce1HZpg4R2ZBAmrYStW9/ccb418b8-ecd8-47aa-aac3-5e2bc7767708_500x500.jpg",
+    "note": "GBIF 候选索引 5；图片来源由 Codex 补充"
+  },
+  "meiguihua": {
+    "id": "meiguihua",
+    "image": "images/meiguihua.jpg",
+    "file": "meiguihua.jpg",
+    "identifier": "https://arter.dk/media/6032c3b8-d303-47f4-84e8-603a51064dde.jpg",
+    "license": "http://creativecommons.org/licenses/by/4.0/",
+    "creator": "",
+    "source": "https://arter.dk/media/6032c3b8-d303-47f4-84e8-603a51064dde.jpg",
+    "note": "GBIF 候选索引 1；图片来源由 Codex 补充"
+  },
+  "huaihua": {
+    "id": "huaihua",
+    "image": "images/huaihua.jpg",
+    "file": "huaihua.jpg",
+    "identifier": "https://observation.org/photos/63489807.jpg",
+    "license": "http://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "creator": "Felix Rey",
+    "source": "https://observation.org/photos/63489807.jpg",
+    "note": "GBIF 候选索引 0；图片来源由 Codex 补充"
+  },
+  "baimaogen": {
+    "id": "baimaogen",
+    "image": "images/baimaogen.jpg",
+    "file": "baimaogen.jpg",
+    "identifier": "https://images.ala.org.au/image/proxyImageThumbnailLarge?imageId=6ca52203-5e89-4c09-99b5-bb95ae12d32a",
+    "license": "Creative Commons Attribution 3.0",
+    "creator": "David Di NArdi",
+    "source": "https://images.ala.org.au/image/proxyImageThumbnailLarge?imageId=6ca52203-5e89-4c09-99b5-bb95ae12d32a",
+    "note": "GBIF 候选索引 7；图片来源由 Codex 补充"
+  },
+  "xianhecao": {
+    "id": "xianhecao",
+    "image": "images/xianhecao.jpg",
+    "file": "xianhecao.jpg",
+    "identifier": "https://inaturalist-open-data.s3.amazonaws.com/photos/610972041/original.jpg",
+    "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+    "creator": "dorayoyo",
+    "source": "https://www.inaturalist.org/observations/336236932",
+    "note": "GBIF 候选索引 0；图片来源由 Codex 补充"
+  },
+  "cheqianzi": {
+    "id": "cheqianzi",
+    "image": "images/cheqianzi.jpg",
+    "file": "cheqianzi.jpg",
+    "identifier": "https://medialib.naturalis.nl/file/id/L.4305320/format/large",
+    "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "creator": "",
+    "source": "https://medialib.naturalis.nl/file/id/L.4305320/format/large",
+    "note": "GBIF 候选索引 0；图片来源由 Codex 补充"
+  },
+  "mutong": {
+    "id": "mutong",
+    "image": "images/mutong.jpg",
+    "file": "mutong.jpg",
+    "identifier": "https://inaturalist-open-data.s3.amazonaws.com/photos/606415455/original.jpg",
+    "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+    "creator": "janalbitz",
+    "source": "https://www.inaturalist.org/observations/333985185",
+    "note": "GBIF 候选索引 0；图片来源由 Codex 补充"
+  },
+  "fuling": {
+    "id": "fuling",
+    "image": "images/fuling.jpg",
+    "file": "fuling.jpg",
+    "identifier": "https://d2jcv3kl45hlgi.cloudfront.net/b763ebc750d04f90b1e1ad6239ec6134.jpg",
+    "license": "http://creativecommons.org/licenses/by/4.0/",
+    "creator": "",
+    "source": "http://specimens.kew.org/Fungarium/K-M000987639",
+    "note": "GBIF 候选索引 4；图片来源由 Codex 补充"
+  },
+  "xiyangshen": {
+    "id": "xiyangshen",
+    "image": "images/xiyangshen.jpg",
+    "file": "xiyangshen.jpg",
+    "identifier": "https://inaturalist-open-data.s3.amazonaws.com/photos/637797885/original.jpg",
+    "license": "http://creativecommons.org/licenses/by/4.0/",
+    "creator": "Daniel J. Layton",
+    "source": "https://www.inaturalist.org/observations/349617196",
+    "note": "GBIF 候选索引 0；图片来源由 Codex 补充"
+  },
+  "bajitian": {
+    "id": "bajitian",
+    "image": "images/bajitian.jpg",
+    "file": "bajitian.jpg",
+    "identifier": "https://inaturalist-open-data.s3.amazonaws.com/photos/399937922/original.jpeg",
+    "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+    "creator": "Clovis BORKOU",
+    "source": "https://www.inaturalist.org/observations/225567859",
+    "note": "Codex 换图：Morinda officinalis 植株/果实观察照（CC BY-NC 4.0），需 dsh 核验"
+  },
+  "roucongrong": {
+    "id": "roucongrong",
+    "image": "images/roucongrong.jpg",
+    "file": "roucongrong.jpg",
+    "identifier": "https://inaturalist-open-data.s3.amazonaws.com/photos/664113569/original.jpg",
+    "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+    "creator": "awbirder",
+    "source": "https://www.inaturalist.org/observations/363803251",
+    "note": "GBIF 候选索引 0；图片来源由 Codex 补充"
+  },
+  "nvzhenzi": {
+    "id": "nvzhenzi",
+    "image": "images/nvzhenzi.jpg",
+    "file": "nvzhenzi.jpg",
+    "identifier": "https://inaturalist-open-data.s3.amazonaws.com/photos/604887123/original.jpg",
+    "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+    "creator": "nightmarenewt",
+    "source": "https://www.inaturalist.org/observations/333209189",
+    "note": "GBIF 候选索引 0；图片来源由 Codex 补充"
+  }
+}
