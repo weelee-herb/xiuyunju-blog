@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../config';
+import { formatDateCN, ganzhiYear } from '../utils/date';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const years = [...new Set(posts.map((p) => p.data.date.getFullYear()))].sort((a, b) => b - a);
+---
+
+<Base title={`归档 · ${site.name}`} description="全部文章归档（按年份分组）">
+  <div class="container">
+    <header class="page-hero">
+      <p class="kicker">归档 · Archive</p>
+      <h1 class="page-title">归档</h1>
+      <p class="page-sub">共 {posts.length} 篇，按年收纳，取用自便。</p>
+    </header>
+
+    {years.map((y) => (
+      <section>
+        <div class="year-group">
+          <span>{y}</span>
+          <span class="gz">{ganzhiYear(y)}年</span>
+        </div>
+        <ul class="archive-list">
+          {posts
+            .filter((p) => p.data.date.getFullYear() === y)
+            .map((p) => (
+              <li>
+                <a href={`/blog/${p.slug}/`}>
+                  <span class="t">{p.data.title}</span>
+                  <span class="d">{formatDateCN(p.data.date)}</span>
+                </a>
+              </li>
+            ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>
