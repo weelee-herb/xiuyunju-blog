@@ -49,8 +49,8 @@ export const site = {
     provider: 'resend',
     // 访客订阅后，自动发给他的邮件里附带的资源
     resourceTitle: '《识药闯关》看图认中药小游戏',
-    resourceUrl: process.env.GAME_DOWNLOAD_URL || 'https://example.com/game',
-// TODO: 部署时配置 GAME_DOWNLOAD_URL
+    resourceUrl: process.env.GAME_DOWNLOAD_URL || 'https://xiuyunju.cc.cd/game/',
+// 换资源时改这里（或部署时配置 GAME_DOWNLOAD_URL 覆盖）
     note: '本期附赠：300 味中药看图认名小游戏（离线可玩，纯兴趣分享）。',
   },
 

@@ -3,7 +3,7 @@ import { site } from '../config';
 
 export async function GET() {
   const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
-  const pages = ['/', '/blog/', '/about/', '/subscribe/', '/search/', '/tags/'];
+  const pages = ['/', '/blog/', '/about/', '/subscribe/', '/search/', '/tags/', '/links/', '/game/', '/privacy/'];
 
   const urls = [
     ...pages.map(

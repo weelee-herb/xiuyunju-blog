@@ -32,9 +32,9 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 function buildEmail(email) {
   const siteName = '云岫居';
   const author = '林屿';
-  const resourceTitle = '《AI 创作资源包》';
-  const resourceUrl = 'https://example.com/resource';
-  const note = '本期附赠：宋式美学配色表 + 常用提示词模板。';
+  const resourceTitle = '《识药闯关》看图认中药小游戏';
+  const resourceUrl = 'https://xiuyunju.cc.cd/game/';
+  const note = '本期附赠：300 味中药看图认名小游戏（离线可玩，纯兴趣分享）。';
   const name = email.split('@')[0];
   return `<div style="background:#e9e1cd;padding:44px 16px;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
