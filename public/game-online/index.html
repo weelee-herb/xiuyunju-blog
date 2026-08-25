@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-version="1.0.2">
+<html lang="zh-CN" data-version="1.0.3">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -18,7 +18,7 @@
     <span class="brand-seal">云</span>
     <span>云岫居 · 在线版</span>
   </a>
-  <span class="online-version">v1.0.2</span>
+  <span class="online-version">v1.0.3</span>
 </header>
 <div class="app" id="app">
 
@@ -315,7 +315,7 @@ window.QR_LINK = location.origin + location.pathname;</script>
 <script>
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js').catch(function () {});
+      navigator.serviceWorker.register('./sw.js?v=1.0.3').catch(function () {});
     });
   }
 </script>

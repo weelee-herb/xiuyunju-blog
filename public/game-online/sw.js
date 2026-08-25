@@ -1,4 +1,4 @@
-const CACHE_NAME = "herb-online-v1.0.2";
+const CACHE_NAME = "herb-online-v1.0.3";
 const CORE = [
   "./",
   "./index.html",
@@ -41,9 +41,10 @@ self.addEventListener("fetch", (event) => {
       if (cached) return cached;
       return fetch(event.request)
         .then((response) => {
-          if (response.ok && (isMedia || url.origin === self.location.origin)) {
+          const isRange = event.request.headers.has("Range") || response.headers.get("content-range") !== null;
+          if (response.ok && response.status === 200 && !isRange && (isMedia || url.origin === self.location.origin)) {
             const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy)).catch(() => {});
           }
           return response;
         })
