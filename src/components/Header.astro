@@ -6,6 +6,7 @@ const nav = [
   { label: '首页', href: '/', match: (p: string) => p === '/' },
   { label: '文章', href: '/blog/', match: (p: string) => p.startsWith('/blog') },
   { label: '识药闯关', href: '/game/', match: (p: string) => p.startsWith('/game') },
+  { label: '题库', href: 'https://herb-quiz.cc.cd/', external: true, title: '中药题库 · 邀请码 692626', match: () => false },
   { label: '关于', href: '/about/', match: (p: string) => p.startsWith('/about') },
   { label: '订阅', href: '/subscribe/', match: (p: string) => p.startsWith('/subscribe') },
   { label: '撷英', href: '/featured/', match: (p: string) => p.startsWith('/featured') },
@@ -22,7 +23,13 @@ const path = Astro.url.pathname;
     </a>
     <nav class="nav" aria-label="主导航">
       {nav.map((item) => (
-        <a href={item.href} aria-current={item.match(path) ? 'page' : undefined}>
+        <a
+          href={item.href}
+          aria-current={item.match(path) ? 'page' : undefined}
+          target={item.external ? '_blank' : undefined}
+          rel={item.external ? 'noopener noreferrer' : undefined}
+          title={item.title}
+        >
           {item.label}
         </a>
       ))}
