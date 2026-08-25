@@ -13,9 +13,13 @@ export const site = {
   description:
     '记录我用 Codex 与 AI 创作、建站、设计的笔记与分享：工作流、踩坑实录与意外之喜。',
 
+  // 站点建立日期（页脚「已运行 N 天」用）
+  siteSince: '2025-11-20',
+// TODO: 站长填真实开站日期
+
   // 域名：以后定了就二选一——
   //   a) 直接改下面这行；或 b) 在部署平台设置环境变量 SITE_URL（不改代码）
-  url: process.env.SITE_URL || 'https://example.com',
+  url: process.env.SITE_URL || 'https://xiuyunju.cc', // 若域名是 .cd，改这里即可
 // TODO: 站长填真实域名（或部署平台设置 SITE_URL）
   email: 'hello@example.com',
 // TODO: 站长填真实邮箱
@@ -32,6 +36,11 @@ export const site = {
 // TODO: 站长填真实即刻主页
     { label: '邮箱', url: 'mailto:hello@example.com' },
 // TODO: 站长填真实邮箱地址
+  ],
+
+  // 友链（博客圈互推）：留空数组则页面显示「虚位以待」
+  friends: [
+    // { name: '示例博客', url: 'https://example.com', desc: '一句简介', seal: '友' },
   ],
 
   // 订阅表单与「自动回信」邮件的内容
@@ -51,7 +60,7 @@ export const site = {
 
   // 可选：访问统计（Umami）。到 https://cloud.umami.is 免费建站后，把网站 ID 填进来
   analytics: {
-    umamiId: '', // 留空 = 关闭统计
+    umamiId: '83bea8a4-df55-42cb-9cee-44fb6b454b50', // Umami 网站 ID
   },
 
   // 可选：评论（giscus，基于 GitHub Discussions）。留空 repo = 关闭评论

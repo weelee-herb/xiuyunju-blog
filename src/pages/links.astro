@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import Seal from '../components/Seal.astro';
+import { site } from '../config';
+
+const friends = site.friends;
+---
+
+<Base title={`友链 · ${site.name}`} description="友情链接：常来往的博客与站点">
+  <div class="container">
+    <header class="page-hero">
+      <p class="kicker">友链 · Friends</p>
+      <h1 class="page-title">友链</h1>
+      <p class="page-sub">常来往的博客与站点。以文会友，来者皆是客。</p>
+    </header>
+
+    {friends.length > 0 ? (
+      <div class="friends-grid">
+        {friends.map((f) => (
+          <a class="friend-card" href={f.url} target="_blank" rel="noopener noreferrer">
+            <Seal text={f.seal ?? f.name.charAt(0)} size={40} />
+            <div class="info">
+              <div class="t">{f.name}</div>
+              <div class="d">{f.desc ?? ''}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="friends-empty">
+        <Seal text="虚" size={46} />
+        <p>虚位以待——欢迎来交换友链。</p>
+      </div>
+    )}
+
+    <div class="subscribe-box" style="margin-top: 44px">
+      <h2>交换友链</h2>
+      <p class="sub">
+        想与我互挂友链？先在贵站挂上本站，再通过页脚邮箱发我：站名、地址、一句话简介。要求：内容原创、可正常访问。
+      </p>
+      <p class="sub" style="margin-bottom: 0">本站信息：<b>{site.name}</b> · <code>{site.url}</code> · {site.tagline}</p>
+    </div>
+  </div>
+</Base>

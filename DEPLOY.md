@@ -15,6 +15,8 @@
 
 ---
 
+> 本站域名（xiuyunju.cc）与 Umami 统计已配置完毕；全部在 src/config.ts 一处可改。
+
 ## 方案①：Cloudflare Pages + Functions（你的首选）
 
 ### 第 1 步 · 代码推到 GitHub
@@ -92,6 +94,12 @@ Pages 项目 → **Settings → Environment variables → Production**，添加�
 
 ---
 
+## 评论（giscus，可选）
+
+1. GitHub 仓库 → Settings → General → Features 开启 Discussions。
+2. 打开 https://giscus.app → 填仓库名 → 选 Discussions 分类（如 Announcements）→ 复制 data-repo-id、data-category-id。
+3. 填到 src/config.ts 的 comments（enabled 改 true），重新部署。
+
 ## 通用：Resend 域名验证（任何方案都要做）
 
 Resend 为了能「以你的域名」发信，需要你在域名商加两条 DNS 记录：
@@ -107,4 +115,4 @@ Resend 为了能「以你的域名」发信，需要你在域名商加两条 DNS
 
 环境变量 · 补充
 
-- `GAME_DOWNLOAD_URL`：可选。订阅自动回信中《识药闯关》游戏下载链接；未设置时使用占位地址 https://example.com/game。
+- `GAME_DOWNLOAD_URL`：可选。订阅自动回信中《识药闯关》游戏下载链接；未设置时使用占位地址 https://xiuyunju.cc/game。

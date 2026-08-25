@@ -26,6 +26,11 @@ const path = Astro.url.pathname;
         </a>
       ))}
     </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="打开菜单" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+    </button>
     <button class="theme-toggle" id="themeToggle" aria-label="切换深浅色" title="切换深浅色">
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
         <circle cx="12" cy="12" r="4" />
@@ -46,4 +51,17 @@ const path = Astro.url.pathname;
     el.setAttribute('data-theme', next);
     try { localStorage.setItem('yunxiu-theme', next); } catch {}
   });
+
+  // 移动端菜单开合
+  const mt = document.getElementById('menuToggle');
+  mt?.addEventListener('click', () => {
+    const open = document.documentElement.classList.toggle('nav-open');
+    mt.setAttribute('aria-expanded', String(open));
+  });
+  document.querySelectorAll('.nav a').forEach((a) =>
+    a.addEventListener('click', () => {
+      document.documentElement.classList.remove('nav-open');
+      mt?.setAttribute('aria-expanded', 'false');
+    }),
+  );
 </script>

@@ -8,6 +8,8 @@ const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY;
 ---
 
 <form class="subscribe-form" id="subscribe-form" novalidate data-endpoint={web3Key ? 'https://api.web3forms.com/submit' : '/api/subscribe'} data-key={web3Key ?? ''}>
+  <!-- 蜜罐：正常用户不可见，机器人填了就直接拦截 -->
+  <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
   <input
     type="email"
     name="email"
@@ -31,6 +33,15 @@ const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY;
     if (!input.value) {
       msg.textContent = '请先输入邮箱';
       msg.className = 'form-msg err';
+      return;
+    }
+
+    // 蜜罐命中：假装成功但不发信
+    const hp = form.querySelector('input[name="website"]') as HTMLInputElement;
+    if (hp && hp.value) {
+      msg.textContent = '已发送，请查收邮箱 ✉';
+      msg.className = 'form-msg ok';
+      input.value = '';
       return;
     }
 

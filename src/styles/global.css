@@ -4,13 +4,13 @@
    ───────────────────────────────────────────────────────── */
 
 :root {
-  /* 纸与墨 */
-  --paper: #f5f0e4;
-  --paper-2: #efe8d6;
-  --paper-3: #e7ddc4;
+  /* 纸与墨：白天是雨过天青的淡淡底色 */
+  --paper: #e7f0ea;
+  --paper-2: #dfeae3;
+  --paper-3: #d2e1d8;
   --ink: #2a251d;
-  --ink-2: #5d5544;
-  --ink-3: #8d8471;
+  --ink-2: #55574e;
+  --ink-3: #7f8677;
 
   /* 汝窑天青 */
   --celadon: #9db9b2;
@@ -22,10 +22,10 @@
   --cinnabar-deep: #8c2f22;
   --gold: #a8874e;
 
-  --hairline: rgba(42, 37, 29, 0.14);
-  --hairline-strong: rgba(42, 37, 29, 0.34);
+  --hairline: rgba(42, 37, 29, 0.13);
+  --hairline-strong: rgba(42, 37, 29, 0.32);
   --shadow: 0 12px 32px rgba(42, 37, 29, 0.09);
-  --bg-wash: radial-gradient(1100px 560px at 82% -8%, rgba(157, 185, 178, 0.32), transparent 62%);
+  --bg-wash: radial-gradient(1100px 560px at 82% -8%, rgba(157, 185, 178, 0.55), transparent 62%);
   --radius: 2px;
 
   --font-body: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
@@ -243,7 +243,56 @@ html[data-theme='dark'] .btn-primary { color: #1c1710; font-weight: 600; }
 .hero .actions { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
 
 .hero-art { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; }
-.hero-art .clouds { width: 250px; color: var(--ink-2); opacity: 0.8; }
+.hero-art .clouds { width: 300px; color: var(--ink-2); opacity: 0.85; }
+
+/* 仙鹤振翅缓飞与云流动（静中有动） */
+.clouds .crane-1, .clouds .crane-2, .clouds .crane-3 {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.clouds .crane-1 { animation: craneFlap 6s ease-in-out infinite; }
+.clouds .crane-2 { animation: craneFlap 8s ease-in-out infinite; animation-delay: -3s; }
+.clouds .crane-3 { animation: craneFlapReverse 10s ease-in-out infinite; animation-delay: -5s; }
+.clouds .cloud-main {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cloudDrift 14s ease-in-out infinite alternate;
+}
+@keyframes craneFlap {
+  0%, 100% { transform: translate(0, 0) scaleY(1); }
+  50% { transform: translate(22px, -11px) scaleY(0.74); }
+}
+@keyframes craneFlapReverse {
+  0%, 100% { transform: translate(0, 0) scaleY(1); }
+  50% { transform: translate(-22px, -11px) scaleY(0.74); }
+}
+@keyframes cloudDrift {
+  from { transform: translateX(-9px); }
+  to { transform: translateX(9px); }
+}
+
+/* 水印「鶴」：书法入画的淡淡影子 */
+.hero-watermark {
+  position: absolute;
+  right: -14px;
+  top: 0;
+  font-family: var(--font-display);
+  font-size: clamp(11rem, 24vw, 18rem);
+  line-height: 1;
+  color: var(--celadon-deep);
+  opacity: 0.05;
+  pointer-events: none;
+  user-select: none;
+  animation: none !important; /* 不参与 hero 入场动画，保持淡淡一层 */
+}
+
+/* 印章微动 */
+.seal { transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.brand:hover .seal,
+.site-footer .seal:hover,
+.about-portrait .seal:hover {
+  transform: rotate(0deg) scale(1.03);
+}
 
 /* 竖排诗（装裱双线框）：右起左止，诗两列 + 落款一列 */
 .hero-poem {
@@ -547,6 +596,23 @@ a.chip:hover { border-color: var(--celadon-deep); color: var(--celadon-deep); }
 }
 html[data-theme='dark'] .prose pre { background: #100d09; }
 .prose pre code { background: transparent; padding: 0; color: inherit; font-size: 1em; }
+.prose pre { position: relative; }
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 3px 12px;
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.copy-btn:hover { color: var(--cinnabar); border-color: var(--cinnabar); }
 .prose img { margin: 2em auto; border: 1px solid var(--hairline); border-radius: var(--radius); }
 .prose hr { border: none; text-align: center; margin: 3em 0; }
 .prose hr::before { content: "❦"; color: var(--cinnabar); opacity: 0.7; letter-spacing: 0.5em; }
@@ -763,6 +829,170 @@ html[data-theme='dark'] .prose pre { background: #100d09; }
 .faq details[open] summary::after { content: "－"; color: var(--cinnabar); }
 .faq details p { color: var(--ink-2); font-size: 0.92rem; margin: 12px 0 4px; }
 
+/* ── 移动端汉堡菜单 ───────────────────────────────── */
+.menu-toggle {
+  display: none;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  background: transparent;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--ink-2);
+  flex-shrink: 0;
+}
+.menu-toggle svg { width: 16px; height: 16px; }
+@media (max-width: 640px) {
+  .menu-toggle { display: grid; }
+  .nav {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 58px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--hairline);
+    box-shadow: var(--shadow);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px 24px 16px;
+    gap: 0;
+  }
+  html.nav-open .nav { display: flex; }
+  .nav a {
+    width: 100%;
+    padding: 11px 0;
+    font-size: 0.95rem;
+    border-bottom: 1px dashed var(--hairline);
+  }
+  .nav a[aria-current='page']::after { display: none; }
+  .nav a[aria-current='page'] { color: var(--cinnabar); }
+}
+
+/* ── 文章目录 ─────────────────────────────────────── */
+.toc {
+  border: 1px solid var(--hairline);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 26px 0 6px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+.toc-title {
+  font-family: var(--font-display);
+  letter-spacing: 0.18em;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.toc-title::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--cinnabar);
+  transform: rotate(45deg);
+  opacity: 0.85;
+}
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 2px 0; }
+.toc li.sub { padding-left: 14px; }
+.toc a {
+  display: block;
+  font-size: 0.86rem;
+  color: var(--ink-2);
+  padding: 3px 6px;
+  border-left: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.toc a:hover { color: var(--ink); }
+.toc a.active { color: var(--cinnabar); border-left-color: var(--cinnabar); }
+@media (min-width: 1280px) {
+  .toc {
+    position: fixed;
+    left: calc(50% + 404px);
+    top: 110px;
+    width: 216px;
+    max-height: 62vh;
+    margin: 0;
+    backdrop-filter: blur(6px);
+  }
+}
+
+/* ── 分享按钮 ─────────────────────────────────────── */
+.post-share {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 26px 0 4px;
+}
+.post-share .share-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.24em;
+  color: var(--ink-3);
+  margin-right: 4px;
+}
+.post-share .chip { text-decoration: none; }
+.share-btn { font-family: var(--font-body); }
+
+/* ── 相关文章 ─────────────────────────────────────── */
+.related { margin: 44px 0 0; }
+.related ul { list-style: none; margin: 14px 0 0; padding: 0; }
+.related li { border-bottom: 1px solid var(--hairline); }
+.related li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 11px 4px;
+  transition: color 0.2s;
+}
+.related li a:hover { color: var(--celadon-deep); }
+.related .t { font-family: var(--font-display); letter-spacing: 0.04em; }
+.related .d { font-size: 0.78rem; color: var(--ink-3); letter-spacing: 0.08em; white-space: nowrap; }
+
+/* ── 友链页 ───────────────────────────────────────── */
+.friends-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 6px 0 30px; }
+.friend-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--hairline);
+  background: color-mix(in srgb, var(--paper-2) 55%, transparent);
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.friend-card:hover { border-color: var(--celadon); transform: translateY(-2px); box-shadow: var(--shadow); }
+.friend-card .info .t { font-family: var(--font-display); letter-spacing: 0.08em; }
+.friend-card .info .d { font-size: 0.82rem; color: var(--ink-2); margin-top: 2px; }
+.friends-empty {
+  text-align: center;
+  border: 1px dashed var(--hairline-strong);
+  border-radius: var(--radius);
+  padding: 44px 20px;
+  margin: 6px 0 30px;
+  color: var(--ink-2);
+}
+.friends-empty .seal { margin-bottom: 12px; }
+@media (max-width: 640px) {
+  .friends-grid { grid-template-columns: 1fr; }
+}
+
+/* ── 蜜罐字段（永远不可见） ───────────────────────── */
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ── 404 ─────────────────────────────────────────── */
 .notfound { padding: 110px 0 140px; text-align: center; }
 .notfound .big {
@@ -824,6 +1054,7 @@ html[data-theme='dark'] .prose pre { background: #100d09; }
   .post-nav { grid-template-columns: 1fr; }
   .post-nav .next { text-align: left; }
   .hero-art .clouds { display: none; }
+  .hero-watermark { display: none; }
   .subscribe-box { padding: 26px 22px; }
 }
 
@@ -922,4 +1153,39 @@ html[data-theme='dark'] .prose pre { background: #100d09; }
   border: 1px solid var(--hairline);
   border-radius: var(--radius);
   margin-top: 26px;
+}
+
+/* ── 首页「本期附赠」迷你卡 ───────────────────────── */
+.game-card-mini {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 500px;
+  margin: 22px 0 0;
+  padding: 14px 16px;
+  border: 1px dashed var(--celadon-deep);
+  border-radius: var(--radius);
+  background: var(--celadon-wash);
+  font-size: 0.88rem;
+  color: var(--ink-2);
+  line-height: 1.8;
+}
+.game-card-mini img {
+  width: 82px;
+  height: 109px;
+  object-fit: cover;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+.game-card-mini b { color: var(--ink); font-weight: 600; }
+.game-card-mini a { color: var(--celadon-deep); border-bottom: 1px solid var(--celadon); }
+.game-card-mini a:hover { color: var(--cinnabar); border-color: var(--cinnabar); }
+
+/* ── 移动端：hero 按钮纵排，避免溢出 ─────────────── */
+@media (max-width: 640px) {
+  .hero .actions { flex-direction: column; align-items: stretch; }
+  .hero .actions .btn { width: 100%; justify-content: center; }
+  .game-card-mini { flex-direction: column; align-items: flex-start; }
+  .game-card-mini img { width: 68px; height: 90px; }
 }

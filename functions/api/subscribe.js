@@ -66,10 +66,31 @@ export async function onRequestOptions() {
 
 export async function onRequestPost(context) {
   let email = '';
+  let honeypot = '';
   try {
     const body = await context.request.json();
     email = String(body?.email ?? '').trim().toLowerCase();
+    honeypot = String(body?.website ?? '').trim();
   } catch {}
+
+  // 蜜罐命中：直接假装成功，不发信
+  if (honeypot) {
+    return json({ ok: true, message: '已发送，请查收邮箱 ✉' }, 200);
+  }
+
+  // 防跨站滥用：带 Origin 的请求必须与本站在同一域名
+  const origin = context.request.headers.get('origin');
+  if (origin) {
+    try {
+      const originHost = new URL(origin).host;
+      const reqHost = context.request.headers.get('host') || new URL(context.request.url).host;
+      if (originHost !== reqHost) {
+        return json({ ok: false, code: 'FORBIDDEN', message: '请求来源不被允许' }, 403);
+      }
+    } catch {
+      return json({ ok: false, code: 'FORBIDDEN', message: '请求来源不被允许' }, 403);
+    }
+  }
 
   if (!EMAIL_RE.test(email)) {
     return json({ ok: false, code: 'BAD_EMAIL', message: '邮箱格式看起来不太对，请再检查一下' }, 400);

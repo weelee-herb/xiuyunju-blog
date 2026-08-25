@@ -1,5 +1,6 @@
 ---
 // 祥云与远鹤（细笔淡墨）：如意云头 + 远处三只小鹤 + 淡朱砂日
+// 鹤与云都带轻微动效（振翅/缓漂），尊重 prefers-reduced-motion
 interface Props { class?: string }
 const { class: className = '' } = Astro.props;
 ---
@@ -15,15 +16,15 @@ const { class: className = '' } = Astro.props;
 >
   <!-- 淡朱砂日 -->
   <circle cx="296" cy="42" r="24" fill="var(--cinnabar)" stroke="none" opacity="0.3" />
-  <!-- 如意云：尾部横向长带 + 云头螺旋 -->
-  <path d="M 216 118 C 172 124 128 126 92 120" />
-  <path d="M 92 120 C 62 114 44 100 46 82 C 48 66 70 56 86 64 C 100 72 98 92 82 96 C 70 99 60 90 64 80" />
-  <!-- 云眼（小点） -->
-  <circle cx="84" cy="78" r="2.6" fill="currentColor" stroke="none" opacity="0.7" />
-  <!-- 云尾逗点 -->
-  <path d="M 216 118 C 228 122 236 120 242 114" stroke-width="1.8" />
-  <!-- 远处小鹤：三只 -->
-  <path d="M 232 66 C 238 58 246 58 250 64 C 254 58 262 58 268 66" stroke-width="1.8" />
-  <path d="M 206 92 C 211 85 217 85 220 90 C 223 85 229 85 234 92" stroke-width="1.6" />
-  <path d="M 262 98 C 266 92 271 92 274 96 C 277 92 282 92 286 98" stroke-width="1.5" />
+  <!-- 如意云：尾部横向长带 + 云头螺旋（整体缓慢流动） -->
+  <g class="cloud-main">
+    <path d="M 216 118 C 172 124 128 126 92 120" />
+    <path d="M 92 120 C 62 114 44 100 46 82 C 48 66 70 56 86 64 C 100 72 98 92 82 96 C 70 99 60 90 64 80" />
+    <circle cx="84" cy="78" r="2.6" fill="currentColor" stroke="none" opacity="0.7" />
+    <path d="M 216 118 C 228 122 236 120 242 114" stroke-width="1.8" />
+  </g>
+  <!-- 远处小鹤：三只，微微振翅飞过 -->
+  <path class="crane-1" d="M 228 64 C 236 52 248 52 254 61 C 260 52 272 52 280 64" stroke-width="2.6" />
+  <path class="crane-2" d="M 198 92 C 205 82 214 82 218 89 C 222 82 231 82 238 92" stroke-width="2.3" />
+  <path class="crane-3" d="M 258 100 C 263 92 271 92 275 97 C 279 92 287 92 292 100" stroke-width="2.1" />
 </svg>

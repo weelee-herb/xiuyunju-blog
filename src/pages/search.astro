@@ -50,17 +50,31 @@ const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
     return `${d.getFullYear()}年${String(d.getMonth() + 1).padStart(2, '0')}月${String(d.getDate()).padStart(2, '0')}日`;
   }
 
+  function el(tag: string, cls: string, text?: string) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  // 用 DOM API 构建（textContent 赋值，天然防 XSS）
   function render(list: Post[]) {
+    results.innerHTML = '';
     if (!list.length) {
-      results.innerHTML = '<p class="search-hint">没有找到相关文章，换个关键词试试。</p>';
+      results.appendChild(el('p', 'search-hint', '没有找到相关文章，换个关键词试试。'));
       return;
     }
-    results.innerHTML = list.map((p) => `
-      <a class="search-item" href="/blog/${p.slug}/">
-        <div class="meta"><span>${fmt(p.date)}</span>${p.tags.slice(0, 3).map((t) => `<span class="chip">${t}</span>`).join('')}</div>
-        <h3>${p.title}</h3>
-        <p>${p.description}</p>
-      </a>`).join('');
+    for (const p of list) {
+      const a = el('a', 'search-item') as HTMLAnchorElement;
+      a.href = '/blog/' + p.slug + '/';
+      const meta = el('div', 'meta');
+      meta.appendChild(el('span', '', fmt(p.date)));
+      p.tags.slice(0, 3).forEach((t) => meta.appendChild(el('span', 'chip', t)));
+      a.appendChild(meta);
+      a.appendChild(el('h3', '', p.title));
+      a.appendChild(el('p', '', p.description));
+      results.appendChild(a);
+    }
   }
 
   function apply() {

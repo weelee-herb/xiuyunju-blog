@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../config';
+---
+<Base title="隐私说明" description="云岫居的隐私说明：我们收集什么、为什么、如何联系。">
+  <main class="page">
+    <h1>隐私说明</h1>
+    <p>本站在功能上尽量克制，隐私上同样如此。以下是全部说明：</p>
+    <ul class="pl">
+      <li><b>我们收集什么</b>：仅订阅功能的邮箱地址。</li>
+      <li><b>用途</b>：发送分享内容（含《识药闯关》游戏下载链接），仅在订阅时使用。</li>
+      <li><b>保存地点</b>：邮箱地址存于站长本地与邮件服务商（Resend 或纯静态表单服务）。</li>
+      <li><b>不收集</b>：浏览行为、位置、设备信息及其他任何个人信息。</li>
+      <li><b>联系</b>：如需查询或删除你的邮箱地址，请联系 {site.email}（站长将在合理时间内处理）。</li>
+      <li><b>退出</b>：邮件底部提供退订链接，退订后不再发送。</li>
+    </ul>
+  </main>
+  <style>
+    .page{max-width:720px;margin:0 auto;padding:60px 20px 80px}
+    .pl{line-height:1.9;color:#4a5a52;font-size:.95rem;padding-left:20px}
+  </style>
+</Base>

@@ -5,7 +5,7 @@
       <stop offset="62%" stop-color="#9db9b2" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <rect width="1200" height="630" fill="#f5f0e4"/>
+  <rect width="1200" height="630" fill="#e7f0ea"/>
   <rect width="1200" height="630" fill="url(#wash)"/>
   <!-- 装裱框 -->
   <rect x="30" y="30" width="1140" height="570" fill="none" stroke="#2a251d" stroke-opacity="0.16"/>

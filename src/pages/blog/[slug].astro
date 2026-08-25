@@ -6,16 +6,31 @@ export async function getStaticPaths() {
   const posts = (await getCollection('blog'))
     .filter((p) => !p.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-  return posts.map((post, i) => ({
-    params: { slug: post.slug },
-    props: { post, prev: posts[i - 1] ?? null, next: posts[i + 1] ?? null },
-  }));
+
+  return posts.map((post, i) => {
+    // 相关文章：按共同标签数排序，取前 3
+    const related = posts
+      .filter((p) => p.slug !== post.slug)
+      .map((p) => ({
+        post: p,
+        score: p.data.tags.filter((t) => post.data.tags.includes(t)).length,
+      }))
+      .filter((x) => x.score > 0)
+      .sort((a, b) => b.score - a.score || b.post.data.date.valueOf() - a.post.data.date.valueOf())
+      .slice(0, 3)
+      .map((x) => x.post);
+
+    return {
+      params: { slug: post.slug },
+      props: { post, prev: posts[i - 1] ?? null, next: posts[i + 1] ?? null, related },
+    };
+  });
 }
 
-const { post, prev, next } = Astro.props;
+const { post, prev, next, related } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<PostLayout post={post} prev={prev} next={next}>
+<PostLayout post={post} prev={prev} next={next} related={related}>
   <Content />
 </PostLayout>

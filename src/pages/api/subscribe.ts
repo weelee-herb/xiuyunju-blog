@@ -25,10 +25,31 @@ export const OPTIONS: APIRoute = () => new Response(null, { status: 204, headers
 
 export const POST: APIRoute = async ({ request }) => {
   let email = '';
+  let honeypot = '';
   try {
     const body = await request.json();
     email = String(body?.email ?? '').trim().toLowerCase();
+    honeypot = String(body?.website ?? '').trim();
   } catch {}
+
+  // 蜜罐命中：直接假装成功，不发信也不告警
+  if (honeypot) {
+    return reply(200, { ok: true, message: site.subscribe.success });
+  }
+
+  // 防跨站滥用：带 Origin 的请求必须与本站在同一域名
+  const origin = request.headers.get('origin');
+  if (origin) {
+    try {
+      const originHost = new URL(origin).host;
+      const reqHost = request.headers.get('host') || new URL(request.url).host;
+      if (originHost !== reqHost) {
+        return reply(403, { ok: false, code: 'FORBIDDEN', message: '请求来源不被允许' });
+      }
+    } catch {
+      return reply(403, { ok: false, code: 'FORBIDDEN', message: '请求来源不被允许' });
+    }
+  }
 
   if (!EMAIL_RE.test(email)) {
     return reply(400, { ok: false, code: 'BAD_EMAIL', message: '邮箱格式看起来不太对，请再检查一下' });

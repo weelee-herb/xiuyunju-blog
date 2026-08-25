@@ -11,13 +11,31 @@ interface Props {
   post: CollectionEntry<'blog'>;
   prev: CollectionEntry<'blog'> | null;
   next: CollectionEntry<'blog'> | null;
+  related?: CollectionEntry<'blog'>[];
 }
-const { post, prev, next } = Astro.props;
+const { post, prev, next, related = [] } = Astro.props;
 const { title, description, date, tags } = post.data;
 const minutes = readingTime(post.body ?? '');
+const wordCount = (post.body ?? '').replace(/\s/g, '').length;
+
+// 结构化数据（SEO：文章）
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: date.toISOString(),
+  dateModified: (post.data.updated ?? date).toISOString(),
+  author: { '@type': 'Person', name: site.author },
+  publisher: { '@type': 'Person', name: site.author },
+  image: new URL(post.data.cover ?? '/og.png', site.url).toString(),
+  mainEntityOfPage: new URL(`/blog/${post.slug}/`, site.url).toString(),
+  keywords: tags.join(', '),
+}).replace(/</g, '\\u003c');
 ---
 
 <Base title={`${title} · ${site.name}`} description={description} image={post.data.cover}>
+  <script slot="head" type="application/ld+json" set:html={jsonLd} />
   <div id="progress" aria-hidden="true"></div>
   <article class="container">
     <header class="post-hero">
@@ -27,7 +45,15 @@ const minutes = readingTime(post.body ?? '');
       <div class="post-meta">
         <time datetime={date.toISOString()}>{formatDateCN(date)}</time>
         <span class="sep">·</span>
+        <span>全文约 {wordCount} 字</span>
+        <span class="sep">·</span>
         <span>阅读约 {minutes} 分钟</span>
+        {post.data.updated && (
+          <>
+            <span class="sep">·</span>
+            <span>更新于 {formatDateCN(post.data.updated)}</span>
+          </>
+        )}
         {tags.length > 0 && (
           <>
             <span class="sep">·</span>
@@ -49,6 +75,9 @@ const minutes = readingTime(post.body ?? '');
       )}
     </header>
 
+    <!-- 目录：客户端根据正文 h2/h3 自动生成 -->
+    <aside class="toc" id="toc" aria-label="文章目录"></aside>
+
     <div class="prose">
       <slot />
     </div>
@@ -57,6 +86,29 @@ const minutes = readingTime(post.body ?? '');
       <span>—— {site.author}，{formatDateCN(date)}</span>
       <Seal text="静观" size={38} />
     </div>
+
+    <div class="post-share" id="post-share">
+      <span class="share-label">分享</span>
+      <button class="chip share-btn" data-action="copy">复制链接</button>
+      <a class="chip" href={`https://service.weibo.com/share/share.php?url=${encodeURIComponent(new URL(`/blog/${post.slug}/`, site.url).toString())}&title=${encodeURIComponent(title)}`} target="_blank" rel="noopener noreferrer">微博</a>
+      <a class="chip" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(new URL(`/blog/${post.slug}/`, site.url).toString())}&text=${encodeURIComponent(title)}`} target="_blank" rel="noopener noreferrer">X</a>
+    </div>
+
+    {related.length > 0 && (
+      <section class="related">
+        <h2 class="section-title">相关文章</h2>
+        <ul>
+          {related.map((p) => (
+            <li>
+              <a href={`/blog/${p.slug}/`}>
+                <span class="t">{p.data.title}</span>
+                <span class="d">{formatDateCN(p.data.date)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <div class="subscribe-box">
       <h2>喜欢这篇？订阅我的分享</h2>
@@ -96,5 +148,77 @@ const minutes = readingTime(post.body ?? '');
     };
     document.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    // 目录生成 + 滚动高亮
+    const prose = document.querySelector('.prose');
+    const tocBox = document.getElementById('toc');
+    const hs = prose ? Array.from(prose.querySelectorAll('h2, h3')) : [];
+    if (tocBox && hs.length >= 2) {
+      const title = document.createElement('div');
+      title.className = 'toc-title';
+      title.textContent = '目录';
+      const ul = document.createElement('ul');
+      hs.forEach((h, i) => {
+        const id = 'sec-' + i;
+        h.id = id;
+        const li = document.createElement('li');
+        if (h.tagName === 'H3') li.className = 'sub';
+        const a = document.createElement('a');
+        a.href = '#' + id;
+        a.textContent = h.textContent ?? '';
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      tocBox.appendChild(title);
+      tocBox.appendChild(ul);
+      const links = Array.from(tocBox.querySelectorAll('a'));
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              links.forEach((l) => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+            }
+          });
+        },
+        { rootMargin: '-15% 0px -75% 0px' },
+      );
+      hs.forEach((h) => obs.observe(h));
+    } else if (tocBox) {
+      tocBox.remove();
+    }
+
+    // 代码块复制按钮
+    document.querySelectorAll('.prose pre').forEach((pre) => {
+      if (pre.querySelector('.copy-btn')) return;
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = '复制';
+      pre.appendChild(btn);
+      btn.addEventListener('click', async () => {
+        const code = pre.querySelector('code')?.textContent ?? '';
+        try {
+          await navigator.clipboard.writeText(code);
+          btn.textContent = '已复制 ✓';
+          setTimeout(() => (btn.textContent = '复制'), 1600);
+        } catch {
+          btn.textContent = '复制失败';
+          setTimeout(() => (btn.textContent = '复制'), 1600);
+        }
+      });
+    });
+
+    // 分享：复制链接
+    document.getElementById('post-share')?.addEventListener('click', async (e) => {
+      const btn = (e.target as HTMLElement).closest('[data-action="copy"]');
+      if (!btn) return;
+      try {
+        await navigator.clipboard.writeText(location.href);
+        const old = btn.textContent;
+        btn.textContent = '已复制 ✓';
+        setTimeout(() => (btn.textContent = old), 1800);
+      } catch {
+        window.prompt('复制链接：', location.href);
+      }
+    });
   </script>
 </Base>

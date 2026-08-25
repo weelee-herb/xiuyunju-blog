@@ -136,3 +136,8 @@ EMAIL_TO_OWNER=                           # 可选：新订阅时通知站长自
 
 - **2026-08-24 · 识药闯关专区**：订阅资源改为《识药闯关》看图认中药小游戏（subscribe.resourceTitle/Url/note 更新，GAME_DOWNLOAD_URL 环境变量可配）；新增 /game/ 专区页（玩法介绍 + 下载按钮占位）；Header 导航与首页加入口与介绍卡（public/game/ 内 5 张科普卡）；npm run build 通过。
 - **2026-08-24 · 冷知识与专区完善**：新增两篇文章与冷知识系列三篇（厨房/花园/山野各 20 味）；/game/ 页升级（科普卡画廊分页、订阅领游戏表单、玩法图文）；SEO：schema 增加 keywords、文章补齐 description/keywords、og 图更新；npm run build 通过。
+
+## 隐私说明
+
+网站仅收集订阅邮箱（见 src/pages/privacy.astro）；隐私页在页脚「隐私」入口。
+- **2026-08-25 · 发布前修复包**：隐私页上线（页脚入口）；git 初始化；上线前必填清单 BLOG_LAUNCH_CHECK.md；占位 TODO 注释与 SITE_URL 说明补齐。
