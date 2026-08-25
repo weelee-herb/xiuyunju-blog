@@ -1186,6 +1186,8 @@ html[data-theme='dark'] .prose pre { background: #100d09; }
   flex-shrink: 0;
 }
 .game-card-mini b { color: var(--ink); font-weight: 600; }
+.game-card-mini span { min-width: 0; overflow-wrap: break-word; }
+.game-card-mini img + span { min-width: 0; }
 .game-card-mini a { color: var(--celadon-deep); border-bottom: 1px solid var(--celadon); }
 .game-card-mini a:hover { color: var(--cinnabar); border-color: var(--cinnabar); }
 
