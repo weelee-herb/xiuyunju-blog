@@ -19,7 +19,7 @@ export const site = {
 
   // 域名：以后定了就二选一——
   //   a) 直接改下面这行；或 b) 在部署平台设置环境变量 SITE_URL（不改代码）
-  url: process.env.SITE_URL || 'https://xiuyunju.cc', // 若域名是 .cd，改这里即可
+  url: process.env.SITE_URL || 'https://xiuyunju.cc.cd', // 已确认：DNS 指向 Cloudflare
 // TODO: 站长填真实域名（或部署平台设置 SITE_URL）
   email: 'hello@example.com',
 // TODO: 站长填真实邮箱
