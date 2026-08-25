@@ -55,7 +55,7 @@ export const site = {
 
   // 可选：访问统计（Umami）。到 https://cloud.umami.is 免费建站后，把网站 ID 填进来
   analytics: {
-    umamiId: '83bea8a4-df55-42cb-9cee-44fb6b454b50', // Umami 网站 ID
+    umamiId: 'd83bea8a-df55-42c8-9cee-4af6b45d4b50', // Umami 网站 ID（站长后台截图核对）
   },
 
   // 可选：评论（giscus，基于 GitHub Discussions）。留空 repo = 关闭评论
@@ -64,7 +64,7 @@ export const site = {
     type: 'waline',
     enabled: true,
     waline: {
-      serverURL: '', // 部署后填，如 https://waline-xxxx.vercel.app
+      serverURL: 'https://comment-section-flax.vercel.app', // Waline 后端
     },
     // giscus 备选配置（type 切回 'giscus' 即可用）
     repo: 'weelee-herb/xiuyunju-blog',

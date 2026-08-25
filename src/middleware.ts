@@ -3,11 +3,11 @@ import { defineMiddleware } from 'astro:middleware';
 
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://giscus.app https://cloud.umami.is",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.loli.net",
+  "script-src 'self' 'unsafe-inline' https://giscus.app https://cloud.umami.is https://unpkg.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.loli.net https://unpkg.com",
   "font-src 'self' https://fonts.gstatic.com https://gstatic.loli.net https://fonts.loli.net data:",
   "img-src 'self' data: blob: https:",
-  "connect-src 'self' https://api.web3forms.com https://cloud.umami.is",
+  "connect-src 'self' https://api.web3forms.com https://cloud.umami.is https://comment-section-flax.vercel.app",
   "frame-src https://giscus.app",
   "object-src 'none'",
   "base-uri 'self'",
