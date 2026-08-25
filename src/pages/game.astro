@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import SubscribeForm from '../components/SubscribeForm.astro';
 import Seal from '../components/Seal.astro';
-const GAME_URL = import.meta.env.GAME_DOWNLOAD_URL || 'https://example.com/game';
+const GAME_URL = import.meta.env.GAME_DOWNLOAD_URL || 'https://arelpjfm9rt6pv8z.public.blob.vercel-storage.com/game-300.zip';
 const cards = ['chenpi','jinyinhua','huajiao','gouqizi','ganjiang','juhua','gancao','shanzha','dazao','fuling','bohe','danggui','xiyangshen','luohanguo','meiguihua','rougui','dasuan','renshen','shanyao','lianzi','baihe','heizhima','hetaoren','longyanrou','fengmi','sangye','pugongying','yuxingcao','maxiancao','huoxiang','huangyaozi','shechuangzi'];
 const shown = cards.slice(0, 10);
 ---
@@ -44,7 +44,7 @@ const shown = cards.slice(0, 10);
       <h2>获取方式</h2>
       <p>已订阅的朋友欢迎查收自动回信——里面就有游戏本体；也可以直接下载：</p>
       <a class="dl-btn" href={GAME_URL} download rel="noopener">⬇️ 下载《识药闯关》300 味版</a>
-      <p class="tiny">离线可玩 · 网页小游戏（当前为占位链接，部署时配置 <code>GAME_DOWNLOAD_URL</code>）。</p>
+      <p class="tiny">离线可玩 · 网页小游戏，下载后可直接打开体验。</p>
       <div class="sub-box">
         <h2>订阅领游戏</h2>
         <p>留下邮箱，不定期分享 AI 创作笔记；本期自动回信附《识药闯关》下载链接。</p>

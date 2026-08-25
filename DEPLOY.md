@@ -115,4 +115,4 @@ Resend 为了能「以你的域名」发信，需要你在域名商加两条 DNS
 
 环境变量 · 补充
 
-- `GAME_DOWNLOAD_URL`：可选。订阅自动回信中《识药闯关》游戏下载链接；未设置时使用占位地址 https://xiuyunju.cc.cd/game。
+- `GAME_DOWNLOAD_URL`：可选。订阅自动回信中《识药闯关》游戏下载链接；未设置时使用 Vercel Blob 公开地址（300 味分享版）。
