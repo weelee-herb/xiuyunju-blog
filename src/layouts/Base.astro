@@ -137,6 +137,28 @@ const ogImage = image ? new URL(image, site.url) : new URL('/og.png', site.url);
         }
       });
 
+      // 图片灯箱：点击正文图片放大，ESC/点击关闭
+      document.addEventListener('click', (e) => {
+        const img = (e.target as HTMLElement).closest('.prose img');
+        if (!img) return;
+        const src = (img as HTMLImageElement).currentSrc || (img as HTMLImageElement).src;
+        if (!src) return;
+        let box = document.getElementById('lightbox');
+        if (!box) {
+          box = document.createElement('div');
+          box.id = 'lightbox';
+          box.className = 'lightbox';
+          box.innerHTML = '<img alt="">';
+          document.body.appendChild(box);
+          box.addEventListener('click', () => box?.classList.remove('show'));
+        }
+        (box.querySelector('img') as HTMLImageElement).src = src;
+        box.classList.add('show');
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') document.getElementById('lightbox')?.classList.remove('show');
+      });
+
       // 图片懒加载淡入（加载完成浮现；2.5 秒兜底全显示，防 JS 异常导致空白）
       document.querySelectorAll('img[loading]').forEach((img) => {
         const show = () => img.classList.add('is-loaded');

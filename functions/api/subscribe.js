@@ -108,7 +108,7 @@ export async function onRequestPost(context) {
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from, to: email, subject, html: buildEmail(email) }),
+      body: JSON.stringify({ from, to: email, subject, html: buildEmail(email), unsubscribe: true }),
     });
     if (!res.ok) {
       const t = await res.text().catch(() => '');

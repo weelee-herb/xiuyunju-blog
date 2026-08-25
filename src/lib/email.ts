@@ -13,7 +13,8 @@ export async function sendViaResend(to: string, subject: string, html: string): 
       Authorization: `Bearer ${key}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ from, to, subject, html }),
+    // unsubscribe: true → Resend 自动附带一键退订链接与 List-Unsubscribe 头
+    body: JSON.stringify({ from, to, subject, html, unsubscribe: true }),
   });
 
   if (!res.ok) {
