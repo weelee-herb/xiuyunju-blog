@@ -1,0 +1,16 @@
+{
+  "name": "yunxiu-blog",
+  "version": "1.0.0",
+  "description": "云岫居 · 宋式美学个人博客（Astro + Markdown）",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.1.0",
+    "astro": "^5.7.0"
+  }
+}

@@ -1,0 +1,49 @@
+---
+import { site } from '../config';
+import Seal from './Seal.astro';
+
+const nav = [
+  { label: '首页', href: '/', match: (p: string) => p === '/' },
+  { label: '文章', href: '/blog/', match: (p: string) => p.startsWith('/blog') },
+  { label: '识药闯关', href: '/game/', match: (p: string) => p.startsWith('/game') },
+  { label: '关于', href: '/about/', match: (p: string) => p.startsWith('/about') },
+  { label: '订阅', href: '/subscribe/', match: (p: string) => p.startsWith('/subscribe') },
+  { label: '搜索', href: '/search/', match: (p: string) => p.startsWith('/search') || p.startsWith('/tags') },
+];
+const path = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container inner">
+    <a class="brand" href="/">
+      <Seal text="云" size={30} />
+      <span class="name">{site.name}</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={item.match(path) ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="切换深浅色" title="切换深浅色">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1" />
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  toggle?.addEventListener('click', () => {
+    const el = document.documentElement;
+    const next = el.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    el.setAttribute('data-theme', next);
+    try { localStorage.setItem('yunxiu-theme', next); } catch {}
+  });
+</script>

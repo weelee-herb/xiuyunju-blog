@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDateCN, ganzhiYear, readingTime } from '../utils/date';
+
+interface Props { post: CollectionEntry<'blog'> }
+const { post } = Astro.props;
+const { title, description, date, tags } = post.data;
+const minutes = readingTime(post.body ?? '');
+const url = `/blog/${post.slug}/`;
+---
+
+<a class="post-card" href={url} data-tags={tags.join(',')}>
+  {post.data.cover && (
+    <img class="cover" src={post.data.cover} alt="" loading="lazy" />
+  )}
+  <div class="meta">
+    <time datetime={date.toISOString()}>{formatDateCN(date)}</time>
+    <span class="sep">·</span>
+    <span>{ganzhiYear(date.getFullYear())}年</span>
+    <span class="sep">·</span>
+    <span>阅读约 {minutes} 分钟</span>
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <div class="tags">
+    {tags.map((t) => <span class="chip">{t}</span>)}
+  </div>
+  <span class="arrow">细读 →</span>
+</a>

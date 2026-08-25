@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f2ecdc"/>
+      <stop offset="100%" stop-color="#f5f0e4"/>
+    </linearGradient>
+    <radialGradient id="washB" cx="30%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#9db9b2" stop-opacity="0.3"/>
+      <stop offset="60%" stop-color="#9db9b2" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgB)"/>
+  <rect width="1200" height="630" fill="url(#washB)"/>
+  <rect x="26" y="26" width="1148" height="578" fill="none" stroke="#2a251d" stroke-opacity="0.16"/>
+  <!-- 主竹杆 -->
+  <g stroke="#2a251d" fill="none" stroke-linecap="round">
+    <path d="M 300 600 C 292 460 300 300 286 60" stroke-width="9" opacity="0.85"/>
+    <path d="M 380 600 C 388 470 378 320 392 90" stroke-width="7" opacity="0.7"/>
+    <!-- 竹节 -->
+    <path d="M 294 480 L 306 476" stroke-width="3"/>
+    <path d="M 299 340 L 311 336" stroke-width="3"/>
+    <path d="M 288 200 L 300 196" stroke-width="3"/>
+    <path d="M 386 440 L 398 436" stroke-width="3"/>
+    <path d="M 390 260 L 402 256" stroke-width="3"/>
+  </g>
+  <!-- 竹叶（撇叶） -->
+  <g fill="#2a251d" opacity="0.82">
+    <path d="M 300 350 C 380 330 430 340 470 380 C 400 390 340 378 300 350 Z"/>
+    <path d="M 296 300 C 212 268 158 274 108 306 C 172 330 244 322 296 300 Z"/>
+    <path d="M 386 330 C 470 316 520 328 558 368 C 490 376 430 362 386 330 Z"/>
+    <path d="M 382 250 C 300 222 250 230 206 260 C 268 282 336 274 382 250 Z"/>
+    <path d="M 292 200 C 268 120 230 70 166 44 C 214 118 248 168 292 200 Z" opacity="0.7"/>
+    <path d="M 388 160 C 430 92 480 56 546 44 C 502 110 456 148 388 160 Z" opacity="0.7"/>
+  </g>
+  <!-- 石（平缓一痕）与朱砂点 -->
+  <path d="M 96 556 C 160 544 240 548 292 562" stroke="#9db9b2" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="1050" cy="540" r="12" fill="#ab3a2a" opacity="0.75"/>
+  <path d="M 1075 505 C 1098 495 1122 500 1138 516" stroke="#ab3a2a" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.6"/>
+</svg>

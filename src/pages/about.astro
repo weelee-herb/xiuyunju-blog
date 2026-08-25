@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import Seal from '../components/Seal.astro';
+import SubscribeForm from '../components/SubscribeForm.astro';
+import { site } from '../config';
+
+const skills = ['Codex 协作开发', 'AI 工作流设计', '生成式设计', '独立建站', '写作'];
+const timeline = [
+  { when: '2025 · 12', what: '开始用这个博客持续记录 AI 创作笔记' },
+  { when: '2025 · 11', what: '用 Codex 搭建了这座宋式美学博客' },
+  { when: '2025 · 10', what: '系统整理与 Codex 协作的工作流，开始对外分享' },
+  { when: '2025 · 06', what: '第一次让 Codex 完整交付一个能上线的小项目' },
+];
+---
+
+<Base title={`关于我 · ${site.name}`} description={`${site.author}的个人介绍`}>
+  <div class="container">
+    <header class="page-hero">
+      <p class="kicker">关于 · About</p>
+      <h1 class="page-title">我是{site.author}</h1>
+      <p class="page-sub">{site.authorTitle}</p>
+    </header>
+
+    <div class="about-grid">
+      <div class="about-portrait">
+        <div class="char">屿</div>
+        <div class="role">{site.author}</div>
+        <Seal text="云" size={52} />
+      </div>
+      <div class="about-main">
+        <p>
+          我是{site.author}，一名独立开发者。白天写代码，晚上与 AI
+          一起捣鼓些好玩的东西——搭网站、写小工具、做生成艺术，再把踩过的坑写成文章。
+        </p>
+        <p>
+          我相信 AI 时代最好的工作方式不是「让 AI 替我做」，而是「与 AI
+          一起做」。这个博客里的大部分内容，都来自我与 Codex
+          协作的真实过程：怎么把一个模糊的想法拆成可执行的计划，怎么用提示词固定风格，怎么让 AI
+          的产出真正变成自己的作品。
+        </p>
+        <p>如果你也在用 Codex 或其它 AI 工具创作，欢迎订阅我的分享，或在页脚找到我。</p>
+
+        <h2 style="margin-top: 34px">擅长的事</h2>
+        <div class="skill-list">
+          {skills.map((s) => <span class="chip">{s}</span>)}
+        </div>
+
+        <h2>时间线</h2>
+        <ul class="timeline">
+          {timeline.map((t) => (
+            <li>
+              <div class="when">{t.when}</div>
+              <div class="what">{t.what}</div>
+            </li>
+          ))}
+        </ul>
+
+        <h2>找到我</h2>
+        <div class="contact-links">
+          {site.social.map((s) => (
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.label} ↗</a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="subscribe-box">
+      <h2>{site.subscribe.heading}</h2>
+      <p class="sub">{site.subscribe.sub}</p>
+      <SubscribeForm />
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import SubscribeForm from '../components/SubscribeForm.astro';
+import Seal from '../components/Seal.astro';
+const GAME_URL = import.meta.env.GAME_DOWNLOAD_URL || 'https://example.com/game';
+const cards = ['chenpi','jinyinhua','huajiao','gouqizi','ganjiang','juhua','gancao','shanzha','dazao','fuling','bohe','danggui','xiyangshen','luohanguo','meiguihua','rougui','dasuan','renshen','shanyao','lianzi','baihe','heizhima','hetaoren','longyanrou','fengmi','sangye','pugongying','yuxingcao','maxiancao','huoxiang'];
+const shown = cards.slice(0, 10);
+---
+<Base title="识药闯关 · 看图认中药" description="《识药闯关》：300 味中药看图认名小游戏。">
+  <main class="page">
+    <header class="hero">
+      <Seal text="药" />
+      <h1>识药闯关 · 看图认中药</h1>
+      <p class="lede">认识生活里的中药材：一个离线可玩的 300 味看图认名小游戏，纯兴趣分享。</p>
+    </header>
+
+    <section class="howto">
+      <h2>怎么玩</h2>
+      <div class="howto-grid">
+        <figure><img src="/game/chenpi.png" alt="今日药签"><figcaption>今日药签：每天一味，配冷知识</figcaption></figure>
+        <figure><img src="/game/jinyinhua.png" alt="闯关模式"><figcaption>闯关 / 猜猜看：四选一或局部特写</figcaption></figure>
+        <figure><img src="/game/gouqizi.png" alt="易混药对"><figcaption>易混药对：二选一，一眼区别</figcaption></figure>
+      </div>
+      <ul class="play-list">
+        <li>🌞 今日药签：每日一味 + 冷知识，固定题组与打卡。</li>
+        <li>🏆 闯关模式：10 题四选一、连击加分；⚔️ 认药挑战（易混对）与 🔍 猜猜看（局部特写）。</li>
+        <li>📚 图鉴 300 味：搜索 / 场景筛选 / 拼音排序 / 收藏；答对点亮，集齐得徽章。</li>
+        <li>🎨 四季皮肤（春青/夏绿/秋金/冬墨）· 🔊 朗读 · 📔 本草手账 · 📤 分享卡（四种风格）。</li>
+      </ul>
+    </section>
+
+    <section class="gallery">
+      <h2>科普卡画廊（30 张）</h2>
+      <div class="card-grid" id="card-grid">
+        {shown.map((c) => <img src={'/game/' + c + '.png'} alt={c} class="card-img" loading="lazy" />)}
+      </div>
+      <div class="gallery-nav">
+        <button class="btn btn-ghost" id="more-btn" data-rest={cards.slice(10).join(',')}>加载更多</button>
+      </div>
+      <p class="tiny">共 30 张；点击「加载更多」分页显示。</p>
+    </section>
+
+    <section class="get">
+      <h2>获取方式</h2>
+      <p>已订阅的朋友欢迎查收自动回信——里面就有游戏本体；也可以直接下载：</p>
+      <a class="dl-btn" href={GAME_URL} download rel="noopener">⬇️ 下载《识药闯关》300 味版</a>
+      <p class="tiny">离线可玩 · 网页小游戏（当前为占位链接，部署时配置 <code>GAME_DOWNLOAD_URL</code>）。</p>
+      <div class="sub-box">
+        <h2>订阅领游戏</h2>
+        <p>留下邮箱，不定期分享 AI 创作笔记；本期自动回信附《识药闯关》下载链接。</p>
+        <SubscribeForm buttonText="订阅并领取" />
+      </div>
+      <p class="warn-line">内容仅供文化了解，不构成医疗建议；请勿采食不认识的植物。</p>
+    </section>
+  </main>
+  <script>
+    const moreBtn = document.getElementById('more-btn');
+    if (moreBtn) moreBtn.addEventListener('click', () => {
+      const grid = document.getElementById('card-grid');
+      const rest = moreBtn.getAttribute('data-rest').split(',');
+      let i = 0;
+      for (const c of rest) { if (c && i < 10) { grid.insertAdjacentHTML('beforeend', '<img src="/game/' + c + '.png" alt="' + c + '" class="card-img" loading="lazy">'); i++; } }
+      const left = rest.slice(i);
+      moreBtn.setAttribute('data-rest', left.join(','));
+      if (!left.length) moreBtn.textContent = '已全部加载'; else moreBtn.textContent = '再加载 10 张';
+    });
+  </script>
+  <style>
+    .page{max-width:1080px;margin:0 auto;padding:40px 20px 80px}
+    .hero{text-align:center;margin-bottom:32px}.hero h1{font-size:2.1rem;letter-spacing:.06em;margin:14px 0 10px}.lede{color:#5c6b62}
+    .howto{margin-bottom:32px}.howto h2,.gallery h2,.get h2{color:#1e4234;font-size:1.3rem;margin:0 0 12px}
+    .howto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:12px}
+    figure{margin:0;background:#fffdf6;border:1px solid #e5dcc3;border-radius:12px;padding:10px;text-align:center}
+    figure img{width:100%;border-radius:8px}figcaption{font-size:.85rem;color:#5c6b62;margin-top:6px}
+    .play-list{color:#4a5a52;line-height:1.8;font-size:.94rem}
+    .card-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    .card-img{width:100%;border-radius:10px;box-shadow:0 4px 14px rgba(46,70,60,.12)}
+    .gallery-nav{margin:14px 0}.tiny{color:#8a8070;font-size:.8rem}
+    .get{background:#f6f1e5;border:1px solid #e5dcc3;border-radius:14px;padding:22px 24px}
+    .dl-btn{display:inline-block;background:#1e4234;color:#f6f1e5;padding:12px 26px;border-radius:999px;margin:8px 0;text-decoration:none;font-weight:600}
+    .sub-box{margin-top:22px;border-top:1px solid #e5dcc3;padding-top:16px}
+    .warn-line{color:#b04040;font-weight:600;margin-top:10px}
+  </style>
+</Base>

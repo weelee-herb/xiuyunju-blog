@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../config';
+
+const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
+---
+
+<Base title={`搜索 · ${site.name}`} description="站内搜索">
+  <div class="container">
+    <header class="page-hero">
+      <p class="kicker">搜索 · Search</p>
+      <h1 class="page-title">搜索</h1>
+      <p class="page-sub">输入关键词，在全部 {posts.length} 篇文章里查找。</p>
+    </header>
+
+    <input
+      type="search"
+      id="search-input"
+      class="search-input"
+      placeholder="搜索标题、正文、标签……"
+      autocomplete="off"
+      aria-label="搜索"
+    />
+
+    <div class="tag-filter" role="group" aria-label="按标签筛选">
+      <button class="chip chip-active" data-tag="">全部</button>
+      {tags.map((t) => <button class="chip" data-tag={t}>{t}</button>)}
+    </div>
+
+    <div id="search-results" class="search-results" aria-live="polite">
+      <p class="search-hint">输入关键词开始搜索。</p>
+    </div>
+  </div>
+</Base>
+
+<script>
+  type Post = { slug: string; title: string; description: string; date: string; tags: string[]; body: string };
+
+  const input = document.getElementById('search-input') as HTMLInputElement;
+  const results = document.getElementById('search-results') as HTMLElement;
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.tag-filter .chip'));
+
+  let all: Post[] = [];
+  let activeTag = '';
+
+  function fmt(iso: string) {
+    const d = new Date(iso);
+    return `${d.getFullYear()}年${String(d.getMonth() + 1).padStart(2, '0')}月${String(d.getDate()).padStart(2, '0')}日`;
+  }
+
+  function render(list: Post[]) {
+    if (!list.length) {
+      results.innerHTML = '<p class="search-hint">没有找到相关文章，换个关键词试试。</p>';
+      return;
+    }
+    results.innerHTML = list.map((p) => `
+      <a class="search-item" href="/blog/${p.slug}/">
+        <div class="meta"><span>${fmt(p.date)}</span>${p.tags.slice(0, 3).map((t) => `<span class="chip">${t}</span>`).join('')}</div>
+        <h3>${p.title}</h3>
+        <p>${p.description}</p>
+      </a>`).join('');
+  }
+
+  function apply() {
+    const q = input.value.trim().toLowerCase();
+    const list = all.filter((p) => {
+      const inTag = !activeTag || p.tags.includes(activeTag);
+      if (!inTag) return false;
+      if (!q) return true;
+      return (p.title + p.description + p.tags.join(' ') + p.body).toLowerCase().includes(q);
+    });
+    render(list);
+  }
+
+  chips.forEach((c) =>
+    c.addEventListener('click', () => {
+      activeTag = c.dataset.tag || '';
+      chips.forEach((x) => {
+        const on = x.dataset.tag === activeTag;
+        x.classList.toggle('chip-active', on);
+        x.setAttribute('aria-pressed', String(on));
+      });
+      apply();
+    }),
+  );
+
+  input.addEventListener('input', apply);
+
+  fetch('/posts.json')
+    .then((r) => r.json())
+    .then((d: Post[]) => {
+      all = d;
+      const params = new URLSearchParams(location.search);
+      const q = params.get('q');
+      const t = params.get('tag');
+      if (q) input.value = q;
+      if (t && chips.some((c) => c.dataset.tag === t)) {
+        activeTag = t;
+        chips.forEach((x) => {
+          const on = x.dataset.tag === activeTag;
+          x.classList.toggle('chip-active', on);
+          x.setAttribute('aria-pressed', String(on));
+        });
+      }
+      apply();
+    });
+</script>

@@ -1,0 +1,29 @@
+---
+// 祥云与远鹤（细笔淡墨）：如意云头 + 远处三只小鹤 + 淡朱砂日
+interface Props { class?: string }
+const { class: className = '' } = Astro.props;
+---
+<svg
+  class:list={['clouds', className]}
+  viewBox="0 0 340 190"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2.2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  <!-- 淡朱砂日 -->
+  <circle cx="296" cy="42" r="24" fill="var(--cinnabar)" stroke="none" opacity="0.3" />
+  <!-- 如意云：尾部横向长带 + 云头螺旋 -->
+  <path d="M 216 118 C 172 124 128 126 92 120" />
+  <path d="M 92 120 C 62 114 44 100 46 82 C 48 66 70 56 86 64 C 100 72 98 92 82 96 C 70 99 60 90 64 80" />
+  <!-- 云眼（小点） -->
+  <circle cx="84" cy="78" r="2.6" fill="currentColor" stroke="none" opacity="0.7" />
+  <!-- 云尾逗点 -->
+  <path d="M 216 118 C 228 122 236 120 242 114" stroke-width="1.8" />
+  <!-- 远处小鹤：三只 -->
+  <path d="M 232 66 C 238 58 246 58 250 64 C 254 58 262 58 268 66" stroke-width="1.8" />
+  <path d="M 206 92 C 211 85 217 85 220 90 C 223 85 229 85 234 92" stroke-width="1.6" />
+  <path d="M 262 98 C 266 92 271 92 274 96 C 277 92 282 92 286 98" stroke-width="1.5" />
+</svg>

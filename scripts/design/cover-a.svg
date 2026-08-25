@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="washA" cx="80%" cy="8%" r="75%">
+      <stop offset="0%" stop-color="#9db9b2" stop-opacity="0.42"/>
+      <stop offset="60%" stop-color="#9db9b2" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#f5f0e4"/>
+  <rect width="1200" height="630" fill="url(#washA)"/>
+  <rect x="26" y="26" width="1148" height="578" fill="none" stroke="#2a251d" stroke-opacity="0.16"/>
+  <!-- 落日 -->
+  <circle cx="900" cy="170" r="105" fill="#ab3a2a" opacity="0.42"/>
+  <!-- 群鹤（斜向上） -->
+  <g stroke="#2a251d" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.6">
+    <path d="M 620 420 C 640 392 668 392 680 410 C 692 392 720 392 740 420"/>
+    <path d="M 800 330 C 815 308 836 308 845 322 C 854 308 875 308 890 330"/>
+    <path d="M 950 250 C 961 233 977 233 984 244 C 991 233 1007 233 1018 250"/>
+    <path d="M 500 470 C 508 458 520 458 525 466 C 530 458 542 458 550 470" opacity="0.5" stroke-width="4"/>
+  </g>
+  <!-- 如意云 -->
+  <g stroke="#2a251d" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.45">
+    <path d="M 330 470 C 268 480 206 472 186 438 C 172 414 190 388 222 382 C 248 378 264 398 256 420 C 250 436 228 440 218 430"/>
+    <path d="M 186 438 C 130 448 88 452 42 446" opacity="0.7"/>
+  </g>
+  <!-- 印章角落 -->
+  <g transform="translate(1090, 490) rotate(-4)">
+    <rect width="60" height="60" rx="5" fill="#ab3a2a"/>
+    <text x="30" y="43" font-family="Kaiti SC, STKaiti, KaiTi, serif" font-size="33" fill="#f6efe2" text-anchor="middle">鹤</text>
+  </g>
+</svg>

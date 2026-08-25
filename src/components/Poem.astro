@@ -1,0 +1,21 @@
+---
+// 竖排诗（装裱双线框），lines 为诗句，自右向左排列
+import Seal from './Seal.astro';
+
+interface Props {
+  lines: string[];
+  sign?: string;
+  sealText?: string;
+}
+const { lines, sign = '', sealText = '云' } = Astro.props;
+---
+
+<div class="hero-poem" role="figure">
+  {lines.map((line) => <span class="poem-line">{line}</span>)}
+  {sign && (
+    <span class="poem-sign">
+      {sign}
+      <Seal text={sealText} size={24} />
+    </span>
+  )}
+</div>

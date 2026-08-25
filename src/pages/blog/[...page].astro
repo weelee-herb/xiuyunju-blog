@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../../config';
+
+export async function getStaticPaths() {
+  const perPage = 10;
+  const posts = (await getCollection('blog'))
+    .filter((p) => !p.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  const total = Math.max(1, Math.ceil(posts.length / perPage));
+  return Array.from({ length: total }, (_, i) => ({
+    params: i === 0 ? { page: undefined } : { page: String(i + 1) },
+    props: {
+      posts: posts.slice(i * perPage, (i + 1) * perPage),
+      page: i + 1,
+      total,
+      totalPosts: posts.length,
+    },
+  }));
+}
+
+const { posts, page, total, totalPosts } = Astro.props;
+---
+
+<Base title={`文章 · ${site.name}`} description="全部文章归档">
+  <div class="container">
+    <header class="page-hero">
+      <p class="kicker">文章 · Archives</p>
+      <h1 class="page-title">文章</h1>
+      <p class="page-sub">共 {totalPosts} 篇，以墨为记。</p>
+    </header>
+
+    <div class="list-toolbar">
+      <a class="section-more" href="/search/">搜索</a>
+      <a class="section-more" href="/tags/">标签浏览 →</a>
+    </div>
+
+    <div class="post-list">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+
+    {total > 1 && (
+      <nav class="pagination" aria-label="分页">
+        {page > 1 && <a class="btn btn-ghost" href={page === 2 ? '/blog/' : `/blog/${page - 1}/`}>← 较新</a>}
+        <span class="pagination-info">{page} / {total}</span>
+        {page < total && <a class="btn btn-ghost" href={`/blog/${page + 1}/`}>较旧 →</a>}
+      </nav>
+    )}
+  </div>
+</Base>

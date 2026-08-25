@@ -1,0 +1,73 @@
+---
+import { site } from '../config';
+
+interface Props { buttonText?: string }
+const { buttonText } = Astro.props;
+// 纯静态部署时用 Web3Forms（.env 里配 PUBLIC_WEB3FORMS_KEY），否则走本站 /api/subscribe
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY;
+---
+
+<form class="subscribe-form" id="subscribe-form" novalidate data-endpoint={web3Key ? 'https://api.web3forms.com/submit' : '/api/subscribe'} data-key={web3Key ?? ''}>
+  <input
+    type="email"
+    name="email"
+    placeholder="you@example.com"
+    autocomplete="email"
+    aria-label="邮箱地址"
+    required
+  />
+  <button type="submit" class="btn btn-primary">{buttonText ?? site.subscribe.button}</button>
+  <p class="form-msg" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  const form = document.getElementById('subscribe-form') as HTMLFormElement | null;
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = form.querySelector('input[type="email"]') as HTMLInputElement;
+    const btn = form.querySelector('button') as HTMLButtonElement;
+    const msg = form.querySelector('.form-msg') as HTMLElement;
+
+    if (!input.value) {
+      msg.textContent = '请先输入邮箱';
+      msg.className = 'form-msg err';
+      return;
+    }
+
+    const endpoint = form.dataset.endpoint || '/api/subscribe';
+    const key = form.dataset.key || '';
+    const original = btn.textContent ?? '';
+    btn.disabled = true;
+    btn.textContent = '发送中…';
+    msg.textContent = '';
+    msg.className = 'form-msg';
+
+    try {
+      const isWeb3 = endpoint.startsWith('https://api.web3forms.com');
+      const body = isWeb3
+        ? { access_key: key, email: input.value, subject: '新订阅', from_name: input.value }
+        : { email: input.value };
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && (data.ok || data.success || data.ok === undefined)) {
+        msg.textContent = '已发送，请查收邮箱 ✉';
+        msg.className = 'form-msg ok';
+        input.value = '';
+      } else {
+        msg.textContent = data.message || '发送失败，请稍后再试';
+        msg.className = 'form-msg err';
+      }
+    } catch {
+      msg.textContent = '网络错误，请稍后再试';
+      msg.className = 'form-msg err';
+    }
+    btn.disabled = false;
+    btn.textContent = original;
+  });
+</script>

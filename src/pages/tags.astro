@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../config';
+
+const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+const counts = new Map<string, number>();
+for (const p of posts) for (const t of p.data.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
+const tags = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<Base title={`标签 · ${site.name}`} description="文章标签归档">
+  <div class="container">
+    <header class="page-hero">
+      <p class="kicker">标签 · Tags</p>
+      <h1 class="page-title">标签</h1>
+      <p class="page-sub">共 {tags.length} 个标签，点击查看对应文章。</p>
+    </header>
+
+    <div class="tag-cloud">
+      {tags.map(([t, n]) => (
+        <a class="tag-pill" href={`/search/?tag=${encodeURIComponent(t)}`}>
+          <span>{t}</span>
+          <span class="count">{n}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

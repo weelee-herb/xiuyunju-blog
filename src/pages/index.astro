@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import Clouds from '../components/Clouds.astro';
+import Poem from '../components/Poem.astro';
+import Seal from '../components/Seal.astro';
+import SubscribeForm from '../components/SubscribeForm.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../config';
+import { ganzhiYear } from '../utils/date';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const latest = posts.slice(0, 3);
+const year = new Date().getFullYear();
+---
+
+<Base>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="kicker">岁在{ganzhiYear(year)} · 天青墨影</p>
+        <h1>{site.name}</h1>
+        <p class="tagline">{site.tagline}</p>
+        <p class="desc">{site.description}</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/blog/">读文章</a>
+          <a class="btn btn-ghost" href="/subscribe/">订阅分享</a>
+          <a class="btn btn-ghost" href="/game/">玩《识药闯关》</a>
+        </div>
+        <p class="game-card-mini">
+          <img src="/game/chenpi.png" alt="识药闯关 · 陈皮科普卡" width="86" height="115" loading="lazy">
+          <span>本期附赠：<b>《识药闯关》看图认中药小游戏</b>——300 味，离线可玩，今日药签、猜猜看、易混药对。<a href="/game/">去看看 →</a></span>
+        </p>
+      </div>
+      <div class="hero-art">
+        <Clouds />
+        <Poem lines={['晴空一鹤排云上', '便引诗情到碧霄']} sign="录刘梦得句" sealText="云" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">近作</h2>
+        <a class="section-more" href="/blog/">全部文章 →</a>
+      </div>
+      {latest.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container about-grid">
+      <div class="about-portrait">
+        <div class="char">屿</div>
+        <div class="role">{site.author}</div>
+        <Seal text="云" size={44} />
+      </div>
+      <div class="about-main">
+        <h2>关于我</h2>
+        <p class="title">{site.authorTitle}</p>
+        <p>{site.aboutShort}</p>
+        <a class="btn btn-ghost" href="/about/">了解更多 →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="subscribe-box">
+        <h2>{site.subscribe.heading}</h2>
+        <p class="sub">{site.subscribe.sub}</p>
+        <SubscribeForm />
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect x="2" y="2" width="60" height="60" rx="8" fill="#ab3a2a"/>
+  <rect x="9" y="9" width="46" height="46" rx="4" fill="none" stroke="#f6efe2" stroke-opacity="0.55"/>
+  <text x="32" y="45" font-size="34" text-anchor="middle" fill="#f6efe2"
+        font-family="Kaiti SC,STKaiti,KaiTi,serif">云</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="wash" cx="84%" cy="0%" r="85%">
+      <stop offset="0%" stop-color="#9db9b2" stop-opacity="0.38"/>
+      <stop offset="62%" stop-color="#9db9b2" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#f5f0e4"/>
+  <rect width="1200" height="630" fill="url(#wash)"/>
+  <!-- 装裱框 -->
+  <rect x="30" y="30" width="1140" height="570" fill="none" stroke="#2a251d" stroke-opacity="0.16"/>
+  <rect x="44" y="44" width="1112" height="542" fill="none" stroke="#2a251d" stroke-opacity="0.08"/>
+  <!-- 朱砂日 -->
+  <circle cx="1000" cy="150" r="78" fill="#ab3a2a" opacity="0.26"/>
+  <!-- 远鹤 -->
+  <g stroke="#2a251d" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.42">
+    <path d="M 940 210 C 954 190 974 190 982 204 C 990 190 1010 190 1024 210"/>
+    <path d="M 850 270 C 859 258 871 258 876 268 C 881 258 893 258 902 270"/>
+    <path d="M 1000 330 C 1007 320 1017 320 1022 328 C 1027 320 1037 320 1044 330"/>
+  </g>
+  <!-- 祥云 -->
+  <g stroke="#2a251d" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.4">
+    <path d="M 880 430 C 830 438 774 432 756 402 C 742 378 758 352 788 346 C 812 342 828 362 820 384 C 814 400 794 406 784 396"/>
+    <path d="M 756 402 C 700 414 652 418 600 412" opacity="0.65"/>
+  </g>
+  <!-- 站名 -->
+  <text x="88" y="300" font-family="Kaiti SC, STKaiti, KaiTi, serif" font-size="132" fill="#2a251d" letter-spacing="26">云岫居</text>
+  <text x="94" y="372" font-family="Kaiti SC, STKaiti, KaiTi, serif" font-size="27" fill="#5d5544" letter-spacing="10">以代码为笔，以 AI 为墨</text>
+  <!-- 印章 -->
+  <g transform="translate(88, 430) rotate(-3)">
+    <rect width="66" height="66" rx="5" fill="#ab3a2a"/>
+    <rect x="7" y="7" width="52" height="52" rx="3" fill="none" stroke="#f6efe2" stroke-opacity="0.5"/>
+    <text x="33" y="47" font-family="Kaiti SC, STKaiti, KaiTi, serif" font-size="36" fill="#f6efe2" text-anchor="middle">云</text>
+  </g>
+</svg>

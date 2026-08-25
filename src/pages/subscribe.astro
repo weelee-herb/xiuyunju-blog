@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import SubscribeForm from '../components/SubscribeForm.astro';
+import { site } from '../config';
+
+const steps = [
+  { num: '壹', t: '留下邮箱', d: '在下方输入你的邮箱地址' },
+  { num: '贰', t: '点击订阅', d: '服务器会实时校验并记录' },
+  { num: '叁', t: '自动收信', d: '欢迎邮件与资源包即刻送达' },
+];
+
+const faqs = [
+  { q: '订阅后我会收到什么？', a: `一封宋式风格的欢迎邮件，内含${site.subscribe.resourceTitle}的领取链接；之后每当我有新的创作笔记或资源分享，都会自动发到你的邮箱。` },
+  { q: '多久会收到一封邮件？', a: '不固定。我追求「宁缺毋滥」，只在对你有用的时候写信，通常一个月不超过一两封。' },
+  { q: '邮箱安全吗？', a: '邮箱只用于发送订阅邮件，绝不会出售或用于其它用途。' },
+  { q: '如何退订？', a: '每封邮件的末尾都会附上我的联系方式，回复「退订」即可，我会手动处理。' },
+];
+---
+
+<Base title={`订阅分享 · ${site.name}`} description="订阅后自动收到 AI 创作笔记与资源包">
+  <div class="container">
+    <header class="page-hero">
+      <p class="kicker">订阅 · Subscribe</p>
+      <h1 class="page-title">{site.subscribe.heading}</h1>
+      <p class="page-sub">
+        留下邮箱，{site.subscribe.resourceTitle}会随欢迎邮件自动发送到你的邮箱；
+        之后我的每一篇新笔记、新资源，也会自动送达。
+      </p>
+    </header>
+
+    <div class="steps">
+      {steps.map((s) => (
+        <div class="step">
+          <div class="num">{s.num}</div>
+          <div class="t">{s.t}</div>
+          <div class="d">{s.d}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="subscribe-box">
+      <h2>开始订阅</h2>
+      <p class="sub">{site.subscribe.sub}</p>
+      <SubscribeForm />
+    </div>
+
+    <div class="faq">
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</Base>
