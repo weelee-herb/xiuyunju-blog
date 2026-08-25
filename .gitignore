@@ -5,3 +5,9 @@ dist/
 .npm-cache/
 .DS_Store
 *.log
+
+# 本地临时目录（截图/浏览器 profile）
+.shots/
+.cpm/
+.chrome-shot/
+.cp*/

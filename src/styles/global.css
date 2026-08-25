@@ -486,6 +486,13 @@ a.chip:hover { border-color: var(--celadon-deep); color: var(--celadon-deep); }
 .form-msg { width: 100%; font-size: 0.85rem; margin: 8px 0 0; min-height: 1.4em; color: var(--ink-2); letter-spacing: 0.04em; }
 .form-msg.ok { color: var(--celadon-deep); }
 .form-msg.err { color: var(--cinnabar); }
+.form-hint {
+  width: 100%;
+  font-size: 0.74rem;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  margin: 4px 0 0;
+}
 
 /* ── 文章页 ───────────────────────────────────────── */
 #progress {

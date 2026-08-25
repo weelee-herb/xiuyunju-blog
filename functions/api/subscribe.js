@@ -102,7 +102,7 @@ export async function onRequestPost(context) {
   }
 
   const from = context.env.EMAIL_FROM || '云岫居 <share@example.com>';
-  const subject = context.env.EMAIL_SUBJECT || '「云岫居」欢迎订阅 · 《AI 创作资源包》';
+  const subject = context.env.EMAIL_SUBJECT || '「云岫居」欢迎订阅 · 《识药闯关》看图认中药小游戏';
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
