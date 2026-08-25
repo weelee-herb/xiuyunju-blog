@@ -6,6 +6,7 @@ const nav = [
   { label: '首页', href: '/', match: (p: string) => p === '/' },
   { label: '文章', href: '/blog/', match: (p: string) => p.startsWith('/blog') },
   { label: '识药闯关', href: '/game/', match: (p: string) => p.startsWith('/game') },
+  { label: '作品直达', href: '/projects/', match: (p: string) => p.startsWith('/projects') },
   { label: '题库', href: 'https://herb-quiz.cc.cd/', external: true, title: '中药题库 · 邀请码 692626', match: () => false },
   { label: '关于', href: '/about/', match: (p: string) => p.startsWith('/about') },
   { label: '订阅', href: '/subscribe/', match: (p: string) => p.startsWith('/subscribe') },

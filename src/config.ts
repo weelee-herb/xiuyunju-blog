@@ -38,6 +38,41 @@ export const site = {
     { name: '中药题库', url: 'https://herb-quiz.cc.cd/', desc: '邀请码：692626', seal: '题' },
   ],
 
+  // 项目直达清单：新增作品时在这里登记，自动出现在 /projects/ 与顶部导航
+  projects: [
+    {
+      slug: 'herb-quiz',
+      name: '中药题库',
+      fullName: '执业药师（中药学）在线刷题系统',
+      desc: '刷题 · 模考 · 错题本 · AI 智能解析',
+      href: 'https://herb-quiz.cc.cd/',
+      external: true,
+      note: '邀请码 692626',
+      icon: '题',
+    },
+    {
+      slug: 'herb-game',
+      name: '识药闯关',
+      fullName: '《识药闯关》看图认中药小游戏',
+      desc: '300 味中药看图认名，离线可玩',
+      href: '/game/',
+      external: false,
+      note: '下载离线分享包 27MB',
+      download: 'https://arelpjfm9rt6pv8z.public.blob.vercel-storage.com/game-300.zip',
+      icon: '药',
+    },
+    {
+      slug: 'yunxiu',
+      name: '云岫居',
+      fullName: '云岫居 · 独立博客',
+      desc: 'AI 创作、建站经验、本草与生活',
+      href: '/',
+      external: false,
+      note: '本站首页',
+      icon: '云',
+    },
+  ],
+
   // 订阅表单与「自动回信」邮件的内容
   subscribe: {
     heading: '订阅我的分享',
