@@ -60,7 +60,13 @@ export const site = {
 
   // 可选：评论（giscus，基于 GitHub Discussions）。留空 repo = 关闭评论
   comments: {
+    // 'waline' = 邮箱即可评论（推荐）；'giscus' = GitHub 评论
+    type: 'waline',
     enabled: true,
+    waline: {
+      serverURL: '', // 部署后填，如 https://waline-xxxx.vercel.app
+    },
+    // giscus 备选配置（type 切回 'giscus' 即可用）
     repo: 'weelee-herb/xiuyunju-blog',
     repoId: 'R_kgDOUDWNGw',
     category: 'Announcements',

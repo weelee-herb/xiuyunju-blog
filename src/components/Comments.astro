@@ -1,0 +1,7 @@
+---
+// 评论分发：config 里 type 为 waline 显示 Waline，否则回退 giscus
+import Giscus from './Giscus.astro';
+import Waline from './Waline.astro';
+import { site } from '../config';
+---
+{site.comments.type === 'waline' ? <Waline /> : <Giscus />}

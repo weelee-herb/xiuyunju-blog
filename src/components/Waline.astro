@@ -1,0 +1,54 @@
+---
+// Waline 评论（邮箱即可评论，无需注册）：CDN 引入 + 主题跟随
+import { site } from '../config';
+const serverURL = site.comments.waline?.serverURL ?? '';
+---
+
+{serverURL && (
+  <section class="giscus">
+    <h2 class="section-title">评论</h2>
+    <div id="waline"></div>
+  </section>
+)}
+
+{serverURL && (
+  <script is:inline define:vars={{ serverURL }}>
+    (function () {
+      var el = document.getElementById('waline');
+      if (!el) return;
+      var inst = null;
+      function boot() {
+        if (!window.Waline) {
+          // 脚本未就绪，稍后重试
+          if (boot.tries-- > 0) setTimeout(boot, 300);
+          else el.innerHTML = '<p class="search-hint">评论区加载失败，可稍后刷新，或到订阅页留言。</p>';
+          return;
+        }
+        try {
+          inst = window.Waline.init({
+            el: el,
+            serverURL: serverURL,
+            path: window.location.pathname,
+            dark: document.documentElement.getAttribute('data-theme') === 'dark',
+            locale: { placeholder: '写点什么，或留下邮箱…' },
+          });
+          // 站点深浅色切换时，评论跟随变化
+          new MutationObserver(function () {
+            if (inst && inst.updateConfig) {
+              inst.updateConfig({ dark: document.documentElement.getAttribute('data-theme') === 'dark' });
+            }
+          }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+        } catch (e) {}
+      }
+      boot.tries = 15;
+      var s = document.createElement('script');
+      s.src = 'https://unpkg.com/@waline/client@v2/dist/waline.js';
+      s.async = true;
+      s.onload = boot;
+      s.onerror = function () {
+        el.innerHTML = '<p class="search-hint">评论区加载失败，可稍后刷新，或到订阅页留言。</p>';
+      };
+      document.head.appendChild(s);
+    })();
+  </script>
+)}
