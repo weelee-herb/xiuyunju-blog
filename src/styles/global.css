@@ -1243,6 +1243,20 @@ html[data-theme='dark'] .prose pre { background: #100d09; }
   color: var(--ink-3);
 }
 .hero-invite b { color: var(--cinnabar); font-weight: 600; }
+.hero-invite.warning {
+  color: #a34f2a;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 .game-card-mini span { min-width: 0; overflow-wrap: break-word; }
 .game-card-mini img + span { min-width: 0; }
 .game-card-mini a { color: var(--celadon-deep); border-bottom: 1px solid var(--celadon); }

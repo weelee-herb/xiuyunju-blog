@@ -16,19 +16,6 @@ const latest = posts.slice(0, 3);
 const year = new Date().getFullYear();
 ---
 
-<script>
-  // 时段问候语：按月时变化（早安/午安/午后/晚安/夜深）
-  const greet = document.getElementById('hero-greet');
-  const h = new Date().getHours();
-  let text = '晚安 🌙';
-  if (h < 6) text = '夜深了 · 早歇 🌙';
-  else if (h < 11) text = '早安 ☀️';
-  else if (h < 14) text = '午安 ☀️';
-  else if (h < 18) text = '午后 · 安坐 🍵';
-  else if (h < 23) text = '晚安 🌙';
-  if (greet) greet.textContent = text;
-</script>
-
 <Base>
   <section class="hero">
     <span class="hero-watermark" aria-hidden="true">鶴</span>
@@ -43,9 +30,9 @@ const year = new Date().getFullYear();
           <a class="btn btn-primary" href="/blog/">读文章</a>
           <a class="btn btn-ghost" href="/subscribe/">订阅分享</a>
           <a class="btn btn-ghost" href="/game/">玩《识药闯关》</a>
-          <a class="btn btn-ghost" href="https://herb-quiz.cc.cd/" target="_blank" rel="noopener noreferrer">题库直达 ↗</a>
+          <a class="btn btn-ghost" href="/game-online/" title="中药题库维护中，先玩《识药闯关》">题库维护中 · 先玩识药闯关 ↗</a>
         </div>
-        <p class="hero-invite">中药题库 · 邀请码：<b>692626</b></p>
+        <p class="hero-invite warning">中药题库维护中 · 当前先玩《识药闯关》</p>
         <p class="game-card-mini">
           <img src="/game/chenpi.png" alt="识药闯关 · 陈皮科普卡" width="86" height="115" loading="lazy">
           <span>本期附赠：<b>《识药闯关》看图认中药小游戏</b>——300 味，离线可玩，今日药签、猜猜看、易混药对。<a href="/game/">去看看 →</a></span>
@@ -124,4 +111,16 @@ const year = new Date().getFullYear();
       </div>
     </div>
   </section>
+  <script is:inline>
+    // 时段问候语：按月时变化（早安/午安/午后/晚安/夜深）
+    const greet = document.getElementById('hero-greet');
+    const h = new Date().getHours();
+    let text = '晚安 🌙';
+    if (h < 6) text = '夜深了 · 早歇 🌙';
+    else if (h < 11) text = '早安 ☀️';
+    else if (h < 14) text = '午安 ☀️';
+    else if (h < 18) text = '午后 · 安坐 🍵';
+    else if (h < 23) text = '晚安 🌙';
+    if (greet) greet.textContent = text;
+  </script>
 </Base>

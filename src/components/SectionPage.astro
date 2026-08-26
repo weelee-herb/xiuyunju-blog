@@ -24,6 +24,7 @@ const posts = (await getCollection('blog'))
       <h1 class="page-title">{title}</h1>
       <p class="page-sub">{desc}</p>
     </header>
+    <h2 class="sr-only">{title}列表</h2>
     {posts.length > 0 ? (
       <div class="post-list">
         {posts.map((post) => <PostCard post={post} />)}

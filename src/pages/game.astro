@@ -6,9 +6,18 @@ const GAME_URL = import.meta.env.GAME_DOWNLOAD_URL || 'https://arelpjfm9rt6pv8z.
 const GAME_ONLINE_URL = '/game-online/';
 const cards = ['chenpi','jinyinhua','huajiao','gouqizi','ganjiang','juhua','gancao','shanzha','dazao','fuling','bohe','danggui','xiyangshen','luohanguo','meiguihua','rougui','dasuan','renshen','shanyao','lianzi','baihe','heizhima','hetaoren','longyanrou','fengmi','sangye','pugongying','yuxingcao','maxiancao','huoxiang','huangyaozi','shechuangzi'];
 const shown = cards.slice(0, 10);
+const cardNames: Record<string, string> = {
+  chenpi: '陈皮', jinyinhua: '金银花', huajiao: '花椒', gouqizi: '枸杞子', ganjiang: '干姜',
+  juhua: '菊花', gancao: '甘草', shanzha: '山楂', dazao: '大枣', fuling: '茯苓',
+  bohe: '薄荷', danggui: '当归', xiyangshen: '西洋参', luohanguo: '罗汉果', meiguihua: '玫瑰花',
+  rougui: '肉桂', dasuan: '大蒜', renshen: '人参', shanyao: '山药', lianzi: '莲子',
+  baihe: '百合', heizhima: '黑芝麻', hetaoren: '核桃仁', longyanrou: '龙眼肉', fengmi: '蜂蜜',
+  sangye: '桑叶', pugongying: '蒲公英', yuxingcao: '鱼腥草', maxiancao: '马齿苋', huoxiang: '藿香',
+  huangyaozi: '黄药子', shechuangzi: '蛇床子',
+};
 ---
 <Base title="识药闯关 · 看图认中药" description="《识药闯关》：300 味中药看图认名小游戏。">
-  <main class="page">
+  <div class="page">
     <header class="hero">
       <Seal text="药" />
       <h1>识药闯关 · 看图认中药</h1>
@@ -18,9 +27,9 @@ const shown = cards.slice(0, 10);
     <section class="howto">
       <h2>怎么玩</h2>
       <div class="howto-grid">
-        <figure><img src="/game/chenpi.png" alt="今日药签"><figcaption>今日药签：每天一味，配冷知识</figcaption></figure>
-        <figure><img src="/game/jinyinhua.png" alt="闯关模式"><figcaption>闯关 / 猜猜看：四选一或局部特写</figcaption></figure>
-        <figure><img src="/game/gouqizi.png" alt="易混药对"><figcaption>易混药对：二选一，一眼区别</figcaption></figure>
+        <figure><img src="/game/chenpi.png" alt="今日药签 · 陈皮科普卡" loading="lazy"><figcaption>今日药签：每天一味，配冷知识</figcaption></figure>
+        <figure><img src="/game/jinyinhua.png" alt="闯关模式 · 金银花科普卡" loading="lazy"><figcaption>闯关 / 猜猜看：四选一或局部特写</figcaption></figure>
+        <figure><img src="/game/gouqizi.png" alt="易混药对 · 枸杞子科普卡" loading="lazy"><figcaption>易混药对：二选一，一眼区别</figcaption></figure>
       </div>
       <ul class="play-list">
         <li>🌞 今日药签：每日一味 + 冷知识，固定题组与打卡。</li>
@@ -33,10 +42,10 @@ const shown = cards.slice(0, 10);
     <section class="gallery">
       <h2>科普卡画廊（30 张）</h2>
       <div class="card-grid" id="card-grid">
-        {shown.map((c) => <img src={'/game/' + c + '.png'} alt={c} class="card-img" loading="lazy" />)}
+        {shown.map((c) => <img src={'/game/' + c + '.png'} alt={cardNames[c] ?? c} class="card-img" loading="lazy" />)}
       </div>
       <div class="gallery-nav">
-        <button class="btn btn-ghost" id="more-btn" data-rest={cards.slice(10).join(',')}>加载更多</button>
+        <button class="btn btn-ghost" id="more-btn" data-rest={cards.slice(10).join(',')} data-names={JSON.stringify(cardNames)}>加载更多</button>
       </div>
       <p class="tiny">共 30 张；点击「加载更多」分页显示。</p>
     </section>
@@ -46,9 +55,9 @@ const shown = cards.slice(0, 10);
       <p>打开即玩，或下载后完全离线使用：</p>
       <div class="play-actions">
         <a class="dl-btn online-btn" href={GAME_ONLINE_URL}>▶️ 在线玩《识药闯关》</a>
-        <a class="dl-btn" href={GAME_URL} download rel="noopener">⬇️ 下载《识药闯关》离线版</a>
+        <a class="dl-btn" href={GAME_URL} download rel="noopener">⬇️ 下载《识药闯关》离线版（约 27MB）</a>
       </div>
-      <p class="tiny">在线版打开即玩、加载更快；离线版下载后没网也能玩，适合分享转发。</p>
+      <p class="tiny">在线版打开即玩、加载更快；离线版下载后没网也能玩，适合分享转发。iOS 请用浏览器打开并在分享菜单中选择“添加到主屏幕”，不要直接下载 zip 文件。</p>
       <div class="sub-box">
         <h2>订阅领游戏</h2>
         <p>留下邮箱，不定期分享 AI 创作笔记；本期自动回信附《识药闯关》下载链接。</p>
@@ -56,14 +65,15 @@ const shown = cards.slice(0, 10);
       </div>
       <p class="warn-line">内容仅供文化了解，不构成医疗建议；请勿采食不认识的植物。</p>
     </section>
-  </main>
+  </div>
   <script>
     const moreBtn = document.getElementById('more-btn');
     if (moreBtn) moreBtn.addEventListener('click', () => {
       const grid = document.getElementById('card-grid');
       const rest = moreBtn.getAttribute('data-rest').split(',');
+      const names = JSON.parse(moreBtn.getAttribute('data-names') || '{}');
       let i = 0;
-      for (const c of rest) { if (c && i < 10) { grid.insertAdjacentHTML('beforeend', '<img src="/game/' + c + '.png" alt="' + c + '" class="card-img" loading="lazy">'); i++; } }
+      for (const c of rest) { if (c && i < 10) { grid.insertAdjacentHTML('beforeend', '<img src="/game/' + c + '.png" alt="' + (names[c] || c) + '" class="card-img" loading="lazy">'); i++; } }
       const left = rest.slice(i);
       moreBtn.setAttribute('data-rest', left.join(','));
       if (!left.length) moreBtn.textContent = '已全部加载'; else moreBtn.textContent = '再加载 10 张';

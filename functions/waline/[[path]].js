@@ -3,6 +3,7 @@
 // 让国内访客也能通过 xiuyunju.cc.cd 正常加载和发表评论。
 
 const UPSTREAM = 'https://comment-section-flax.vercel.app';
+const CACHEABLE_GET = /^(?:\/(?:comment|avatar|reaction)(?:\/|$)|(?:\/)?)$/;
 
 const SKIP_REQUEST_HEADERS = new Set([
   'host',
@@ -92,6 +93,15 @@ export async function onRequest(context) {
     }
     if (!responseHeaders.has('content-type')) {
       responseHeaders.set('content-type', 'application/json; charset=utf-8');
+    }
+    if (method === 'GET' && upstream.status === 200 && CACHEABLE_GET.test(path)) {
+      // 评论列表等公开 GET 允许 Cloudflare 边缘缓存，缓解冷启动；用户态接口不会命中。
+      responseHeaders.set(
+        'Cache-Control',
+        'public, max-age=300, s-maxage=300, stale-while-revalidate=86400',
+      );
+    } else if (method === 'GET') {
+      responseHeaders.set('Cache-Control', 'no-store');
     }
 
     return new Response(data, {

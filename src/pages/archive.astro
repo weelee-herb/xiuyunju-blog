@@ -18,6 +18,7 @@ const years = [...new Set(posts.map((p) => p.data.date.getFullYear()))].sort((a,
       <h1 class="page-title">归档</h1>
       <p class="page-sub">共 {posts.length} 篇，按年收纳，取用自便。</p>
     </header>
+    <h2 class="sr-only">归档文章列表</h2>
 
     {years.map((y) => (
       <section>

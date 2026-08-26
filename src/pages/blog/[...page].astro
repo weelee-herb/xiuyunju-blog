@@ -24,13 +24,14 @@ export async function getStaticPaths() {
 const { posts, page, total, totalPosts } = Astro.props;
 ---
 
-<Base title={`文章 · ${site.name}`} description="全部文章归档">
+<Base title={`文章 · ${site.name}`} description="记录用 Codex 与 AI 创作、建站和设计的真实工作流：从结构、提示词到踩坑实录。">
   <div class="container">
     <header class="page-hero">
       <p class="kicker">文章 · Archives</p>
       <h1 class="page-title">文章</h1>
       <p class="page-sub">共 {totalPosts} 篇，以墨为记。</p>
     </header>
+    <h2 class="sr-only">文章列表</h2>
 
     <div class="list-toolbar">
       <a class="section-more" href="/search/">搜索</a>

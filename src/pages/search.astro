@@ -7,13 +7,14 @@ const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
 const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
 ---
 
-<Base title={`搜索 · ${site.name}`} description="站内搜索">
+<Base title={`搜索 · ${site.name}`} description="搜索云岫居全部文章、标签与内容，快速找到你关心的 AI 创作、建站与本草内容。">
   <div class="container">
     <header class="page-hero">
       <p class="kicker">搜索 · Search</p>
       <h1 class="page-title">搜索</h1>
       <p class="page-sub">输入关键词，在全部 {posts.length} 篇文章里查找。</p>
     </header>
+    <h2 class="sr-only">搜索结果</h2>
 
     <input
       type="search"

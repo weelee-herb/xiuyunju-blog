@@ -2,8 +2,8 @@
 import Base from '../layouts/Base.astro';
 import { site } from '../config';
 ---
-<Base title="隐私说明" description="云岫居的隐私说明：我们收集什么、为什么、如何联系。">
-  <main class="page">
+<Base title={`隐私说明 · ${site.name}`} description={`${site.name}的隐私说明：我们收集什么、为什么、如何联系。`}>
+  <div class="page">
     <h1>隐私说明</h1>
     <p>本站在功能上尽量克制，隐私上同样如此。以下是全部说明：</p>
     <ul class="pl">
@@ -18,7 +18,7 @@ import { site } from '../config';
       <li><b>联系</b>：如需查询、更正或删除账号与订阅数据，请联系 {site.email}（站长将在合理时间内处理）。</li>
       <li><b>退出与注销</b>：订阅邮件底部提供一键退订；评论账号支持在登录面板中注销，注销后表情与账号数据会被删除。</li>
     </ul>
-  </main>
+  </div>
   <style>
     .page{max-width:720px;margin:0 auto;padding:60px 20px 80px}
     .pl{line-height:1.9;color:#4a5a52;font-size:.95rem;padding-left:20px}

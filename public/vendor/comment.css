@@ -1,0 +1,639 @@
+.comment-section {
+      position: relative;
+      margin: 54px 0 24px;
+      padding-top: 8px;
+      border-top: 1px solid var(--hairline);
+    }
+
+    .comment-head {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .comment-seal {
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgba(246, 239, 226, 0.55);
+      border-radius: 3px;
+      background: linear-gradient(135deg, var(--cinnabar), var(--cinnabar-deep));
+      color: #f6efe2;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      letter-spacing: 0.24em;
+      transform: rotate(-3deg);
+      box-shadow: inset 0 0 0 2px rgba(246, 239, 226, 0.22);
+      flex-shrink: 0;
+    }
+
+    .comment-kicker {
+      margin: 0 0 5px;
+      color: var(--ink-3);
+      font-size: 0.7rem;
+      letter-spacing: 0.24em;
+    }
+
+    .comment-title .section-title {
+      margin: 0;
+      font-size: 1.45rem;
+    }
+
+    .comment-title .section-title::before {
+      display: none;
+    }
+
+    .comment-note {
+      margin-left: auto;
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    .comment-lede {
+      margin: 10px 0 20px 64px;
+      color: var(--ink-2);
+      font-size: 0.92rem;
+    }
+
+    .comment-card {
+      overflow: hidden;
+      border: 1px solid var(--hairline);
+      border-radius: 3px;
+      background: color-mix(in srgb, var(--paper-2) 42%, transparent);
+    }
+
+    .comment-empty {
+      padding: 52px 20px 44px;
+      color: var(--ink-2);
+      text-align: center;
+    }
+
+    .comment-empty[hidden] {
+      display: none;
+    }
+
+    .comment-empty-seal {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(246, 239, 226, 0.5);
+      border-radius: 2px;
+      background: var(--celadon-deep);
+      color: var(--paper);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      transform: rotate(-3deg);
+    }
+
+    .comment-empty-title {
+      margin: 14px 0 6px;
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      letter-spacing: 0.28em;
+    }
+
+    .comment-empty-text {
+      margin: 0;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+    }
+
+    .comment-empty-text a {
+      color: var(--celadon-deep);
+      border-bottom: 1px solid var(--celadon-deep);
+    }
+
+    .comment-foot {
+      margin: 12px 0 0;
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-align: right;
+    }
+
+    .comment-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 16px 64px;
+    }
+
+    .comment-login-toggle,
+    .emoji-maker-toggle {
+      border: 1px solid var(--hairline-strong);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--ink-2);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .comment-login-toggle:hover,
+    .emoji-maker-toggle:hover {
+      border-color: var(--cinnabar);
+      color: var(--cinnabar);
+    }
+
+    .comment-user-state {
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    .login-panel {
+      margin: 0 0 18px 64px;
+      padding: 18px 20px;
+      border: 1px solid var(--hairline);
+      border-radius: 3px;
+      background: color-mix(in srgb, var(--paper-2) 30%, transparent);
+    }
+
+    .login-panel[hidden],
+    .emoji-maker-panel[hidden],
+    .emoji-preview[hidden] {
+      display: none;
+    }
+
+    .login-panel-title {
+      margin: 0 0 12px;
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+    }
+
+    .login-fields {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .login-fields label,
+    .emoji-upload {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    .login-fields input,
+    .emoji-maker-panel input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      padding: 7px 10px;
+      outline: none;
+    }
+
+    .login-fields input:focus,
+    .emoji-maker-panel input[type="text"]:focus {
+      border-color: var(--celadon-deep);
+    }
+
+    .login-captcha {
+      display: flex;
+      align-items: end;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .login-captcha[hidden] {
+      display: none;
+    }
+
+    .login-captcha label {
+      display: flex;
+      align-items: end;
+      gap: 9px;
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    .login-captcha span {
+      color: var(--ink-2);
+      white-space: nowrap;
+    }
+
+    .login-captcha input {
+      width: 86px;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      padding: 7px 10px;
+      outline: none;
+    }
+
+    .login-captcha input:focus {
+      border-color: var(--celadon-deep);
+    }
+
+    .captcha-refresh {
+      border: 1px solid var(--hairline-strong);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--ink-2);
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      padding: 7px 10px;
+      cursor: pointer;
+    }
+
+    .captcha-refresh:hover {
+      border-color: var(--celadon-deep);
+      color: var(--ink);
+    }
+
+    .login-tip,
+    .login-status,
+    .emoji-status {
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+    }
+
+    .login-tip {
+      margin: 10px 0;
+    }
+
+    .login-forgot {
+      margin: -2px 0 10px;
+    }
+
+    .login-forgot a {
+      color: var(--celadon-deep);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .login-forgot a:hover {
+      border-bottom-color: var(--celadon-deep);
+    }
+
+    .login-danger {
+      margin: 8px 0 0;
+    }
+
+    .login-danger button {
+      border: 0;
+      background: transparent;
+      color: var(--ink-3);
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      padding: 0;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .login-danger button:hover {
+      color: var(--cinnabar);
+    }
+
+    .login-status,
+    .emoji-status {
+      min-height: 1.1em;
+      margin: 8px 0 0;
+    }
+
+    .login-submit,
+    .emoji-save {
+      border-radius: 2px;
+      border: 1px solid var(--cinnabar);
+      background: var(--cinnabar);
+      color: #f7f1e4;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      padding: 7px 18px;
+      cursor: pointer;
+    }
+
+    .login-submit:hover,
+    .emoji-save:hover {
+      background: var(--cinnabar-deep);
+    }
+
+    .emoji-maker {
+      padding: 14px 18px 0;
+    }
+
+    .emoji-maker-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .emoji-maker-tip {
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+    }
+
+    .emoji-maker-panel {
+      margin-top: 12px;
+      padding: 14px;
+      border: 1px dashed var(--hairline-strong);
+      border-radius: 3px;
+    }
+
+    .emoji-maker-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .emoji-maker-row input[type="text"] {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .emoji-upload {
+      width: auto;
+      padding: 7px 12px;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 2px;
+      color: var(--ink-2);
+      cursor: pointer;
+    }
+
+    .emoji-upload:hover {
+      border-color: var(--celadon-deep);
+      color: var(--celadon-deep);
+    }
+
+    .emoji-preview {
+      width: 76px;
+      height: 76px;
+      border: 1px solid var(--hairline);
+      border-radius: 3px;
+      object-fit: contain;
+      background: color-mix(in srgb, var(--paper), transparent 20%);
+    }
+
+    .emoji-visibility {
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    .emoji-visibility label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--ink-2);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+    }
+
+    .emoji-visibility input {
+      accent-color: var(--cinnabar);
+    }
+
+    .emoji-maker-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0 4px;
+      min-height: 1em;
+    }
+
+    .emoji-maker-empty {
+      width: 100%;
+      color: var(--ink-3);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+    }
+
+    .emoji-item {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      min-width: 54px;
+      padding: 5px;
+      border: 1px solid var(--hairline);
+      border-radius: 3px;
+      background: transparent;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .emoji-item:hover {
+      border-color: var(--celadon-deep);
+      transform: translateY(-1px);
+    }
+
+    .emoji-item img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .emoji-item-name {
+      max-width: 76px;
+      overflow: hidden;
+      color: var(--ink-2);
+      font-size: 0.64rem;
+      letter-spacing: 0.04em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .emoji-badge {
+      padding: 1px 4px;
+      border-radius: 2px;
+      color: var(--celadon-deep);
+      font-size: 0.56rem;
+      line-height: 1.3;
+    }
+
+    .emoji-delete {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 17px;
+      height: 17px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--cinnabar);
+      color: #f7f1e4;
+      font-size: 0.7rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    #waline {
+      --waline-font-size: 0.94rem;
+      --waline-color: var(--ink);
+      --waline-dark-grey: var(--ink-2);
+      --waline-light-grey: var(--ink-3);
+      --waline-bgcolor: transparent;
+      --waline-bgcolor-light: color-mix(in srgb, var(--celadon-wash), transparent 60%);
+      --waline-bgcolor-hover: color-mix(in srgb, var(--celadon-wash), transparent 45%);
+      --waline-border-color: var(--hairline-strong);
+      --waline-bgcolor-hover: var(--celadon-wash);
+      --waline-theme-color: var(--cinnabar);
+      --waline-active-color: var(--celadon-deep);
+      --waline-badge-color: var(--celadon-deep);
+      --waline-bq-color: var(--celadon-wash);
+      --waline-info-bgcolor: color-mix(in srgb, var(--celadon-wash), transparent 55%);
+      --waline-info-color: var(--ink-3);
+      --waline-box-shadow: none;
+      --waline-avatar-size: 3.4rem;
+      font-family: var(--font-body);
+      margin: 0;
+    }
+
+    #waline .wl-panel,
+    #waline .wl-card,
+    #waline .wl-comment {
+      border-color: var(--hairline);
+      background: transparent;
+    }
+
+    #waline .wl-panel {
+      margin: 0;
+      border: 0;
+      border-bottom: 1px solid var(--hairline);
+      border-radius: 0;
+    }
+
+    #waline .wl-header {
+      border-bottom: 1px dashed var(--hairline-strong);
+    }
+
+    #waline .wl-header input {
+      color: var(--ink);
+      font-family: var(--font-body);
+    }
+
+    #waline .wl-editor,
+    #waline .wl-input {
+      color: var(--ink);
+      font-family: var(--font-body);
+    }
+
+    #waline .wl-btn {
+      border-radius: 2px;
+      font-family: var(--font-body);
+      letter-spacing: 0.08em;
+    }
+
+    #waline .wl-btn.primary {
+      border-color: var(--cinnabar);
+      background: var(--cinnabar);
+      color: #f7f1e4;
+    }
+
+    #waline .wl-btn.primary:hover,
+    #waline .wl-btn.primary:active {
+      border-color: var(--cinnabar-deep);
+      background: var(--cinnabar-deep);
+    }
+
+    #waline .wl-actions > a.wl-action {
+      display: none;
+    }
+
+    #waline .wl-card {
+      border: 0;
+      border-radius: 0;
+    }
+
+    #waline .wl-comment {
+      margin-bottom: 0.9em;
+      padding-bottom: 0.9em;
+      border-bottom: 1px dashed var(--hairline);
+    }
+
+    #waline .wl-avatar {
+      border: 1px solid var(--hairline-strong);
+      box-shadow: none;
+    }
+
+    #waline .wl-nick,
+    #waline .wl-card .wl-nick {
+      color: var(--ink);
+      font-family: var(--font-display);
+      letter-spacing: 0.04em;
+    }
+
+    #waline .wl-time,
+    #waline .wl-count {
+      color: var(--ink-3);
+    }
+
+    #waline .wl-content {
+      color: var(--ink-2);
+      font-size: 0.9rem;
+      line-height: 2;
+    }
+
+    #waline .wl-empty {
+      padding: 38px 16px 30px;
+      color: var(--ink-2);
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 0.16em;
+    }
+
+    #waline .wl-power {
+      color: var(--ink-3);
+      font-size: 0.68rem;
+    }
+
+    #waline .wl-card .wl-meta,
+    #waline .wl-card .wl-time {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .comment-note {
+        width: 100%;
+        margin-left: 64px;
+      }
+
+      .comment-lede {
+        margin-left: 0;
+      }
+
+      .comment-user,
+      .login-panel {
+        margin-left: 0;
+      }
+
+      .login-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .emoji-maker-row {
+        align-items: flex-start;
+      }
+
+      .comment-empty {
+        padding: 42px 16px 36px;
+      }
+    }
