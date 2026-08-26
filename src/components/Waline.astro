@@ -12,12 +12,57 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         <p class="comment-kicker">清 谈 · 纸 上 相 逢</p>
         <h2 class="section-title">留下你的话</h2>
       </div>
-      <span class="comment-note">无需注册 · 邮箱仅用于回复</span>
+      <span class="comment-note">邮箱仅用于回复 · 自制表情可公开或自留</span>
     </header>
 
     <p class="comment-lede">字句虽轻，亦有回响。写下一句，给路过的人留一盏灯。</p>
 
+    <div class="comment-user">
+      <button type="button" class="comment-login-toggle" id="comment-login-toggle">登录 / 注册</button>
+      <span class="comment-user-state" id="comment-user-state">未登录</span>
+    </div>
+
+    <div class="login-panel" id="comment-login-panel" hidden>
+      <p class="login-panel-title">账号登录</p>
+      <div class="login-fields">
+        <label>昵称
+          <input id="comment-login-nick" maxlength="40" autocomplete="nickname" placeholder="怎么称呼你">
+        </label>
+        <label>邮箱
+          <input id="comment-login-email" type="email" autocomplete="email" placeholder="you@example.com">
+        </label>
+        <label>密码
+          <input id="comment-login-password" type="password" autocomplete="current-password" placeholder="至少 6 位">
+        </label>
+      </div>
+      <p class="login-tip" id="comment-login-tip">第一次使用请直接填写，会自动注册</p>
+      <button type="button" class="login-submit" id="comment-login-submit">登录 / 注册</button>
+      <span class="login-status" id="comment-login-status"></span>
+    </div>
+
     <div class="comment-card">
+      <div class="emoji-maker" id="emoji-maker">
+        <div class="emoji-maker-bar">
+          <button type="button" class="emoji-maker-toggle" id="emoji-maker-toggle">✎ 自制表情</button>
+          <span class="emoji-maker-tip">登录后可上传，公开或自留</span>
+        </div>
+        <div class="emoji-maker-panel" id="emoji-maker-panel" hidden>
+          <div class="emoji-maker-row">
+            <input id="emoji-name" maxlength="30" placeholder="给表情起个名字">
+            <label class="emoji-upload">选择图片
+              <input id="emoji-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+            </label>
+            <img id="emoji-preview" class="emoji-preview" alt="" hidden>
+          </div>
+          <div class="emoji-maker-row emoji-visibility">
+            <label><input type="radio" name="emoji-visibility" value="public" checked> 公开</label>
+            <label><input type="radio" name="emoji-visibility" value="private"> 自留</label>
+            <button type="button" class="emoji-save" id="emoji-save">保存</button>
+          </div>
+          <p class="emoji-status" id="emoji-status" aria-live="polite"></p>
+        </div>
+        <div class="emoji-maker-list" id="emoji-maker-list"></div>
+      </div>
       <div class="comment-empty" id="comment-empty" role="status">
         <span class="comment-empty-seal" aria-hidden="true">候</span>
         <p class="comment-empty-title">少 坐 · 慢 写</p>
@@ -26,7 +71,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
       <div id="waline"></div>
     </div>
 
-    <p class="comment-foot">请保持善意 · 邮箱仅用于回复，不会公开</p>
+    <p class="comment-foot">请保持善意 · 登录后可制作专属表情，自留仅自己可见</p>
   </section>
 )}
 
@@ -152,6 +197,282 @@ const serverURL = site.comments.waline?.serverURL ?? '';
       font-size: 0.72rem;
       letter-spacing: 0.1em;
       text-align: right;
+    }
+
+    .comment-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 16px 64px;
+    }
+
+    .comment-login-toggle,
+    .emoji-maker-toggle {
+      border: 1px solid var(--hairline-strong);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--ink-2);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .comment-login-toggle:hover,
+    .emoji-maker-toggle:hover {
+      border-color: var(--cinnabar);
+      color: var(--cinnabar);
+    }
+
+    .comment-user-state {
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    .login-panel {
+      margin: 0 0 18px 64px;
+      padding: 18px 20px;
+      border: 1px solid var(--hairline);
+      border-radius: 3px;
+      background: color-mix(in srgb, var(--paper-2) 30%, transparent);
+    }
+
+    .login-panel[hidden],
+    .emoji-maker-panel[hidden],
+    .emoji-preview[hidden] {
+      display: none;
+    }
+
+    .login-panel-title {
+      margin: 0 0 12px;
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+    }
+
+    .login-fields {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .login-fields label,
+    .emoji-upload {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    .login-fields input,
+    .emoji-maker-panel input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      padding: 7px 10px;
+      outline: none;
+    }
+
+    .login-fields input:focus,
+    .emoji-maker-panel input[type="text"]:focus {
+      border-color: var(--celadon-deep);
+    }
+
+    .login-tip,
+    .login-status,
+    .emoji-status {
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+    }
+
+    .login-tip {
+      margin: 10px 0;
+    }
+
+    .login-status,
+    .emoji-status {
+      min-height: 1.1em;
+      margin: 8px 0 0;
+    }
+
+    .login-submit,
+    .emoji-save {
+      border-radius: 2px;
+      border: 1px solid var(--cinnabar);
+      background: var(--cinnabar);
+      color: #f7f1e4;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      padding: 7px 18px;
+      cursor: pointer;
+    }
+
+    .login-submit:hover,
+    .emoji-save:hover {
+      background: var(--cinnabar-deep);
+    }
+
+    .emoji-maker {
+      padding: 14px 18px 0;
+    }
+
+    .emoji-maker-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .emoji-maker-tip {
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+    }
+
+    .emoji-maker-panel {
+      margin-top: 12px;
+      padding: 14px;
+      border: 1px dashed var(--hairline-strong);
+      border-radius: 3px;
+    }
+
+    .emoji-maker-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .emoji-maker-row input[type="text"] {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .emoji-upload {
+      width: auto;
+      padding: 7px 12px;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 2px;
+      color: var(--ink-2);
+      cursor: pointer;
+    }
+
+    .emoji-upload:hover {
+      border-color: var(--celadon-deep);
+      color: var(--celadon-deep);
+    }
+
+    .emoji-preview {
+      width: 76px;
+      height: 76px;
+      border: 1px solid var(--hairline);
+      border-radius: 3px;
+      object-fit: contain;
+      background: color-mix(in srgb, var(--paper), transparent 20%);
+    }
+
+    .emoji-visibility {
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    .emoji-visibility label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--ink-2);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+    }
+
+    .emoji-visibility input {
+      accent-color: var(--cinnabar);
+    }
+
+    .emoji-maker-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0 4px;
+      min-height: 1em;
+    }
+
+    .emoji-maker-empty {
+      width: 100%;
+      color: var(--ink-3);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+    }
+
+    .emoji-item {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      min-width: 54px;
+      padding: 5px;
+      border: 1px solid var(--hairline);
+      border-radius: 3px;
+      background: transparent;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .emoji-item:hover {
+      border-color: var(--celadon-deep);
+      transform: translateY(-1px);
+    }
+
+    .emoji-item img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .emoji-item-name {
+      max-width: 76px;
+      overflow: hidden;
+      color: var(--ink-2);
+      font-size: 0.64rem;
+      letter-spacing: 0.04em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .emoji-badge {
+      padding: 1px 4px;
+      border-radius: 2px;
+      color: var(--celadon-deep);
+      font-size: 0.56rem;
+      line-height: 1.3;
+    }
+
+    .emoji-delete {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 17px;
+      height: 17px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--cinnabar);
+      color: #f7f1e4;
+      font-size: 0.7rem;
+      line-height: 1;
+      cursor: pointer;
     }
 
     #waline {
@@ -284,6 +605,19 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         margin-left: 0;
       }
 
+      .comment-user,
+      .login-panel {
+        margin-left: 0;
+      }
+
+      .login-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .emoji-maker-row {
+        align-items: flex-start;
+      }
+
       .comment-empty {
         padding: 42px 16px 36px;
       }
@@ -300,6 +634,378 @@ const serverURL = site.comments.waline?.serverURL ?? '';
 
       var inst = null;
       var tries = 30;
+      var authToken = '';
+      var authUser = null;
+      var customPublic = [];
+      var customMine = [];
+      var currentEmojiImage = '';
+
+      function setStatus(target, message) {
+        if (target) target.textContent = message || '';
+      }
+
+      function authHeaders(extra) {
+        var headers = extra || {};
+        if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
+        return headers;
+      }
+
+      function getPostHeaders() {
+        return authHeaders({ 'Content-Type': 'application/json' });
+      }
+
+      function updateLoginState() {
+        var btn = document.getElementById('comment-login-toggle');
+        var state = document.getElementById('comment-user-state');
+        if (btn) btn.textContent = authUser ? '退出登录' : '登录 / 注册';
+        if (state) state.textContent = authUser ? '已登录 · ' + authUser.nick : '未登录';
+        prefillMeta();
+      }
+
+      function prefillMeta() {
+        if (!authUser) return;
+        var inputs = document.querySelectorAll('#waline .wl-header input');
+        if (inputs[0]) {
+          inputs[0].value = authUser.nick;
+          inputs[0].dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        if (inputs[1]) {
+          inputs[1].value = authUser.email;
+          inputs[1].dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      }
+
+      function saveSession(data) {
+        authToken = String(data.token || '');
+        authUser = data.user || null;
+        try {
+          if (authToken) localStorage.setItem('yxs_comment_token_v1', authToken);
+          else localStorage.removeItem('yxs_comment_token_v1');
+          if (authUser) localStorage.setItem('yxs_comment_user_v1', JSON.stringify(authUser));
+          else localStorage.removeItem('yxs_comment_user_v1');
+        } catch (e) {}
+        updateLoginState();
+      }
+
+      function clearSession() {
+        authToken = '';
+        authUser = null;
+        customMine = [];
+        try {
+          localStorage.removeItem('yxs_comment_token_v1');
+          localStorage.removeItem('yxs_comment_user_v1');
+        } catch (e) {}
+        updateLoginState();
+        renderCustomEmojis();
+      }
+
+      function loadAccount() {
+        try {
+          authToken = localStorage.getItem('yxs_comment_token_v1') || '';
+          var stored = localStorage.getItem('yxs_comment_user_v1');
+          authUser = stored ? JSON.parse(stored) : null;
+        } catch (e) {}
+        updateLoginState();
+        if (authToken) {
+          fetch('/waline/auth/me', { headers: authHeaders() })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+              if (data && data.ok) {
+                authUser = data.user;
+                try { localStorage.setItem('yxs_comment_user_v1', JSON.stringify(authUser)); } catch (e) {}
+                updateLoginState();
+              } else {
+                clearSession();
+              }
+            })
+            .catch(function () {});
+        }
+      }
+
+      function logout() {
+        fetch('/waline/auth/logout', { method: 'POST', headers: authHeaders() })
+          .catch(function () {})
+          .finally(function () {
+            clearSession();
+          });
+      }
+
+      function loginOrRegister() {
+        var status = document.getElementById('comment-login-status');
+        var nick = document.getElementById('comment-login-nick');
+        var email = document.getElementById('comment-login-email');
+        var password = document.getElementById('comment-login-password');
+        if (!nick || !email || !password) return;
+        setStatus(status, '请稍候…');
+
+        var payload = {
+          nick: nick.value.trim(),
+          email: email.value.trim(),
+          password: password.value,
+        };
+        fetch('/waline/auth/register', {
+          method: 'POST',
+          headers: getPostHeaders(),
+          body: JSON.stringify(payload),
+        })
+          .then(function (r) {
+            return r.json().then(function (data) {
+              return { status: r.status, data: data };
+            });
+          })
+          .then(function (result) {
+            if (result.status === 409) {
+              return fetch('/waline/auth/login', {
+                method: 'POST',
+                headers: getPostHeaders(),
+                body: JSON.stringify({ email: payload.email, password: payload.password }),
+              }).then(function (r) {
+                return r.json().then(function (data) {
+                  return { status: r.status, data: data };
+                });
+              });
+            }
+            return result;
+          })
+          .then(function (result) {
+            if (!result.data || !result.data.ok) {
+              throw new Error((result.data && result.data.message) || '登录失败');
+            }
+            saveSession(result.data);
+            setStatus(status, '');
+            var panel = document.getElementById('comment-login-panel');
+            if (panel) panel.hidden = true;
+            loadCustomEmojis();
+          })
+          .catch(function (err) {
+            setStatus(status, err.message || '登录失败，请重试');
+          });
+      }
+
+      function renderCustomEmojis() {
+        var list = document.getElementById('emoji-maker-list');
+        if (!list) return;
+        list.textContent = '';
+
+        function addSection(title, items, mine) {
+          if (!items.length) return;
+          var heading = document.createElement('p');
+          heading.className = 'emoji-maker-empty';
+          heading.textContent = title;
+          list.appendChild(heading);
+
+          items.forEach(function (item) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'emoji-item';
+            btn.title = item.name;
+
+            var img = document.createElement('img');
+            img.src = item.image || item.url || '';
+            img.alt = item.name;
+            btn.appendChild(img);
+
+            var name = document.createElement('span');
+            name.className = 'emoji-item-name';
+            name.textContent = item.name;
+            btn.appendChild(name);
+
+            btn.addEventListener('click', function () {
+              insertCustomEmoji(item.image || item.url || '', item.name);
+            });
+
+            if (mine) {
+              var badge = document.createElement('span');
+              badge.className = 'emoji-badge';
+              badge.textContent = item.visibility === 'private' ? '自留' : '公开';
+              btn.appendChild(badge);
+
+              var del = document.createElement('button');
+              del.type = 'button';
+              del.className = 'emoji-delete';
+              del.textContent = '×';
+              del.title = '删除';
+              del.addEventListener('click', function (event) {
+                event.stopPropagation();
+                deleteCustomEmoji(item);
+              });
+              btn.appendChild(del);
+            }
+            list.appendChild(btn);
+          });
+        }
+
+        addSection('大家的 · ' + customPublic.length, customPublic, false);
+        addSection('我的 · ' + customMine.length, customMine, true);
+
+        if (!customPublic.length && !customMine.length) {
+          var empty = document.createElement('p');
+          empty.className = 'emoji-maker-empty';
+          empty.textContent = '还没有自制表情，登录后上传一张试试。';
+          list.appendChild(empty);
+        }
+      }
+
+      function loadCustomEmojis() {
+        fetch('/waline/emoji', { headers: authHeaders() })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data && data.ok) {
+              customPublic = data.emojis || [];
+              renderCustomEmojis();
+            }
+          })
+          .catch(function () {});
+
+        if (!authToken) return;
+        fetch('/waline/emoji?scope=mine', { headers: authHeaders() })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data && data.ok) {
+              customMine = data.emojis || [];
+              renderCustomEmojis();
+            }
+          })
+          .catch(function () {});
+      }
+
+      function insertCustomEmoji(src, name) {
+        var editor = document.querySelector('#waline .wl-editor');
+        var status = document.getElementById('emoji-status');
+        if (!editor) {
+          setStatus(status, '等评论区加载后再插入');
+          return;
+        }
+        var markdown = '![' + name + '](' + src + ')';
+        editor.focus();
+        var start = editor.selectionStart != null ? editor.selectionStart : editor.value.length;
+        var end = editor.selectionEnd != null ? editor.selectionEnd : start;
+        editor.setRangeText(markdown, start, end, 'end');
+        editor.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+
+      function deleteCustomEmoji(item) {
+        if (!item || !item.id) return;
+        fetch('/waline/emoji/' + item.id, { method: 'DELETE', headers: authHeaders() })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data && data.ok) {
+              customMine = customMine.filter(function (emoji) { return emoji.id !== item.id; });
+              customPublic = customPublic.filter(function (emoji) { return emoji.id !== item.id; });
+              renderCustomEmojis();
+            }
+          })
+          .catch(function () {});
+      }
+
+      function saveCustomEmoji() {
+        var status = document.getElementById('emoji-status');
+        var nameInput = document.getElementById('emoji-name');
+        var visibility = document.querySelector('input[name="emoji-visibility"]:checked');
+        var name = nameInput ? nameInput.value.trim() : '';
+        if (!authToken) {
+          setStatus(status, '请先登录后再制作表情');
+          var loginPanel = document.getElementById('comment-login-panel');
+          if (loginPanel) loginPanel.hidden = false;
+          return;
+        }
+        if (!name || !currentEmojiImage) {
+          setStatus(status, '请填写表情名并选择图片');
+          return;
+        }
+        setStatus(status, '保存中…');
+        fetch('/waline/emoji', {
+          method: 'POST',
+          headers: getPostHeaders(),
+          body: JSON.stringify({
+            name: name,
+            image: currentEmojiImage,
+            visibility: visibility ? visibility.value : 'public',
+          }),
+        })
+          .then(function (r) {
+            return r.json().then(function (data) {
+              return { status: r.status, data: data };
+            });
+          })
+          .then(function (result) {
+            if (!result.data || !result.data.ok) {
+              throw new Error((result.data && result.data.message) || '保存失败');
+            }
+            customMine.unshift(result.data.emoji);
+            if (result.data.emoji.visibility === 'public') {
+              customPublic.unshift(result.data.emoji);
+            }
+            renderCustomEmojis();
+            setStatus(status, '已保存');
+            var nameInput = document.getElementById('emoji-name');
+            var fileInput = document.getElementById('emoji-file');
+            if (nameInput) nameInput.value = '';
+            if (fileInput) fileInput.value = '';
+            currentEmojiImage = '';
+            var preview = document.getElementById('emoji-preview');
+            if (preview) {
+              preview.hidden = true;
+              preview.removeAttribute('src');
+            }
+          })
+          .catch(function (err) {
+            setStatus(status, err.message || '保存失败，请重试');
+          });
+      }
+
+      function handleEmojiFile(event) {
+        var status = document.getElementById('emoji-status');
+        var file = event.target.files && event.target.files[0];
+        if (!file) return;
+        if (file.size > 128 * 1024) {
+          setStatus(status, '图片不能超过 128KB');
+          event.target.value = '';
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function () {
+          currentEmojiImage = String(reader.result || '');
+          var preview = document.getElementById('emoji-preview');
+          if (preview) {
+            preview.src = currentEmojiImage;
+            preview.hidden = false;
+          }
+        };
+        reader.onerror = function () {
+          setStatus(status, '图片读取失败');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function setupCustomEmoji() {
+        var loginToggle = document.getElementById('comment-login-toggle');
+        var loginPanel = document.getElementById('comment-login-panel');
+        var loginSubmit = document.getElementById('comment-login-submit');
+        var emojiToggle = document.getElementById('emoji-maker-toggle');
+        var emojiPanel = document.getElementById('emoji-maker-panel');
+        var emojiSave = document.getElementById('emoji-save');
+        var emojiFile = document.getElementById('emoji-file');
+
+        if (loginToggle) {
+          loginToggle.addEventListener('click', function () {
+            if (authUser) {
+              logout();
+              return;
+            }
+            if (loginPanel) loginPanel.hidden = !loginPanel.hidden;
+          });
+        }
+        if (loginSubmit) loginSubmit.addEventListener('click', loginOrRegister);
+        if (emojiToggle && emojiPanel) {
+          emojiToggle.addEventListener('click', function () {
+            emojiPanel.hidden = !emojiPanel.hidden;
+            if (!emojiPanel.hidden) loadCustomEmojis();
+          });
+        }
+        if (emojiSave) emojiSave.addEventListener('click', saveCustomEmoji);
+        if (emojiFile) emojiFile.addEventListener('change', handleEmojiFile);
+      }
 
       function failMessage() {
         if (!empty) return;
@@ -376,6 +1082,8 @@ const serverURL = site.comments.waline?.serverURL ?? '';
           });
 
           if (empty) empty.hidden = true;
+          loadAccount();
+          loadCustomEmojis();
 
           new MutationObserver(function () {
             if (inst && inst.updateConfig) {
@@ -391,6 +1099,9 @@ const serverURL = site.comments.waline?.serverURL ?? '';
           failMessage();
         }
       }
+
+      setupCustomEmoji();
+      loadAccount();
 
       var s = document.createElement('script');
       s.src = '/vendor/waline.js';
