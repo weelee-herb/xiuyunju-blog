@@ -59,6 +59,14 @@ export async function onRequest(context) {
     headers.set(name, value);
   }
 
+  // Cloudflare 的 cf-connecting-ip 是边缘可信的真实访客 IP；
+  // 转发给它，Vercel 上的人机验证限流与评论频率限制才能按真实访客计算。
+  const realIp = request.headers.get('cf-connecting-ip') || request.headers.get('cf-ipcountry') || '';
+  if (realIp) {
+    headers.set('x-forwarded-for', realIp);
+    headers.set('x-real-ip', realIp);
+  }
+
   const hasBody = method !== 'GET' && method !== 'HEAD';
   const body = hasBody ? await request.arrayBuffer() : undefined;
 
