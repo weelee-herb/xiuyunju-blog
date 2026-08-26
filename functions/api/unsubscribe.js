@@ -197,6 +197,11 @@ export async function onRequestPost(context) {
       : '退订失败，请稍后再试';
     return json({ ok: false, code: result.code, message }, 502);
   }
+  // RFC 8058 一键退订：客户端只要求返回空白 200/202，渲染 HTML 页面反而可能被邮件客户端忽略。
+  const oneClick = String(context.request.headers.get('list-unsubscribe-post') || '').includes('One-Click');
+  if (oneClick) {
+    return new Response(null, { status: 202 });
+  }
   const accept = context.request.headers.get('accept') || '';
   if (accept.includes('text/html')) {
     return new Response(page(email, '我们不会再向这个邮箱发送订阅邮件。', true, signature), {
