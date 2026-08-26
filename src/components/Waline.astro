@@ -1,53 +1,385 @@
 ---
-// Waline 评论（邮箱即可评论，无需注册）：CDN 引入 + 主题跟随
+// Waline 评论（邮箱即可评论，无需注册）：本地脚本 + 宋式样式
 import { site } from '../config';
 const serverURL = site.comments.waline?.serverURL ?? '';
 ---
 
 {serverURL && (
-  <section class="giscus">
-    <h2 class="section-title">评论</h2>
-    <div id="waline"></div>
+  <section class="comment-section giscus" id="comment-section">
+    <header class="comment-head">
+      <span class="comment-seal" aria-hidden="true">谈</span>
+      <div class="comment-title">
+        <p class="comment-kicker">清 谈 · 纸 上 相 逢</p>
+        <h2 class="section-title">留下你的话</h2>
+      </div>
+      <span class="comment-note">无需注册 · 邮箱仅用于回复</span>
+    </header>
+
+    <p class="comment-lede">字句虽轻，亦有回响。写下一句，给路过的人留一盏灯。</p>
+
+    <div class="comment-card">
+      <div class="comment-empty" id="comment-empty" role="status">
+        <span class="comment-empty-seal" aria-hidden="true">候</span>
+        <p class="comment-empty-title">少 坐 · 慢 写</p>
+        <p class="comment-empty-text">一杯茶的时间，足够留下一句真心话。</p>
+      </div>
+      <div id="waline"></div>
+    </div>
+
+    <p class="comment-foot">请保持善意 · 邮箱仅用于回复，不会公开</p>
   </section>
+)}
+
+{serverURL && (
+  <link rel="stylesheet" href="/vendor/waline.css">
+)}
+
+{serverURL && (
+  <style is:global>
+    .comment-section {
+      position: relative;
+      margin: 54px 0 24px;
+      padding-top: 8px;
+      border-top: 1px solid var(--hairline);
+    }
+
+    .comment-head {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .comment-seal {
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgba(246, 239, 226, 0.55);
+      border-radius: 3px;
+      background: linear-gradient(135deg, var(--cinnabar), var(--cinnabar-deep));
+      color: #f6efe2;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      letter-spacing: 0.24em;
+      transform: rotate(-3deg);
+      box-shadow: inset 0 0 0 2px rgba(246, 239, 226, 0.22);
+      flex-shrink: 0;
+    }
+
+    .comment-kicker {
+      margin: 0 0 5px;
+      color: var(--ink-3);
+      font-size: 0.7rem;
+      letter-spacing: 0.24em;
+    }
+
+    .comment-title .section-title {
+      margin: 0;
+      font-size: 1.45rem;
+    }
+
+    .comment-title .section-title::before {
+      display: none;
+    }
+
+    .comment-note {
+      margin-left: auto;
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    .comment-lede {
+      margin: 10px 0 20px 64px;
+      color: var(--ink-2);
+      font-size: 0.92rem;
+    }
+
+    .comment-card {
+      overflow: hidden;
+      border: 1px solid var(--hairline);
+      border-radius: 3px;
+      background: color-mix(in srgb, var(--paper-2) 42%, transparent);
+    }
+
+    .comment-empty {
+      padding: 52px 20px 44px;
+      color: var(--ink-2);
+      text-align: center;
+    }
+
+    .comment-empty[hidden] {
+      display: none;
+    }
+
+    .comment-empty-seal {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(246, 239, 226, 0.5);
+      border-radius: 2px;
+      background: var(--celadon-deep);
+      color: var(--paper);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      transform: rotate(-3deg);
+    }
+
+    .comment-empty-title {
+      margin: 14px 0 6px;
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      letter-spacing: 0.28em;
+    }
+
+    .comment-empty-text {
+      margin: 0;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+    }
+
+    .comment-empty-text a {
+      color: var(--celadon-deep);
+      border-bottom: 1px solid var(--celadon-deep);
+    }
+
+    .comment-foot {
+      margin: 12px 0 0;
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-align: right;
+    }
+
+    #waline {
+      --waline-font-size: 0.94rem;
+      --waline-color: var(--ink);
+      --waline-dark-grey: var(--ink-2);
+      --waline-light-grey: var(--ink-3);
+      --waline-bgcolor: transparent;
+      --waline-bgcolor-light: color-mix(in srgb, var(--celadon-wash), transparent 60%);
+      --waline-bgcolor-hover: color-mix(in srgb, var(--celadon-wash), transparent 45%);
+      --waline-border-color: var(--hairline-strong);
+      --waline-bgcolor-hover: var(--celadon-wash);
+      --waline-theme-color: var(--cinnabar);
+      --waline-active-color: var(--celadon-deep);
+      --waline-badge-color: var(--celadon-deep);
+      --waline-bq-color: var(--celadon-wash);
+      --waline-info-bgcolor: color-mix(in srgb, var(--celadon-wash), transparent 55%);
+      --waline-info-color: var(--ink-3);
+      --waline-box-shadow: none;
+      --waline-avatar-size: 3.4rem;
+      font-family: var(--font-body);
+      margin: 0;
+    }
+
+    #waline .wl-panel,
+    #waline .wl-card,
+    #waline .wl-comment {
+      border-color: var(--hairline);
+      background: transparent;
+    }
+
+    #waline .wl-panel {
+      margin: 0;
+      border: 0;
+      border-bottom: 1px solid var(--hairline);
+      border-radius: 0;
+    }
+
+    #waline .wl-header {
+      border-bottom: 1px dashed var(--hairline-strong);
+    }
+
+    #waline .wl-header input {
+      color: var(--ink);
+      font-family: var(--font-body);
+    }
+
+    #waline .wl-editor,
+    #waline .wl-input {
+      color: var(--ink);
+      font-family: var(--font-body);
+    }
+
+    #waline .wl-btn {
+      border-radius: 2px;
+      font-family: var(--font-body);
+      letter-spacing: 0.08em;
+    }
+
+    #waline .wl-btn.primary {
+      border-color: var(--cinnabar);
+      background: var(--cinnabar);
+      color: #f7f1e4;
+    }
+
+    #waline .wl-btn.primary:hover,
+    #waline .wl-btn.primary:active {
+      border-color: var(--cinnabar-deep);
+      background: var(--cinnabar-deep);
+    }
+
+    #waline .wl-card {
+      border: 0;
+      border-radius: 0;
+    }
+
+    #waline .wl-comment {
+      margin-bottom: 0.9em;
+      padding-bottom: 0.9em;
+      border-bottom: 1px dashed var(--hairline);
+    }
+
+    #waline .wl-avatar {
+      border: 1px solid var(--hairline-strong);
+      box-shadow: none;
+    }
+
+    #waline .wl-nick,
+    #waline .wl-card .wl-nick {
+      color: var(--ink);
+      font-family: var(--font-display);
+      letter-spacing: 0.04em;
+    }
+
+    #waline .wl-time,
+    #waline .wl-count {
+      color: var(--ink-3);
+    }
+
+    #waline .wl-content {
+      color: var(--ink-2);
+      font-size: 0.9rem;
+      line-height: 2;
+    }
+
+    #waline .wl-empty {
+      padding: 38px 16px 30px;
+      color: var(--ink-2);
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 0.16em;
+    }
+
+    #waline .wl-power {
+      color: var(--ink-3);
+      font-size: 0.68rem;
+    }
+
+    @media (max-width: 640px) {
+      .comment-note {
+        width: 100%;
+        margin-left: 64px;
+      }
+
+      .comment-lede {
+        margin-left: 0;
+      }
+
+      .comment-empty {
+        padding: 42px 16px 36px;
+      }
+    }
+  </style>
 )}
 
 {serverURL && (
   <script is:inline define:vars={{ serverURL }}>
     (function () {
       var el = document.getElementById('waline');
+      var empty = document.getElementById('comment-empty');
       if (!el) return;
+
       var inst = null;
+      var tries = 30;
+
+      function failMessage() {
+        if (!empty) return;
+        var title = empty.querySelector('.comment-empty-title');
+        var text = empty.querySelector('.comment-empty-text');
+        if (title) title.textContent = '评论暂时没有加载出来';
+        if (text) {
+          text.innerHTML = '可以稍后刷新，或到 <a href="/subscribe/">订阅页</a> 留下邮箱。';
+        }
+        empty.hidden = false;
+      }
+
       function boot() {
         if (!window.Waline) {
-          // 脚本未就绪，稍后重试
-          if (boot.tries-- > 0) setTimeout(boot, 300);
-          else el.innerHTML = '<p class="search-hint">评论区加载失败，可稍后刷新，或到订阅页留言。</p>';
+          if (tries-- > 0) {
+            setTimeout(boot, 250);
+            return;
+          }
+          failMessage();
           return;
         }
+
         try {
           inst = window.Waline.init({
             el: el,
             serverURL: serverURL,
             path: window.location.pathname,
+            lang: 'zh-CN',
             dark: document.documentElement.getAttribute('data-theme') === 'dark',
-            locale: { placeholder: '写点什么，或留下邮箱…' },
+            requiredMeta: ['nick', 'mail'],
+            locale: {
+              nick: '昵称',
+              mail: '邮箱',
+              link: '网站（选填）',
+              optional: '选填',
+              placeholder: '写点什么，或留下邮箱…',
+              sofa: '这里还空着，等你留下一句话',
+              submit: '寄 出',
+              like: '喜欢',
+              cancelLike: '取消喜欢',
+              reply: '回 复',
+              cancelReply: '取消回复',
+              comment: '评 论',
+              refresh: '重新加载',
+              more: '查看更多',
+              preview: '预览',
+              emoji: '表情',
+              uploadImage: '上传图片',
+              seconds: '秒前',
+              minutes: '分钟前',
+              hours: '小时前',
+              days: '天前',
+              now: '刚刚',
+              admin: '作者',
+              approved: '已通过',
+              waiting: '待审核',
+              spam: '垃圾',
+              login: '登录',
+              logout: '退出',
+            },
           });
-          // 站点深浅色切换时，评论跟随变化
+
+          if (empty) empty.hidden = true;
+
           new MutationObserver(function () {
             if (inst && inst.updateConfig) {
-              inst.updateConfig({ dark: document.documentElement.getAttribute('data-theme') === 'dark' });
+              inst.updateConfig({
+                dark: document.documentElement.getAttribute('data-theme') === 'dark',
+              });
             }
-          }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-        } catch (e) {}
+          }).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-theme'],
+          });
+        } catch (e) {
+          failMessage();
+        }
       }
-      boot.tries = 15;
+
       var s = document.createElement('script');
-      s.src = 'https://unpkg.com/@waline/client@v2/dist/waline.js';
+      s.src = '/vendor/waline.js';
       s.async = true;
       s.onload = boot;
-      s.onerror = function () {
-        el.innerHTML = '<p class="search-hint">评论区加载失败，可稍后刷新，或到订阅页留言。</p>';
-      };
+      s.onerror = failMessage;
       document.head.appendChild(s);
     })();
   </script>
