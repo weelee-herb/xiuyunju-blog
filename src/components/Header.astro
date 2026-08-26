@@ -7,7 +7,7 @@ const nav = [
   { label: '文章', href: '/blog/', match: (p: string) => p.startsWith('/blog') },
   // 识药闯关已移至首页按钮与订阅资源，导航收敛避免臃肿
   // 作品直达移入页脚（顶部导航收敛为五项）
-  { label: '题库', href: 'https://herb-quiz.cc.cd/', external: true, title: '中药题库 · 邀请码 692626', match: () => false },
+  // 题库直达：首页按钮 + 页脚入口（分享链接不进主导航）
   { label: '关于', href: '/about/', match: (p: string) => p.startsWith('/about') },
   { label: '订阅', href: '/subscribe/', match: (p: string) => p.startsWith('/subscribe') },
   // 撷英移至页脚
