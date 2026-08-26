@@ -223,6 +223,10 @@ const serverURL = site.comments.waline?.serverURL ?? '';
       background: var(--cinnabar-deep);
     }
 
+    #waline .wl-actions > a.wl-action {
+      display: none;
+    }
+
     #waline .wl-card {
       border: 0;
       border-radius: 0;
@@ -325,6 +329,18 @@ const serverURL = site.comments.waline?.serverURL ?? '';
             path: window.location.pathname,
             lang: 'zh-CN',
             dark: document.documentElement.getAttribute('data-theme') === 'dark',
+            emoji: ['/vendor/emojis/weibo'],
+            reaction: [
+              '/vendor/emojis/tieba/tieba_agree.png',
+              '/vendor/emojis/tieba/tieba_look_down.png',
+              '/vendor/emojis/tieba/tieba_sunglasses.png',
+              '/vendor/emojis/tieba/tieba_pick_nose.png',
+              '/vendor/emojis/tieba/tieba_awkward.png',
+              '/vendor/emojis/tieba/tieba_sleep.png',
+            ],
+            login: 'disable',
+            search: false,
+            copyright: false,
             requiredMeta: ['nick', 'mail'],
             locale: {
               nick: '昵称',
@@ -353,6 +369,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
               approved: '已通过',
               waiting: '待审核',
               spam: '垃圾',
+              reactionTitle: '你觉得呢？',
               login: '登录',
               logout: '退出',
             },
