@@ -1,8 +1,6 @@
 // ───────────────────────────────────────────────
 // 站点配置：改这里，整个博客都会跟着变
 // ───────────────────────────────────────────────
-const siteUrl = (process.env.SITE_URL || 'https://xiuyunju.cc.cd').replace(/\/+$/, '');
-
 export const site = {
   // 站名 / 笔名
   name: '云岫居',
@@ -20,7 +18,7 @@ export const site = {
 
   // 域名：以后定了就二选一——
   //   a) 直接改下面这行；或 b) 在部署平台设置环境变量 SITE_URL（不改代码）
-  url: siteUrl, // 已确认：DNS 指向 Cloudflare
+  url: process.env.SITE_URL || 'https://xiuyunju.cc.cd', // 已确认：DNS 指向 Cloudflare
 // TODO: 站长填真实域名（或部署平台设置 SITE_URL）
   email: 'hello@example.com',
 // TODO: 站长填真实邮箱
@@ -107,7 +105,7 @@ export const site = {
     type: 'waline',
     enabled: true,
     waline: {
-      serverURL: siteUrl + '/waline', // 经 Cloudflare 转发到 Vercel
+      serverURL: 'https://comment-section-flax.vercel.app', // Waline 后端
     },
     // giscus 备选配置（type 切回 'giscus' 即可用）
     repo: 'weelee-herb/xiuyunju-blog',
