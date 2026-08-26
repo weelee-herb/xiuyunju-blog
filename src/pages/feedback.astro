@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Comments from '../components/Comments.astro';
+import { site } from '../config';
+---
+
+<Base title={`建议板 · ${site.name}`} description="给云岫居提建议：建议会被每周围观、评估与采纳">
+  <div class="container">
+    <header class="page-hero">
+      <p class="kicker">建议 · Feedback</p>
+      <h1 class="page-title">建议板</h1>
+      <p class="page-sub">这里是访客提建议的地方——产品、内容、设计，什么都可以说。每周会自动汇总评估，被采纳的会在这里标注成果。</p>
+    </header>
+
+    <div class="subscribe-box" style="margin-bottom: 0">
+      <h2>怎么写建议</h2>
+      <p class="sub">登录后直接留言即可（支持邮箱注册，无需 GitHub）。建议附上「想要的效果」更好——例如：「希望增加夜间护眼模式」「药材文章希望配个季节建议」。</p>
+    </div>
+
+    <Comments />
+  </div>
+</Base>
