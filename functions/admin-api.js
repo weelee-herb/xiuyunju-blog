@@ -11,6 +11,28 @@ const CORS = {
   'Access-Control-Max-Age': '600',
 };
 
+const RATE_BUCKETS = new Map();
+
+function requestIp(context) {
+  return (
+    context.request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    context.request.headers.get('cf-connecting-ip') ||
+    'local'
+  );
+}
+
+function rateLimit(context) {
+  const now = Date.now();
+  const key = requestIp(context);
+  const recent = (RATE_BUCKETS.get(key) || []).filter((t) => now - t < 60_000);
+  if (recent.length >= 30) {
+    RATE_BUCKETS.set(key, recent);
+    return true;
+  }
+  RATE_BUCKETS.set(key, [...recent, now]);
+  return false;
+}
+
 function json(body, status = 200, extra = {}) {
   return new Response(JSON.stringify(body), {
     status,
@@ -27,6 +49,9 @@ export async function onRequestOptions() {
 }
 
 export async function onRequestPost(context) {
+  if (rateLimit(context)) {
+    return json({ ok: false, message: '操作太频繁，请稍后再试' }, 429);
+  }
   const key = context.request.headers.get('x-admin-key') || '';
   if (!key) {
     return json({ ok: false, message: '密钥错误' }, 401);
