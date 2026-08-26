@@ -3,6 +3,8 @@ import { site } from '../config';
 export function GET() {
   const body = `User-agent: *
 Allow: /
+Disallow: /admin-comments
+Disallow: /admin-api
 
 Sitemap: ${site.url}/sitemap.xml
 `;

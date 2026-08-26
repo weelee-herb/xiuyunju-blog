@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>云岫居 · 评论管理</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #f5f0e4; color: #2a251d;
+    font-family: "Songti SC", "Noto Serif SC", "STSong", serif;
+    line-height: 1.85;
+    background-image: radial-gradient(900px 420px at 85% -5%, rgba(157,185,178,.30), transparent 62%);
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 34px 18px 70px; }
+  .head { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  .seal {
+    width: 44px; height: 44px; background: linear-gradient(135deg, #b0412e, #8c2f22);
+    color: #f6efe2; border-radius: 4px; font-family: "Kaiti SC", "STKaiti", "KaiTi", serif;
+    font-size: 22px; display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 0 0 2px rgba(246,239,226,.38); transform: rotate(-3deg);
+    flex-shrink: 0;
+  }
+  h1 { font-family: "Kaiti SC", "STKaiti", "KaiTi", serif; font-weight: 400; font-size: 1.6rem;
+       letter-spacing: .18em; margin: 0; }
+  .sub { color: #8d8471; font-size: .84rem; letter-spacing: .1em; margin: 2px 0 26px 58px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+  input, select, button { font: inherit; }
+  input, select {
+    background: transparent; border: 1px solid #d9cfb8; border-radius: 2px;
+    padding: 7px 12px; color: #2a251d; letter-spacing: .04em; outline: none;
+  }
+  input:focus, select:focus { border-color: #6e918a; }
+  button { cursor: pointer; }
+  button.primary {
+    background: #ab3a2a; color: #f7f1e4; border: 1px solid #ab3a2a; border-radius: 2px;
+    padding: 8px 22px; letter-spacing: .18em;
+  }
+  button.primary:hover { background: #8c2f22; }
+  .ghost { background: transparent; border: 1px solid #d9cfb8; border-radius: 2px; padding: 7px 14px; color: #5d5544; letter-spacing: .1em; }
+  .ghost:hover { border-color: #6e918a; color: #2a251d; }
+  table { width: 100%; border-collapse: collapse; background: #fbf8ef; border: 1px solid #e3dac4; border-radius: 2px; }
+  th, td { text-align: left; padding: 12px 13px; border-bottom: 1px solid #eee6d2; vertical-align: top; font-size: .9rem; }
+  th { background: #efe8d6; font-weight: 600; letter-spacing: .12em; font-size: .8rem; color: #5d5544; }
+  tbody tr:hover { background: rgba(157,185,178,.10); }
+  .nick { font-weight: 600; font-family: "Kaiti SC", "STKaiti", "KaiTi", serif; letter-spacing: .04em; }
+  .meta { color: #8d8471; font-size: .76rem; letter-spacing: .06em; margin-top: 2px; }
+  .content { white-space: pre-wrap; word-break: break-word; }
+  .tag { display: inline-block; padding: 1px 10px; border-radius: 999px; font-size: .72rem; letter-spacing: .1em; border: 1px solid #d9cfb8; color: #6b6353; }
+  .tag.approved { color: #6e918a; border-color: #9db9b2; }
+  .tag.waiting { color: #a8874e; border-color: #c0a068; }
+  .tag.spam { color: #ab3a2a; border-color: #ab3a2a; }
+  .ops { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ops button { padding: 3px 12px; font-size: .78rem; border-radius: 999px; border: 1px solid #d9cfb8; background: transparent; color: #5d5544; letter-spacing: .08em; }
+  .ops button:hover { border-color: #6e918a; color: #2a251d; }
+  .ops .del { color: #ab3a2a; border-color: #ab3a2a; }
+  .pager { display: flex; gap: 12px; align-items: center; margin-top: 16px; }
+  .lock { max-width: 380px; margin: 70px auto; text-align: center; }
+  .lock .seal { margin: 0 auto 18px; width: 52px; height: 52px; font-size: 26px; }
+  .lock p { letter-spacing: .14em; color: #5d5544; margin: 0 0 16px; }
+  .lock input { width: 100%; text-align: center; letter-spacing: .2em; }
+  .toast { position: fixed; top: 16px; right: 16px; background: #2a251d; color: #f7f1e4; padding: 9px 16px; border-radius: 2px; font-size: .85rem; display: none; z-index: 9; letter-spacing: .08em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <span class="seal">管</span>
+    <h1>云岫居 · 评论管理</h1>
+  </div>
+  <p class="sub">轻量管理端 · 数据实时来自 Waline 数据库</p>
+
+  <div id="lock" class="lock" hidden>
+    <span class="seal">钥</span>
+    <p>请输入管理密钥</p>
+    <input id="key-input" type="password" placeholder="ADMIN_KEY">
+    <button class="primary" id="key-save" style="margin-top:14px">进 入</button>
+  </div>
+
+  <div id="panel" hidden>
+    <div class="toolbar">
+      <select id="filter">
+        <option value="">全部</option>
+        <option value="approved">已通过</option>
+        <option value="waiting">待审核</option>
+        <option value="spam">垃圾</option>
+      </select>
+      <input id="kw" placeholder="搜索昵称/内容…">
+      <button class="ghost" id="refresh">刷新</button>
+      <span class="meta" id="stats" style="margin-left:auto"></span>
+    </div>
+    <table>
+      <thead><tr><th style="width:18%">作者</th><th>内容</th><th style="width:14%">时间</th><th style="width:10%">状态</th><th style="width:28%">操作</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="pager">
+      <button class="ghost" id="prev">← 上一页</button>
+      <span class="meta" id="page-info"></span>
+      <button class="ghost" id="next">下一页 →</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function () {
+  var KEY = '';
+  try { KEY = localStorage.getItem('admin-key') || ''; } catch (e) {}
+  var page = 1, total = 0, pageSize = 20;
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.style.display = 'block';
+    setTimeout(function () { t.style.display = 'none'; }, 1800);
+  }
+  function fmtTime(s) {
+    if (!s) return '';
+    var d = new Date(String(s).replace(' ', 'T') + (String(s).indexOf('Z') === -1 ? 'Z' : ''));
+    if (isNaN(d)) return s;
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  function api(body) {
+    return fetch('/admin-api', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': KEY },
+      body: JSON.stringify(body),
+    }).then(function (r) { return r.json(); });
+  }
+  function render(rows) {
+    var tb = document.getElementById('rows');
+    tb.innerHTML = '';
+    if (!rows.length) {
+      var tr = document.createElement('tr');
+      var td = el('td', 'meta', '暂无评论'); td.colSpan = 5; td.style.textAlign = 'center';
+      tr.appendChild(td); tb.appendChild(tr); return;
+    }
+    rows.forEach(function (c) {
+      var tr = document.createElement('tr');
+      var td1 = el('td'); td1.appendChild(el('div', 'nick', c.nick)); td1.appendChild(el('div', 'meta', c.mail || '')); td1.appendChild(el('div', 'meta', c.ip || ''));
+      var td2 = el('td'); td2.appendChild(el('div', 'content', c.comment)); td2.appendChild(el('div', 'meta', '来源: ' + (c.url || '/')));
+      var td3 = el('td', 'meta', fmtTime(c.insertedat));
+      var st = c.status === '' ? 'approved' : (c.status || '');
+      var tag = el('span', 'tag ' + st, st === 'approved' ? '已通过' : (st === 'waiting' ? '待审核' : '垃圾'));
+      var td4 = el('td'); td4.appendChild(tag);
+      var td5 = el('td'); var ops = el('div', 'ops');
+      function mk(label, status) {
+        var b = el('button', '', label);
+        b.addEventListener('click', function () {
+          api({ action: 'status', id: c.id, status: status }).then(function (d) {
+            toast(d.ok ? '已更新' : (d.message || '失败')); load();
+          });
+        });
+        return b;
+      }
+      var del = el('button', '', '删除');
+      del.className = 'del';
+      del.addEventListener('click', function () {
+        if (!confirm('确定删除这条评论？不可恢复。')) return;
+        api({ action: 'delete', id: c.id }).then(function (d) {
+          toast(d.ok ? '已删除' : (d.message || '失败')); load();
+        });
+      });
+      if (st !== 'approved') ops.appendChild(mk('✓ 通过', ''));
+      ops.appendChild(mk('待审', 'waiting'));
+      ops.appendChild(mk('垃圾', 'spam'));
+      ops.appendChild(del);
+      td5.appendChild(ops);
+      [td1, td2, td3, td4, td5].forEach(function (x) { tr.appendChild(x); });
+      tb.appendChild(tr);
+    });
+  }
+  function load() {
+    var f = document.getElementById('filter').value;
+    var kw = document.getElementById('kw').value;
+    api({ action: 'list', page: page, pageSize: pageSize, filter: f, kw: kw }).then(function (d) {
+      if (!d.ok) { toast(d.message || '鉴权失败'); return; }
+      total = d.total;
+      document.getElementById('stats').textContent = '共 ' + total + ' 条';
+      document.getElementById('page-info').textContent = page + ' / ' + Math.max(1, Math.ceil(total / pageSize));
+      render(d.rows || []);
+    });
+  }
+  document.getElementById('refresh').addEventListener('click', load);
+  document.getElementById('filter').addEventListener('change', function () { page = 1; load(); });
+  document.getElementById('kw').addEventListener('input', function () { page = 1; load(); });
+  document.getElementById('prev').addEventListener('click', function () { if (page > 1) { page--; load(); } });
+  document.getElementById('next').addEventListener('click', function () { if (page < Math.ceil(total / pageSize)) { page++; load(); } });
+  function unlock() {
+    document.getElementById('lock').hidden = true;
+    document.getElementById('panel').hidden = false;
+    load();
+  }
+  document.getElementById('key-save').addEventListener('click', function () {
+    KEY = document.getElementById('key-input').value.trim();
+    try { localStorage.setItem('admin-key', KEY); } catch (e) {}
+    api({ action: 'list', page: 1, pageSize: 1 }).then(function (d) {
+      if (d.ok) { unlock(); } else { toast('密钥错误'); }
+    });
+  });
+  document.getElementById('key-input').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') document.getElementById('key-save').click();
+  });
+  if (KEY) {
+    api({ action: 'list', page: 1, pageSize: 1 }).then(function (d) {
+      if (d.ok) { unlock(); } else { document.getElementById('lock').hidden = false; }
+    });
+  } else {
+    document.getElementById('lock').hidden = false;
+  }
+})();
+</script>
+</body>
+</html>
