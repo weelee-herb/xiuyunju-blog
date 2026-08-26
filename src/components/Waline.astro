@@ -12,7 +12,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         <p class="comment-kicker">清 谈 · 纸 上 相 逢</p>
         <h2 class="section-title">留下你的话</h2>
       </div>
-      <span class="comment-note">邮箱选填 · 不会公开显示</span>
+      <span class="comment-note">评论只需昵称 · 邮箱仅用于注册</span>
     </header>
 
     <p class="comment-lede">字句虽轻，亦有回响。写下一句，给路过的人留一盏灯。</p>
@@ -71,7 +71,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
       <div id="waline"></div>
     </div>
 
-    <p class="comment-foot">请保持善意 · 邮箱仅用于站长回复，不会公开显示 · 自留表情仅自己可见</p>
+    <p class="comment-foot">请保持善意 · 邮箱仅用于注册账号，不会公开显示 · 自留表情仅自己可见</p>
   </section>
 )}
 
@@ -1044,6 +1044,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
             login: 'disable',
             search: false,
             copyright: false,
+            meta: ['nick'],
             requiredMeta: ['nick'],
             locale: {
               nick: '昵称',
