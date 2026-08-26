@@ -5,6 +5,7 @@ export function GET() {
 Allow: /
 Disallow: /admin-comments
 Disallow: /admin-api
+Disallow: /reset-password
 
 Sitemap: ${site.url}/sitemap.xml
 `;
