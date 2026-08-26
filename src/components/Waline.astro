@@ -35,6 +35,13 @@ const serverURL = site.comments.waline?.serverURL ?? '';
           <input id="comment-login-password" type="password" autocomplete="current-password" placeholder="至少 6 位">
         </label>
       </div>
+      <div class="login-captcha" id="comment-login-captcha-row" hidden>
+        <label>人机验证
+          <span id="comment-login-captcha-question">请稍候…</span>
+          <input id="comment-login-captcha-answer" type="text" inputmode="numeric" autocomplete="off" placeholder="答案">
+        </label>
+        <button type="button" class="captcha-refresh" id="comment-login-captcha-refresh">换一题</button>
+      </div>
       <p class="login-tip" id="comment-login-tip">第一次使用请直接填写，会自动注册</p>
       <p class="login-forgot"><a href="/reset-password/">忘记密码？</a></p>
       <button type="button" class="login-submit" id="comment-login-submit">登录 / 注册</button>
@@ -73,7 +80,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
       <div id="waline"></div>
     </div>
 
-    <p class="comment-foot">请保持善意 · 登录账号的邮箱不会公开显示 · 自留表情仅自己可见</p>
+    <p class="comment-foot">请保持善意 · 评论经审核后展示 · 登录账号的邮箱不会公开显示 · 自留表情仅自己可见</p>
   </section>
 )}
 
@@ -288,6 +295,63 @@ const serverURL = site.comments.waline?.serverURL ?? '';
     .login-fields input:focus,
     .emoji-maker-panel input[type="text"]:focus {
       border-color: var(--celadon-deep);
+    }
+
+    .login-captcha {
+      display: flex;
+      align-items: end;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .login-captcha[hidden] {
+      display: none;
+    }
+
+    .login-captcha label {
+      display: flex;
+      align-items: end;
+      gap: 9px;
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    .login-captcha span {
+      color: var(--ink-2);
+      white-space: nowrap;
+    }
+
+    .login-captcha input {
+      width: 86px;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      padding: 7px 10px;
+      outline: none;
+    }
+
+    .login-captcha input:focus {
+      border-color: var(--celadon-deep);
+    }
+
+    .captcha-refresh {
+      border: 1px solid var(--hairline-strong);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--ink-2);
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      padding: 7px 10px;
+      cursor: pointer;
+    }
+
+    .captcha-refresh:hover {
+      border-color: var(--celadon-deep);
+      color: var(--ink);
     }
 
     .login-tip,
@@ -682,6 +746,8 @@ const serverURL = site.comments.waline?.serverURL ?? '';
       var customPublic = [];
       var customMine = [];
       var currentEmojiImage = '';
+      var captchaToken = '';
+      var captchaAnswer = '';
 
       function setStatus(target, message) {
         if (target) target.textContent = message || '';
@@ -762,6 +828,33 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         }
       }
 
+      function loadCaptcha() {
+        var row = document.getElementById('comment-login-captcha-row');
+        var question = document.getElementById('comment-login-captcha-question');
+        var answer = document.getElementById('comment-login-captcha-answer');
+        if (!row || !question) return Promise.resolve(null);
+        row.hidden = false;
+        question.textContent = '请稍候…';
+        if (answer) answer.value = '';
+        captchaToken = '';
+        captchaAnswer = '';
+        return fetch('/waline/auth/captcha', { method: 'POST' })
+          .then(function (response) { return response.json(); })
+          .then(function (data) {
+            if (data && data.ok) {
+              captchaToken = String(data.token || '');
+              question.textContent = '请计算 ' + data.a + ' + ' + data.b + ' = ?';
+              return data;
+            }
+            question.textContent = '验证码获取失败，请刷新页面重试';
+            return null;
+          })
+          .catch(function () {
+            question.textContent = '验证码获取失败，请稍后再试';
+            return null;
+          });
+      }
+
       function logout() {
         fetch('/waline/auth/logout', { method: 'POST', headers: authHeaders() })
           .catch(function () {})
@@ -775,13 +868,22 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         var nick = document.getElementById('comment-login-nick');
         var email = document.getElementById('comment-login-email');
         var password = document.getElementById('comment-login-password');
+        var captchaInput = document.getElementById('comment-login-captcha-answer');
         if (!nick || !email || !password) return;
+        if (!captchaToken || !captchaInput || !captchaInput.value.trim()) {
+          setStatus(status, '请先完成人机验证');
+          loadCaptcha();
+          return;
+        }
+        captchaAnswer = captchaInput.value.trim();
         setStatus(status, '请稍候…');
 
         var payload = {
           nick: nick.value.trim(),
           email: email.value.trim(),
           password: password.value,
+          captchaToken: captchaToken,
+          captchaAnswer: captchaAnswer,
         };
         fetch('/waline/auth/register', {
           method: 'POST',
@@ -798,7 +900,12 @@ const serverURL = site.comments.waline?.serverURL ?? '';
               return fetch('/waline/auth/login', {
                 method: 'POST',
                 headers: getPostHeaders(),
-                body: JSON.stringify({ email: payload.email, password: payload.password }),
+                body: JSON.stringify({
+                  email: payload.email,
+                  password: payload.password,
+                  captchaToken: payload.captchaToken,
+                  captchaAnswer: payload.captchaAnswer,
+                }),
               }).then(function (r) {
                 return r.json().then(function (data) {
                   return { status: r.status, data: data };
@@ -819,6 +926,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
           })
           .catch(function (err) {
             setStatus(status, err.message || '登录失败，请重试');
+            if (err.message && err.message.indexOf('人机验证') !== -1) loadCaptcha();
           });
       }
 
@@ -1024,6 +1132,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         var loginToggle = document.getElementById('comment-login-toggle');
         var loginPanel = document.getElementById('comment-login-panel');
         var loginSubmit = document.getElementById('comment-login-submit');
+        var captchaRefresh = document.getElementById('comment-login-captcha-refresh');
         var emojiToggle = document.getElementById('emoji-maker-toggle');
         var emojiPanel = document.getElementById('emoji-maker-panel');
         var emojiSave = document.getElementById('emoji-save');
@@ -1037,8 +1146,10 @@ const serverURL = site.comments.waline?.serverURL ?? '';
               return;
             }
             if (loginPanel) loginPanel.hidden = !loginPanel.hidden;
+            if (loginPanel && !loginPanel.hidden) loadCaptcha();
           });
         }
+        if (captchaRefresh) captchaRefresh.addEventListener('click', loadCaptcha);
         if (loginSubmit) loginSubmit.addEventListener('click', loginOrRegister);
         if (emojiToggle && emojiPanel) {
           emojiToggle.addEventListener('click', function () {
