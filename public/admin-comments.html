@@ -55,6 +55,15 @@
   .ops button:hover { border-color: #6e918a; color: #2a251d; }
   .ops .del { color: #ab3a2a; border-color: #ab3a2a; }
   .pager { display: flex; gap: 12px; align-items: center; margin-top: 16px; }
+  .emoji-manage { margin-top: 30px; }
+  .emoji-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .emoji-head h2 { margin: 0; font-family: "Kaiti SC", "STKaiti", "KaiTi", serif; font-weight: 400; font-size: 1.05rem; letter-spacing: .16em; }
+  .emoji-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+  .emoji-cell { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid #e3dac4; border-radius: 3px; background: #fbf8ef; }
+  .emoji-cell img { width: 44px; height: 44px; object-fit: contain; }
+  .emoji-cell .name { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .emoji-cell .mode { color: #8d8471; font-size: .72rem; }
+  .emoji-cell button { margin-left: 4px; }
   .lock { max-width: 380px; margin: 70px auto; text-align: center; }
   .lock .seal { margin: 0 auto 18px; width: 52px; height: 52px; font-size: 26px; }
   .lock p { letter-spacing: .14em; color: #5d5544; margin: 0 0 16px; }
@@ -97,6 +106,14 @@
       <button class="ghost" id="prev">← 上一页</button>
       <span class="meta" id="page-info"></span>
       <button class="ghost" id="next">下一页 →</button>
+    </div>
+
+    <div class="emoji-manage">
+      <div class="emoji-head">
+        <h2>自制表情</h2>
+        <button class="ghost" id="emoji-refresh">刷新</button>
+      </div>
+      <div id="emoji-list" class="emoji-grid"></div>
     </div>
   </div>
 </div>
@@ -184,7 +201,41 @@
       render(d.rows || []);
     });
   }
+  function loadEmojis() {
+    var box = document.getElementById('emoji-list');
+    api({ action: 'list-emoji' }).then(function (d) {
+      box.innerHTML = '';
+      if (!d.ok) { toast(d.message || '表情加载失败'); return; }
+      if (!d.emojis || !d.emojis.length) {
+        box.appendChild(el('span', 'meta', '暂无公开表情'));
+        return;
+      }
+      d.emojis.forEach(function (item) {
+        var cell = el('div', 'emoji-cell');
+        var img = document.createElement('img');
+        img.src = item.url || '';
+        img.alt = item.name;
+        img.loading = 'lazy';
+        cell.appendChild(img);
+        var info = el('div');
+        info.appendChild(el('div', 'name', item.name));
+        info.appendChild(el('div', 'mode', item.visibility === 'private' ? '自留' : '公开'));
+        cell.appendChild(info);
+        var del = el('button', '', '删');
+        del.addEventListener('click', function () {
+          if (!confirm('确定删除这个表情？')) return;
+          api({ action: 'delete-emoji', id: item.id }).then(function (r) {
+            toast(r.ok ? '已删除' : (r.message || '失败'));
+            if (r.ok) loadEmojis();
+          });
+        });
+        cell.appendChild(del);
+        box.appendChild(cell);
+      });
+    });
+  }
   document.getElementById('refresh').addEventListener('click', load);
+  document.getElementById('emoji-refresh').addEventListener('click', loadEmojis);
   document.getElementById('filter').addEventListener('change', function () { page = 1; load(); });
   document.getElementById('kw').addEventListener('input', function () { page = 1; load(); });
   document.getElementById('prev').addEventListener('click', function () { if (page > 1) { page--; load(); } });
@@ -193,6 +244,7 @@
     document.getElementById('lock').hidden = true;
     document.getElementById('panel').hidden = false;
     load();
+    loadEmojis();
   }
   document.getElementById('key-save').addEventListener('click', function () {
     KEY = document.getElementById('key-input').value.trim();
