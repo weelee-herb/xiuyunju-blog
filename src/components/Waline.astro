@@ -12,7 +12,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         <p class="comment-kicker">清 谈 · 纸 上 相 逢</p>
         <h2 class="section-title">留下你的话</h2>
       </div>
-      <span class="comment-note">昵称必填 · 邮箱选填</span>
+      <span class="comment-note">登录后才能评论 · 邮箱选填</span>
     </header>
 
     <p class="comment-lede">字句虽轻，亦有回响。写下一句，给路过的人留一盏灯。</p>
@@ -36,8 +36,10 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         </label>
       </div>
       <p class="login-tip" id="comment-login-tip">第一次使用请直接填写，会自动注册</p>
+      <p class="login-forgot"><a href="/reset-password/">忘记密码？</a></p>
       <button type="button" class="login-submit" id="comment-login-submit">登录 / 注册</button>
       <span class="login-status" id="comment-login-status"></span>
+      <p class="login-danger"><button type="button" id="comment-delete-account">注销账号</button></p>
     </div>
 
     <div class="comment-card">
@@ -298,6 +300,42 @@ const serverURL = site.comments.waline?.serverURL ?? '';
 
     .login-tip {
       margin: 10px 0;
+    }
+
+    .login-forgot {
+      margin: -2px 0 10px;
+    }
+
+    .login-forgot a {
+      color: var(--celadon-deep);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .login-forgot a:hover {
+      border-bottom-color: var(--celadon-deep);
+    }
+
+    .login-danger {
+      margin: 8px 0 0;
+    }
+
+    .login-danger button {
+      border: 0;
+      background: transparent;
+      color: var(--ink-3);
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      padding: 0;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .login-danger button:hover {
+      color: var(--cinnabar);
     }
 
     .login-status,
@@ -593,6 +631,11 @@ const serverURL = site.comments.waline?.serverURL ?? '';
     #waline .wl-power {
       color: var(--ink-3);
       font-size: 0.68rem;
+    }
+
+    #waline .wl-card .wl-meta,
+    #waline .wl-card .wl-time {
+      display: none;
     }
 
     @media (max-width: 640px) {
@@ -983,6 +1026,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         var emojiPanel = document.getElementById('emoji-maker-panel');
         var emojiSave = document.getElementById('emoji-save');
         var emojiFile = document.getElementById('emoji-file');
+        var deleteAccount = document.getElementById('comment-delete-account');
 
         if (loginToggle) {
           loginToggle.addEventListener('click', function () {
@@ -1002,6 +1046,29 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         }
         if (emojiSave) emojiSave.addEventListener('click', saveCustomEmoji);
         if (emojiFile) emojiFile.addEventListener('change', handleEmojiFile);
+        if (deleteAccount) {
+          deleteAccount.addEventListener('click', function () {
+            var status = document.getElementById('comment-login-status');
+            if (!authToken || !authUser) {
+              setStatus(status, '请先登录');
+              return;
+            }
+            if (!window.confirm('确定注销这个评论账号吗？自制表情也会一并删除，且无法恢复。')) return;
+            fetch('/waline/auth/me', { method: 'DELETE', headers: authHeaders() })
+              .then(function (r) { return r.json(); })
+              .then(function (data) {
+                if (data && data.ok) {
+                  clearSession();
+                  setStatus(status, '账号已注销');
+                } else {
+                  setStatus(status, (data && data.message) || '注销失败，请重试');
+                }
+              })
+              .catch(function () {
+                setStatus(status, '注销失败，请重试');
+              });
+          });
+        }
       }
 
       function failMessage() {
@@ -1013,6 +1080,41 @@ const serverURL = site.comments.waline?.serverURL ?? '';
           text.innerHTML = '可以稍后刷新，或到 <a href="/subscribe/">订阅页</a> 留下邮箱。';
         }
         empty.hidden = false;
+      }
+
+      function installWalineFetch() {
+        if (window.__walineAuthFetchInstalled) return;
+        var nativeFetch = window.fetch ? window.fetch.bind(window) : null;
+        if (!nativeFetch) return;
+        window.__walineAuthFetchInstalled = true;
+        window.fetch = function (input, init) {
+          var request;
+          try {
+            request = new Request(input, init || {});
+          } catch (e) {
+            return nativeFetch(input, init);
+          }
+          var url = request.url || String(input || '');
+          var method = String(request.method || 'GET').toUpperCase();
+          var isCommentWrite = /\/waline\/comment(?:\/|$)/.test(url) &&
+            (method === 'POST' || method === 'PUT' || method === 'DELETE' || method === 'PATCH');
+          if (isCommentWrite && authToken) {
+            request.headers.set('Authorization', 'Bearer ' + authToken);
+          }
+          var promise = nativeFetch(request);
+          if (!isCommentWrite) return promise;
+          return promise.then(function (response) {
+            if (response && response.status === 401) {
+              var state = document.getElementById('comment-user-state');
+              var panel = document.getElementById('comment-login-panel');
+              var status = document.getElementById('comment-login-status');
+              if (state) state.textContent = '请先登录后再评论';
+              if (status) status.textContent = '请先登录后再评论';
+              if (panel) panel.hidden = false;
+            }
+            return response;
+          });
+        };
       }
 
       function boot() {
@@ -1100,6 +1202,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
 
       setupCustomEmoji();
       loadAccount();
+      installWalineFetch();
 
       var s = document.createElement('script');
       s.src = '/vendor/waline.js';

@@ -2,7 +2,12 @@ import { site } from '../config';
 
 // 用 Resend 的 HTTP API 发信（无需额外依赖）
 // 文档：https://resend.com/docs/api-reference/emails/send-email
-export async function sendViaResend(to: string, subject: string, html: string): Promise<void> {
+export async function sendViaResend(
+  to: string,
+  subject: string,
+  html: string,
+  headers: Record<string, string> = {}
+): Promise<void> {
   const key = import.meta.env.RESEND_API_KEY;
   const from = import.meta.env.EMAIL_FROM || `${site.name} <share@example.com>`;
   if (!key) throw new Error('NOT_CONFIGURED');
@@ -14,7 +19,7 @@ export async function sendViaResend(to: string, subject: string, html: string): 
       'Content-Type': 'application/json',
     },
     // unsubscribe: true → Resend 自动附带一键退订链接与 List-Unsubscribe 头
-    body: JSON.stringify({ from, to, subject, html, unsubscribe: true }),
+    body: JSON.stringify({ from, to, subject, html, unsubscribe: true, headers }),
   });
 
   if (!res.ok) {
@@ -27,10 +32,11 @@ const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 // 发给订阅者的欢迎邮件（宋式风格的 HTML 邮件）
-export function subscriberEmail(email: string) {
+export function subscriberEmail(email: string, unsubscribeUrl = '') {
   const { resourceTitle, resourceUrl, note } = site.subscribe;
   const subject = import.meta.env.EMAIL_SUBJECT || `「${site.name}」欢迎订阅 · ${resourceTitle}`;
   const name = email.split('@')[0];
+  const unsub = unsubscribeUrl || `${site.url}/api/unsubscribe?email=${encodeURIComponent(email)}`;
   const html = `
 <div style="background:#e9e1cd;padding:44px 16px;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
@@ -67,7 +73,7 @@ export function subscriberEmail(email: string) {
         <tr>
           <td style="padding:20px 46px 38px;border-top:1px solid #e3dac4;font-size:12px;color:#8d8471;
                      line-height:1.9;font-family:'Songti SC','Noto Serif SC',serif;">
-            若这封信并非你订阅，直接忽略即可；想退订请<a href="mailto:${escapeHtml(site.email)}?subject=${encodeURIComponent('退订')}" style="color:#6e918a;">点此退订</a>。<br/>祝好 —— ${escapeHtml(site.author)}
+            若这封信并非你订阅，直接忽略即可；想退订请<a href="${escapeHtml(unsub)}" style="color:#6e918a;">一键退订</a>，无需回复邮件。<br/>祝好 —— ${escapeHtml(site.author)}
           </td>
         </tr>
       </table>

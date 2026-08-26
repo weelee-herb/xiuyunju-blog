@@ -14,6 +14,8 @@
 // ─────────────────────────────────────────────────────────────
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const RATE_BUCKETS = new Map();
+const EMAIL_SEEN = new Map();
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -29,7 +31,32 @@ const json = (body, status) =>
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function buildEmail(email) {
+function requestIp(request) {
+  return (
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    request.headers.get('cf-connecting-ip') ||
+    'local'
+  );
+}
+
+function rateLimit(request, email) {
+  const now = Date.now();
+  const key = requestIp(request);
+  const recent = (RATE_BUCKETS.get(key) || []).filter((t) => now - t < 60_000);
+  if (recent.length >= 3) {
+    RATE_BUCKETS.set(key, recent);
+    return { limited: true, message: '操作太频繁了，请一分钟后再试' };
+  }
+  const last = EMAIL_SEEN.get(email) || 0;
+  if (now - last < 60_000) {
+    return { limited: true, message: '这封欢迎邮件刚刚发过，请查收邮箱（或稍后再试）' };
+  }
+  RATE_BUCKETS.set(key, [...recent, now]);
+  EMAIL_SEEN.set(email, now);
+  return { limited: false };
+}
+
+function buildEmail(email, unsubscribeUrl) {
   const siteName = '云岫居';
   const author = '林屿';
   const resourceTitle = '《识药闯关》看图认中药小游戏';
@@ -53,7 +80,7 @@ function buildEmail(email) {
       </td></tr>
       <tr><td style="padding:4px 46px 22px;font-size:13px;color:#8d8471;font-family:'Songti SC','Noto Serif SC',serif;">${esc(note)}</td></tr>
       <tr><td style="padding:20px 46px 38px;border-top:1px solid #e3dac4;font-size:12px;color:#8d8471;line-height:1.9;font-family:'Songti SC','Noto Serif SC',serif;">
-        若这封信并非你订阅，直接忽略即可；想退订请<a href="mailto:hello@example.com?subject=退订" style="color:#6e918a;">点此退订</a>。<br/>祝好 —— ${esc(author)}
+        若这封信并非你订阅，直接忽略即可；想退订请<a href="${esc(unsubscribeUrl)}" style="color:#6e918a;">一键退订</a>，无需回复邮件。<br/>祝好 —— ${esc(author)}
       </td></tr>
     </table>
   </td></tr></table>
@@ -96,6 +123,11 @@ export async function onRequestPost(context) {
     return json({ ok: false, code: 'BAD_EMAIL', message: '邮箱格式看起来不太对，请再检查一下' }, 400);
   }
 
+  const rate = rateLimit(context.request, email);
+  if (rate.limited) {
+    return json({ ok: false, code: 'RATE_LIMITED', message: rate.message }, 429);
+  }
+
   const key = context.env.RESEND_API_KEY;
   if (!key) {
     return json({ ok: false, code: 'NOT_CONFIGURED', message: '站长还没有配置邮件服务（RESEND_API_KEY）' }, 503);
@@ -103,12 +135,24 @@ export async function onRequestPost(context) {
 
   const from = context.env.EMAIL_FROM || '云岫居 <share@example.com>';
   const subject = context.env.EMAIL_SUBJECT || '「云岫居」欢迎订阅 · 《识药闯关》看图认中药小游戏';
+  const siteUrl = String(context.env.SITE_URL || 'https://xiuyunju.cc.cd').replace(/\/+$/, '');
+  const unsubscribeUrl = siteUrl + '/api/unsubscribe?email=' + encodeURIComponent(email);
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from, to: email, subject, html: buildEmail(email), unsubscribe: true }),
+      body: JSON.stringify({
+        from,
+        to: email,
+        subject,
+        html: buildEmail(email, unsubscribeUrl),
+        unsubscribe: true,
+        headers: {
+          'List-Unsubscribe': '<' + unsubscribeUrl + '>',
+          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+        },
+      }),
     });
     if (!res.ok) {
       const t = await res.text().catch(() => '');

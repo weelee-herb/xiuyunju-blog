@@ -83,8 +83,12 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
-    const { subject, html } = subscriberEmail(email);
-    await sendViaResend(email, subject, html);
+    const unsubscribeUrl = site.url + '/api/unsubscribe?email=' + encodeURIComponent(email);
+    const { subject, html } = subscriberEmail(email, unsubscribeUrl);
+    await sendViaResend(email, subject, html, {
+      'List-Unsubscribe': `<${unsubscribeUrl}>`,
+      'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+    });
 
     // 可选：通知站长有新订阅（失败不影响主流程，但需要等待完成）
     const owner = import.meta.env.EMAIL_TO_OWNER;
