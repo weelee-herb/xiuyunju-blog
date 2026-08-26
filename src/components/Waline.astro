@@ -916,7 +916,9 @@ const serverURL = site.comments.waline?.serverURL ?? '';
           setStatus(status, '等评论区加载后再插入');
           return;
         }
-        var markdown = '![' + name + '](' + src + ')';
+        // 防止表情名里的 ] / ( 等字符破坏 Markdown 结构，插入时只保留安全字符
+        var safeName = String(name).replace(/[\\\[\]()]/g, '');
+        var markdown = '![' + safeName + '](' + src + ')';
         editor.focus();
         var start = editor.selectionStart != null ? editor.selectionStart : editor.value.length;
         var end = editor.selectionEnd != null ? editor.selectionEnd : start;
