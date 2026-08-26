@@ -12,7 +12,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
         <p class="comment-kicker">清 谈 · 纸 上 相 逢</p>
         <h2 class="section-title">留下你的话</h2>
       </div>
-      <span class="comment-note">邮箱仅用于回复 · 自制表情可公开或自留</span>
+      <span class="comment-note">邮箱选填 · 不会公开显示</span>
     </header>
 
     <p class="comment-lede">字句虽轻，亦有回响。写下一句，给路过的人留一盏灯。</p>
@@ -71,7 +71,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
       <div id="waline"></div>
     </div>
 
-    <p class="comment-foot">请保持善意 · 登录后可制作专属表情，自留仅自己可见</p>
+    <p class="comment-foot">请保持善意 · 邮箱仅用于站长回复，不会公开显示 · 自留表情仅自己可见</p>
   </section>
 )}
 
@@ -669,10 +669,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
           inputs[0].value = authUser.nick;
           inputs[0].dispatchEvent(new Event('input', { bubbles: true }));
         }
-        if (inputs[1]) {
-          inputs[1].value = authUser.email;
-          inputs[1].dispatchEvent(new Event('input', { bubbles: true }));
-        }
+        // 不自动回填邮箱，避免让访客误以为邮箱会公开显示
       }
 
       function saveSession(data) {
@@ -1047,7 +1044,7 @@ const serverURL = site.comments.waline?.serverURL ?? '';
             login: 'disable',
             search: false,
             copyright: false,
-            requiredMeta: ['nick', 'mail'],
+            requiredMeta: ['nick'],
             locale: {
               nick: '昵称',
               mail: '邮箱',
