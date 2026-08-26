@@ -60,6 +60,10 @@ Pages 项目 → **Settings → Environment variables → Production**，添加�
 
 保存后会自动重新部署。打开 `/subscribe/` 输入自己邮箱，应该立刻收到宋式欢迎邮件。
 
+> 评论找回密码邮件由 Vercel 项目 `comment-section` 发送：需要在 Vercel 后台给该项目也配置
+> `RESEND_API_KEY` 与 `EMAIL_FROM`（可复用 Cloudflare 里的同一套值）。只配置 Cloudflare 时，
+> 订阅可用，但「忘记密码」会提示站长未配置邮件服务。
+
 ### 第 5 步 · 绑定你的域名
 
 1. Pages 项目 → **Custom domains → Set up a custom domain**，输入你的域名。
