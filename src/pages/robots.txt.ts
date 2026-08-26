@@ -6,6 +6,7 @@ Allow: /
 Disallow: /admin-comments
 Disallow: /admin-api
 Disallow: /reset-password
+Disallow: /reset-password/
 
 Sitemap: ${site.url}/sitemap.xml
 `;

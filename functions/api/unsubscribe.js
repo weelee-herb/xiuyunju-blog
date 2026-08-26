@@ -23,7 +23,7 @@ const esc = (value) =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 
-function page(email, message, ok = false) {
+function page(email, message, ok = false, signature = '') {
   return `<!doctype html>
 <html lang="zh-CN">
   <head>
@@ -47,6 +47,7 @@ function page(email, message, ok = false) {
       <p>${message}</p>
       ${ok ? '' : `<form method="post" action="/api/unsubscribe">
         <input type="hidden" name="email" value="${esc(email)}" />
+        <input type="hidden" name="sig" value="${esc(signature)}" />
         <button type="submit">确认退订</button>
       </form>`}
       <p class="remind">如果你不想错过，也可以直接关闭此页面，订阅不会改变。</p>
@@ -75,6 +76,39 @@ function rateLimit(request) {
   return false;
 }
 
+async function signEmail(context, email) {
+  const secret = context.env.UNSUBSCRIBE_SECRET || context.env.RESEND_API_KEY || '';
+  if (!secret) return '';
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(String(secret)),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  const buffer = await crypto.subtle.sign('HMAC', key, encoder.encode(String(email).trim().toLowerCase()));
+  let binary = '';
+  new Uint8Array(buffer).forEach((byte) => { binary += String.fromCharCode(byte); });
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+async function verifySignature(context, email, signature) {
+  if (!signature) return false;
+  try {
+    const expected = await signEmail(context, email);
+    if (!expected) return false;
+    const left = new Uint8Array([...atob(expected.replace(/-/g, '+').replace(/_/g, '/'))].map((char) => char.charCodeAt(0)));
+    const right = new Uint8Array([...atob(signature.replace(/-/g, '+').replace(/_/g, '/'))].map((char) => char.charCodeAt(0)));
+    if (left.length !== right.length) return false;
+    let diff = 0;
+    for (let i = 0; i < left.length; i += 1) diff |= left[i] ^ right[i];
+    return diff === 0;
+  } catch {
+    return false;
+  }
+}
+
 async function suppress(context, email) {
   const key = context.env.RESEND_API_KEY;
   if (!key) return { ok: false, code: 'NOT_CONFIGURED' };
@@ -99,28 +133,47 @@ async function suppress(context, email) {
   }
 }
 
-async function readEmail(context) {
-  const query = new URL(context.request.url).searchParams.get('email') || '';
-  if (query) return query.trim().toLowerCase();
+async function readInput(context) {
+  const params = new URL(context.request.url).searchParams;
+  const queryEmail = params.get('email') || '';
+  const querySignature = params.get('sig') || '';
+  if (queryEmail || querySignature) {
+    return { email: queryEmail.trim().toLowerCase(), signature: querySignature };
+  }
   const text = await context.request.text().catch(() => '');
-  if (!text) return '';
+  if (!text) return { email: '', signature: '' };
   try {
     const body = JSON.parse(text);
-    return String(body?.email || '').trim().toLowerCase();
+    return {
+      email: String(body?.email || '').trim().toLowerCase(),
+      signature: String(body?.sig || '').trim(),
+    };
   } catch {
-    return String(new URLSearchParams(text).get('email') || '').trim().toLowerCase();
+    const body = new URLSearchParams(text);
+    return {
+      email: String(body.get('email') || '').trim().toLowerCase(),
+      signature: String(body.get('sig') || '').trim(),
+    };
   }
 }
 
 export async function onRequestGet(context) {
   const email = new URL(context.request.url).searchParams.get('email') || '';
+  const signature = new URL(context.request.url).searchParams.get('sig') || '';
   if (!EMAIL_RE.test(email.trim().toLowerCase())) {
     return new Response(page('', '链接不完整，请重新打开邮件里的退订链接。', false), {
       status: 400,
       headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },
     });
   }
-  return new Response(page(email.trim().toLowerCase(), `我们不会再向 ${esc(email.trim().toLowerCase())} 发送订阅邮件。`, false), {
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!(await verifySignature(context, normalizedEmail, signature))) {
+    return new Response(page('', '退订链接已失效，请重新打开邮件里的最新链接。', false), {
+      status: 400,
+      headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },
+    });
+  }
+  return new Response(page(normalizedEmail, `我们不会再向 ${esc(normalizedEmail)} 发送订阅邮件。`, false, signature), {
     headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },
   });
 }
@@ -129,9 +182,13 @@ export async function onRequestPost(context) {
   if (rateLimit(context.request)) {
     return json({ ok: false, code: 'RATE_LIMITED', message: '操作太频繁，请稍后再试' }, 429);
   }
-  const email = await readEmail(context);
+  const input = await readInput(context);
+  const { email, signature } = input;
   if (!EMAIL_RE.test(email)) {
     return json({ ok: false, message: '邮箱格式不正确' }, 400);
+  }
+  if (!(await verifySignature(context, email, signature))) {
+    return json({ ok: false, code: 'BAD_SIGNATURE', message: '退订链接已失效，请重新打开邮件里的最新链接' }, 400);
   }
   const result = await suppress(context, email);
   if (!result.ok) {
@@ -142,7 +199,7 @@ export async function onRequestPost(context) {
   }
   const accept = context.request.headers.get('accept') || '';
   if (accept.includes('text/html')) {
-    return new Response(page(email, '我们不会再向这个邮箱发送订阅邮件。', true), {
+    return new Response(page(email, '我们不会再向这个邮箱发送订阅邮件。', true, signature), {
       headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },
     });
   }

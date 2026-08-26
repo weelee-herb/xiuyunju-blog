@@ -1,4 +1,12 @@
 import { site } from '../config';
+import { createHmac } from 'node:crypto';
+
+/** 生成带签名的退订链接，防止别人拿邮箱地址代替收件人退订。 */
+export function unsubscribeUrlFor(email: string) {
+  const secret = import.meta.env.UNSUBSCRIBE_SECRET || import.meta.env.RESEND_API_KEY || '';
+  const signature = createHmac('sha256', secret).update(email.toLowerCase()).digest('base64url');
+  return `${site.url}/api/unsubscribe?email=${encodeURIComponent(email)}&sig=${encodeURIComponent(signature)}`;
+}
 
 // 用 Resend 的 HTTP API 发信（无需额外依赖）
 // 文档：https://resend.com/docs/api-reference/emails/send-email
@@ -9,8 +17,9 @@ export async function sendViaResend(
   headers: Record<string, string> = {}
 ): Promise<void> {
   const key = import.meta.env.RESEND_API_KEY;
-  const from = import.meta.env.EMAIL_FROM || `${site.name} <share@example.com>`;
   if (!key) throw new Error('NOT_CONFIGURED');
+  const from = import.meta.env.EMAIL_FROM || '';
+  if (!from) throw new Error('EMAIL_FROM_NOT_CONFIGURED');
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -18,8 +27,7 @@ export async function sendViaResend(
       Authorization: `Bearer ${key}`,
       'Content-Type': 'application/json',
     },
-    // unsubscribe: true → Resend 自动附带一键退订链接与 List-Unsubscribe 头
-    body: JSON.stringify({ from, to, subject, html, unsubscribe: true, headers }),
+    body: JSON.stringify({ from, to, subject, html, headers }),
   });
 
   if (!res.ok) {

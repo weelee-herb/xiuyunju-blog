@@ -5,9 +5,10 @@
 //
 // 环境变量在 Cloudflare 控制台 → Settings → Environment variables 里配：
 //   RESEND_API_KEY  (必填)
-//   EMAIL_FROM      (可选，默认 云岫居 <share@example.com>)
+//   EMAIL_FROM      (必填，必须是 Resend 验证过的域名发件人)
 //   EMAIL_SUBJECT   (可选)
 //   EMAIL_TO_OWNER  (可选，新订阅通知站长)
+//   UNSUBSCRIBE_SECRET (可选，退订签名；未设置时回退使用 RESEND_API_KEY)
 //
 // 注意：邮件里的站名/资源链接在此文件底部 buildEmail() 里，改 src/config.ts
 // 时记得同步这里，或把值改成读环境变量。
@@ -30,6 +31,23 @@ const json = (body, status) =>
   });
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+async function signEmail(context, email) {
+  const secret = context.env.UNSUBSCRIBE_SECRET || context.env.RESEND_API_KEY || '';
+  if (!secret) return '';
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(String(secret)),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  const buffer = await crypto.subtle.sign('HMAC', key, encoder.encode(String(email).trim().toLowerCase()));
+  let binary = '';
+  new Uint8Array(buffer).forEach((byte) => { binary += String.fromCharCode(byte); });
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
 
 function requestIp(request) {
   return (
@@ -133,10 +151,15 @@ export async function onRequestPost(context) {
     return json({ ok: false, code: 'NOT_CONFIGURED', message: '站长还没有配置邮件服务（RESEND_API_KEY）' }, 503);
   }
 
-  const from = context.env.EMAIL_FROM || '云岫居 <share@example.com>';
+  const from = context.env.EMAIL_FROM || '';
+  if (!from) {
+    return json({ ok: false, code: 'NOT_CONFIGURED', message: '站长还没有配置发件人（EMAIL_FROM）' }, 503);
+  }
   const subject = context.env.EMAIL_SUBJECT || '「云岫居」欢迎订阅 · 《识药闯关》看图认中药小游戏';
   const siteUrl = String(context.env.SITE_URL || 'https://xiuyunju.cc.cd').replace(/\/+$/, '');
-  const unsubscribeUrl = siteUrl + '/api/unsubscribe?email=' + encodeURIComponent(email);
+  const signature = await signEmail(context, email);
+  const unsubscribeUrl =
+    siteUrl + '/api/unsubscribe?email=' + encodeURIComponent(email) + '&sig=' + encodeURIComponent(signature);
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
@@ -147,7 +170,6 @@ export async function onRequestPost(context) {
         to: email,
         subject,
         html: buildEmail(email, unsubscribeUrl),
-        unsubscribe: true,
         headers: {
           'List-Unsubscribe': '<' + unsubscribeUrl + '>',
           'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',

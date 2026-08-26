@@ -22,8 +22,7 @@ export const site = {
   //   a) 直接改下面这行；或 b) 在部署平台设置环境变量 SITE_URL（不改代码）
   url: siteUrl, // 已确认：DNS 指向 Cloudflare
 // TODO: 站长填真实域名（或部署平台设置 SITE_URL）
-  email: 'hello@example.com',
-// TODO: 站长填真实邮箱
+  email: 'lwoo0448@gmail.com',
 
   // 首页「关于我」区块的短介绍
   aboutShort:
@@ -103,7 +102,7 @@ export const site = {
 
   // 可选：评论（giscus，基于 GitHub Discussions）。留空 repo = 关闭评论
   comments: {
-    // 'waline' = 邮箱即可评论（推荐）；'giscus' = GitHub 评论
+    // 'waline' = 登录后才能评论（推荐）；'giscus' = GitHub 评论
     type: 'waline',
     enabled: true,
     waline: {

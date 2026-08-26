@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { site } from '../../config';
-import { sendViaResend, subscriberEmail, ownerNotifyEmail } from '../../lib/email';
+import { unsubscribeUrlFor, sendViaResend, subscriberEmail, ownerNotifyEmail } from '../../lib/email';
 
 // 混合模式下该路由走服务器端渲染（部署到支持 Node 的平台即可生效）
 export const prerender = false;
@@ -83,7 +83,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
-    const unsubscribeUrl = site.url + '/api/unsubscribe?email=' + encodeURIComponent(email);
+    const unsubscribeUrl = unsubscribeUrlFor(email);
     const { subject, html } = subscriberEmail(email, unsubscribeUrl);
     await sendViaResend(email, subject, html, {
       'List-Unsubscribe': `<${unsubscribeUrl}>`,

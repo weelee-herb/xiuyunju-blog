@@ -72,6 +72,7 @@ draft: false        # 写 true 则构建时隐藏
 ```bash
 RESEND_API_KEY=re_xxxxxxxx
 EMAIL_FROM="云岫居 <share@你的域名.com>"   # 必须是验证过的域名邮箱
+UNSUBSCRIBE_SECRET=随便一长串随机字符       # 退订链接签名，建议单独设置
 EMAIL_SUBJECT="云岫居 · 欢迎订阅"          # 可选
 EMAIL_TO_OWNER=                           # 可选：新订阅时通知站长自己
 ```

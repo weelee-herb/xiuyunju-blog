@@ -54,6 +54,7 @@ Pages 项目 → **Settings → Environment variables → Production**，添加�
 
 - `RESEND_API_KEY` = 你的 key
 - `EMAIL_FROM` = `你的站名 <share@你的域名>`
+- `UNSUBSCRIBE_SECRET` = 一长串随机字符（退订链接签名；未设置时回退使用 RESEND_API_KEY）
 - `EMAIL_SUBJECT`（可选）
 - `EMAIL_TO_OWNER`（可选，有新订阅时通知你自己）
 
