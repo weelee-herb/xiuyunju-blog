@@ -37,9 +37,9 @@ export const site = {
   // 友链（博客圈互推）：留空数组则页面显示「虚位以待」
   friends: [
     {
-      name: '中药题库（维护中）',
-      url: '/game-online/',
-      desc: '维护中 · 先玩《识药闯关》，题库恢复后更新入口',
+      name: '中药题库',
+      url: 'https://herb-quiz.cc.cd/',
+      desc: '邀请码：692626',
       seal: '题',
     },
   ],
@@ -49,14 +49,13 @@ export const site = {
     {
       code: 'P01',
       slug: 'herb-quiz',
-      name: '中药题库（维护中）',
+      name: '中药题库',
       fullName: '执业药师（中药学）在线刷题系统',
-      desc: '题库维护中；当前先体验《识药闯关》在线小游戏',
-      href: '/game-online/',
+      desc: '刷题 · 模考 · 错题本 · AI 智能解析',
+      href: 'https://herb-quiz.cc.cd/',
       shortUrl: '/p/01',
-      external: false,
-      note: '维护中 · 题库恢复后更新入口',
-      status: 'maintenance',
+      external: true,
+      note: '邀请码 692626',
       icon: '题',
     },
     {

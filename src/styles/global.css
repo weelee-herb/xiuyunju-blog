@@ -1243,9 +1243,6 @@ html[data-theme='dark'] .prose pre { background: #100d09; }
   color: var(--ink-3);
 }
 .hero-invite b { color: var(--cinnabar); font-weight: 600; }
-.hero-invite.warning {
-  color: #a34f2a;
-}
 .sr-only {
   position: absolute;
   width: 1px;

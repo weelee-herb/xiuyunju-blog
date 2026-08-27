@@ -17,7 +17,7 @@ const projects = site.projects;
 
     <div class="projects-grid">
       {projects.map((p) => (
-        <article class={`project-card${p.status === 'maintenance' ? ' maintenance' : ''}`}>
+        <article class="project-card">
           <a
             class="project-main"
             href={p.href}
@@ -26,10 +26,7 @@ const projects = site.projects;
           >
             <Seal text={p.icon} size={44} />
             <div class="info">
-              <div class="t">
-                {p.name}
-                {p.status === 'maintenance' && <span class="maintenance-badge">维护中</span>}
-              </div>
+              <div class="t">{p.name}</div>
               <div class="full">{p.fullName} · {p.code}</div>
               <div class="d">{p.desc}</div>
               <div class="note">{p.note}</div>
@@ -45,7 +42,7 @@ const projects = site.projects;
       ))}
     </div>
 
-    <p class="tiny">短链约定：<code>/go/herb-game</code>、<code>/go/game-download</code>；<code>/go/herb-quiz</code> 当前维护中，会先跳到《识药闯关》。</p>
+    <p class="tiny">短链约定：<code>/go/herb-quiz</code>、<code>/go/herb-game</code>、<code>/go/game-download</code>。</p>
   </div>
 </Base>
 
@@ -70,20 +67,6 @@ const projects = site.projects;
     flex-direction: column;
     gap: 14px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .project-card.maintenance {
-    border-style: dashed;
-    border-color: #c98a5b;
-  }
-  .maintenance-badge {
-    display: inline-block;
-    margin-left: 8px;
-    padding: 2px 8px;
-    border-radius: 999px;
-    background: #f7e7d9;
-    color: #a34f2a;
-    font-size: 0.72rem;
-    font-weight: 700;
   }
   .project-card:hover {
     transform: translateY(-3px);
