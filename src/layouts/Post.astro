@@ -31,11 +31,25 @@ const jsonLd = JSON.stringify({
   publisher: { '@type': 'Person', name: site.author },
   image: new URL(post.data.cover ?? '/og.png', site.url).toString(),
   mainEntityOfPage: new URL(`/blog/${post.slug}/`, site.url).toString(),
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '首页', item: site.url },
+      { '@type': 'ListItem', position: 2, name: '文章', item: site.url + '/blog/' },
+      { '@type': 'ListItem', position: 3, name: title, item: new URL(`/blog/${post.slug}/`, site.url).toString() },
+    ],
+  },
   keywords: tags.join(', '),
 }).replace(/</g, '\\u003c');
 ---
 
 <Base title={`${title} · ${site.name}`} description={description} image={post.data.cover}>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={date.toISOString()} />
+    <meta property="article:modified_time" content={(post.data.updated ?? date).toISOString()} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+  </Fragment>
   <script slot="head" type="application/ld+json" set:html={jsonLd} />
   <div id="progress" aria-hidden="true"></div>
   <article class="container">

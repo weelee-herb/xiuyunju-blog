@@ -11,7 +11,7 @@ const sanitizeSchema = {
   tagNames: [...(defaultSchema.tagNames || []), 'div'],
   attributes: {
     ...defaultSchema.attributes,
-    '*': [...((defaultSchema.attributes || {})['*'] || []), 'className'],
+    '*': [...((defaultSchema.attributes || {})['*'] || []), 'className', 'loading', 'decoding'],
   },
 };
 

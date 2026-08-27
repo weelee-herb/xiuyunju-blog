@@ -15,6 +15,8 @@ cover: /game/mahuang.webp
 
 ## 1. 麻黄（山野本草）
 
+<div class="callout"><p>📖 {name}：这 20 味在《识药闯关》里都能认——<a href="/game-online/">在线试玩</a> 或加入订阅后领取离线版。</p></div>
+
 <img src="/game/mahuang.webp" alt="麻黄" loading="lazy" width="700" height="525" />
 
 **冷知识**：麻黄几乎没有叶子——它靠绿色的细茎进行光合作用，一节一节的像微缩的竹子。
@@ -212,3 +214,8 @@ cover: /game/mahuang.webp
 **故事**：「穿山甲、王不留，妇人服了乳长流」——明代谚语，被《本草纲目》引作典故。
 
 **一句话**：活血通经，下乳消肿，利尿通淋。
+
+<div class="resource-box">
+  <p class="t">🎮 边读边玩</p>
+  <p>把这 20 味药认进脑子里：去《识药闯关》<a href="/game-online/">玩一局</a>，或<a href="/subscribe/">订阅</a>领取离线版与题库邀请码。</p>
+</div>

@@ -8,9 +8,9 @@ const all = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-// 优先 featured: true，不足 20 篇则按最新补齐
+// 精选 = 站长手选（featured: true）；无手选则回退最新 3 篇——"精选"的稀缺感来自拒绝
 const featured = all.filter((p) => p.data.featured);
-const list = [...featured, ...all.filter((p) => !p.data.featured)].slice(0, 20);
+const list = featured.length ? featured : all.slice(0, 3);
 
 const tagIcon: Record<string, string> = {
   Codex: '⚙️', AI: '⚙️', 工作流: '⚙️', 建站: '⚙️', 设计: '🎨', 生成艺术: '🎨',

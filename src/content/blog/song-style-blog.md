@@ -4,6 +4,7 @@ description: 天青、宣纸、瘦金意趣与一枚朱砂印——我在这次�
 keywords: 天青、宣纸、瘦金意趣与一枚朱砂印——我在这次博客搭建里，把宋徽宗的美学搬进了网页。
 date: 2026-08-24
 tags: [建站, 设计, 宋式美学]
+featured: true
 cover: /covers/mountains.png
 ---
 
@@ -25,7 +26,7 @@ cover: /covers/mountains.png
 
 站点用 Astro 搭成：内容写作类 Markdown，组件少而克制；导航一张卡片；订阅用服务商函数。
 
-没有埋点、没有弹窗、没有广告。慢而安静，像山里的云。
+无 cookie、无个人识别的匿名访问统计、没有弹窗、没有广告。慢而安静，像山里的云。
 
 ## 以后
 

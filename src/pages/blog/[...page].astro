@@ -51,4 +51,9 @@ const { posts, page, total, totalPosts } = Astro.props;
       </nav>
     )}
   </div>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: posts.slice(0, 20).map(function (p, i) { return { '@type': 'ListItem', position: i + 1, name: p.data.title, url: site.url + '/blog/' + p.slug + '/' }; }),
+  }).replace(/</g, '\\u003c')} />
 </Base>

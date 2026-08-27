@@ -15,6 +15,8 @@ cover: /game/jinyinhua.webp
 
 ## 1. 金银花（花园里的药）
 
+<div class="callout"><p>📖 {name}：这 20 味在《识药闯关》里都能认——<a href="/game-online/">在线试玩</a> 或加入订阅后领取离线版。</p></div>
+
 <img src="/game/jinyinhua.webp" alt="金银花" loading="lazy" width="700" height="525" />
 
 **冷知识**：金银花刚开是白色，一两天后变金黄——一藤上黄白相间，像挂了碎金碎银，名字就是这么来的。
@@ -212,3 +214,8 @@ cover: /game/jinyinhua.webp
 **故事**：曼陀罗花在古戏文里叫「蒙汗药」——有毒，只许外用、遵医嘱。
 
 **一句话**：平喘止咳，解痉定痛。
+
+<div class="resource-box">
+  <p class="t">🎮 边读边玩</p>
+  <p>把这 20 味药认进脑子里：去《识药闯关》<a href="/game-online/">玩一局</a>，或<a href="/subscribe/">订阅</a>领取离线版与题库邀请码。</p>
+</div>

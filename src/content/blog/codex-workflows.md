@@ -4,6 +4,7 @@ description: 与其把 Codex 当一次性问答机器，不如把它当作一位
 keywords: 与其把 Codex 当一次性问答机器，不如把它当作一位随叫随到的结对同事。分享我
 date: 2025-12-05
 tags: [AI, 工作流, Codex]
+featured: true
 cover: /covers/bamboo.png
 ---
 

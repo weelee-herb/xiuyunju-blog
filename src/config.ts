@@ -13,7 +13,7 @@ export const site = {
   // 首页与 SEO 用的副标题 / 描述
   tagline: '以代码为笔，以 AI 为墨',
   description:
-    '记录我用 Codex 与 AI 创作、建站、设计的笔记与分享：工作流、踩坑实录与意外之喜。',
+    '我是林屿，记录我用 Codex 与 AI 创作、建站、设计的笔记与分享；这里也生长着《识药闯关》与一册草木科普。',
 
   // 站点建立日期（页脚「已运行 N 天」用）
   siteSince: '2026-07-29', // 真实开站日期
@@ -41,6 +41,12 @@ export const site = {
       url: 'https://herb-quiz.cc.cd/',
       desc: '邀请码：692626',
       seal: '题',
+    },
+    {
+      name: '小步学投资',
+      url: 'https://xiaobu-invest.pages.dev/',
+      desc: '32 课股票学习 · 不荐股、不承诺收益（Codex 作品）',
+      seal: '股',
     },
   ],
 
@@ -82,6 +88,18 @@ export const site = {
       external: false,
       note: '本站首页',
       icon: '云',
+    },
+    {
+      code: 'P04',
+      slug: 'xiaobu-invest',
+      name: '小步学投资',
+      fullName: '小步学投资 · 32 课股票学习站',
+      desc: '零基础股票知识课：K线、财报、风控、模拟盘；本地离线运行',
+      href: 'https://xiaobu-invest.pages.dev/',
+      shortUrl: '/p/04',
+      external: true,
+      note: '不荐股 · 不承诺收益',
+      icon: '股',
     },
   ],
 

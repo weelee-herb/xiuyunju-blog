@@ -4,6 +4,7 @@ description: 从 20 味到 300 味，从考试工具到兴趣游戏：说说我�
 keywords: 从 20 味到 300 味，从考试工具到兴趣游戏：说说我用纯前端做《识药闯关》这
 date: 2026-08-24
 tags: [游戏, 中药, 前端]
+featured: true
 cover: /game/chenpi.png
 ---
 
