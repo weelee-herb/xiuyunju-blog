@@ -16,7 +16,7 @@ cover: /game/zisuye.webp
 
 ## 1. 紫苏叶（厨房里的药）
 
-<div class="callout"><p>📖 {name}：这 20 味在《识药闯关》里都能认——<a href="/game-online/">在线试玩</a> 或加入订阅后领取离线版。</p></div>
+<div class="callout"><p>📖 厨房篇：这 20 味在《识药闯关》里都能认——<a href="/game-online/">在线试玩</a> 或加入订阅后领取离线版。</p></div>
 
 <img src="/game/zisuye.webp" alt="紫苏叶" loading="lazy" width="500" height="750" />
 

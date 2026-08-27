@@ -15,7 +15,7 @@ cover: /game/mahuang.webp
 
 ## 1. 麻黄（山野本草）
 
-<div class="callout"><p>📖 {name}：这 20 味在《识药闯关》里都能认——<a href="/game-online/">在线试玩</a> 或加入订阅后领取离线版。</p></div>
+<div class="callout"><p>📖 山野篇：这 20 味在《识药闯关》里都能认——<a href="/game-online/">在线试玩</a> 或加入订阅后领取离线版。</p></div>
 
 <img src="/game/mahuang.webp" alt="麻黄" loading="lazy" width="700" height="525" />
 
