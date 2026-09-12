@@ -44,7 +44,7 @@ export const site = {
     },
     {
       name: '小步学投资',
-      url: 'https://xiaobu-invest.pages.dev/',
+      url: 'https://xiaobu-invest.cc.cd/',
       desc: '32 课股票学习 · 不荐股、不承诺收益（Codex 作品）',
       seal: '股',
     },
@@ -95,7 +95,7 @@ export const site = {
       name: '小步学投资',
       fullName: '小步学投资 · 32 课股票学习站',
       desc: '零基础股票知识课：K线、财报、风控、模拟盘；本地离线运行',
-      href: 'https://xiaobu-invest.pages.dev/',
+      href: 'https://xiaobu-invest.cc.cd/',
       shortUrl: '/p/04',
       external: true,
       note: '不荐股 · 不承诺收益',
